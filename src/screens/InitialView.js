@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import styled, { css } from "styled-components";
-import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
-import MaterialHeader2 from "../components/MaterialHeader2";
 import Header from "../components/mui/Header";
 import Footer from "../components/mui/Footer";
 import "../skuba.css";

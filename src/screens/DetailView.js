@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled, { css } from "styled-components";
-import MaterialHeader2 from "../components/MaterialHeader2";
-import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
+import Header from "../components/mui/Header";
+import Footer from "../components/mui/Footer";
 import EntypoIcon from "react-native-vector-icons/dist/Entypo";
 import MaterialButtonShare from "../components/MaterialButtonShare";
 import MaterialCardWithImageAndTitle1 from "../components/MaterialCardWithImageAndTitle1";

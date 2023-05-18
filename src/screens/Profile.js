@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled, { css } from "styled-components";
-import MaterialHeader2 from "../components/MaterialHeader2";
-import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
+import Header from "../components/mui/Header";
+import Footer from "../components/mui/Footer";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 
 function Profile(props) {

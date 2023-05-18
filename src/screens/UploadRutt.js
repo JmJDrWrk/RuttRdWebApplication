@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled, { css } from "styled-components";
-import MaterialHeader2 from "../components/MaterialHeader2";
-import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
+import Header from "../components/mui/Header";
+import Footer from "../components/mui/Footer";
 import MaterialUnderlineTextbox6 from "../components/MaterialUnderlineTextbox6";
 import MaterialIconTextbox3 from "../components/MaterialIconTextbox3";
 import MaterialIconTextbox4 from "../components/MaterialIconTextbox4";

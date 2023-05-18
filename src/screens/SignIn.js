@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import styled, { css } from "styled-components";
-import MaterialHeader2 from "../components/MaterialHeader2";
+import Header from "../components/mui/Header";
 import WantToDoSomething from "../components/WantToDoSomething";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 import MaterialUnderlineTextbox2 from "../components/MaterialUnderlineTextbox2";
 import MaterialUnderlineTextbox3 from "../components/MaterialUnderlineTextbox3";
 import MaterialButtonViolet from "../components/MaterialButtonViolet";
 import MaterialUnderlineTextbox4 from "../components/MaterialUnderlineTextbox4";
-import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
+import Footer from "../components/mui/Footer";
 
 function SignIn(props) {
   return (
