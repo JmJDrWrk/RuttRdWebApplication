@@ -1,9 +1,9 @@
 import React from "react";
 // import styled from "styled-components";
 import Header from "../components/mui/Header";
-import Header from "../components/mui/Header";
+
 import Footer from "../components/mui/Footer";
-import Footer from "../components/mui/Footer";
+
 import { styled } from "@mui/system";
 const StyledHeader = styled(MaterialHeader2)`
   height: 56px;
