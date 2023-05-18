@@ -8,27 +8,8 @@ import MaterialCard3 from "../components/MaterialCard3";
 function Search(props) {
   return (
     <>
-      <MaterialHeader1Stack>
-        <MaterialHeader2
-          style={{
-            height: 56,
-            width: 375,
-            position: "absolute",
-            left: 0,
-            top: 0
-          }}
-        ></MaterialHeader2>
-        <MaterialSearchBar
-          style={{
-            height: 56,
-            width: 375,
-            position: "absolute",
-            left: 0,
-            top: 0
-          }}
-        ></MaterialSearchBar>
-      </MaterialHeader1Stack>
-<Footer/>
+    <Header/>
+    <Footer/>
       <MaterialCard3
         style={{
           height: 344,

@@ -12,13 +12,15 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
-import { useNavigate } from "react-router-dom";
+import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+import { useNavigate, useLocation } from "react-router-dom";
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -34,19 +36,45 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  const handleProfileClick = () => {
-    //navigate("/Profile"); // Replace "/profile" with the desired route to your profile screen
-    //window.location.href = "/Profile";
-
-    navigate("/InitialView");
-    handleCloseNavMenu();
-  };
-
+  const handleProfileClick = (event) => {
+    navigate('/Profile');
+    handleCloseUserMenu();
+  }
+  const handleAccountClick = (event) => {
+    navigate('/Account');
+    handleCloseUserMenu();
+  }
+  const handleDashboardClick = (event) => {
+    navigate('/Dashboard');
+    handleCloseUserMenu();
+  }
+  const handleLogoutClick = (event) => {
+    navigate('/Logout');
+    handleCloseUserMenu();
+  }
+  const settings = [
+  {
+    name : "Profile",
+    handler: handleProfileClick
+  },
+  {
+    name : "Account",
+    handler: handleAccountClick
+  },
+  {
+    name : "Dashboard",
+    handler: handleDashboardClick
+  },
+  {
+    name :  "Logout",
+    handler: handleLogoutClick
+  },
+];
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <TwoWheelerIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -55,14 +83,14 @@ function ResponsiveAppBar() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
+              fontFamily: "Consolas, monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
             }}
           >
-            LOGO
+             RUTTRADAR
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -74,34 +102,11 @@ function ResponsiveAppBar() {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <FavoriteBorderIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <TwoWheelerIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -111,16 +116,16 @@ function ResponsiveAppBar() {
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "monospace",
+              fontFamily: "Consolas, monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
             }}
           >
-            LOGO
+            RuttRadar
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          {/* <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -130,6 +135,20 @@ function ResponsiveAppBar() {
                 {page}
               </Button>
             ))}
+          </Box> */}
+
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Typography
+              variant="p"
+              sx={{
+                fontFamily: "Arial",
+                fontWeight: 200,
+                letterSpacing: ".3rem",
+                color: "inherit",
+              }}
+            >
+              {location.pathname}
+            </Typography>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -156,14 +175,10 @@ function ResponsiveAppBar() {
             >
               {settings.map((setting) => (
                 <MenuItem
-                  key={setting}
-                  onClick={
-                    setting === "Profile"
-                      ? handleProfileClick
-                      : handleCloseUserMenu
-                  }
+                  key={setting.name}
+                  onClick={setting.handler}
                 >
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textAlign="center">{setting.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>

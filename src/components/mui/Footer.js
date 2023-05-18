@@ -9,11 +9,21 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeIcon from "@mui/icons-material/Home";
+import { useNavigate, useLocation } from "react-router-dom";
 export default function LabelBottomNavigation() {
   const [value, setValue] = React.useState("recents");
-
+  const navigate = useNavigate();
+  const actions = {
+    "home": () => { navigate("/InitialView") },
+    "explore": () => { navigate("/Search") },
+    "me": () => { navigate("/UploadRutt") },
+    "favorite": () => { navigate("/Favorites") },
+    "profile": () => { navigate("/Profile") }
+  }
   const handleChange = (event, newValue) => {
+    window.localStorage.setItem('newValue', newValue)
     setValue(newValue);
+    actions[newValue]()
   };
 
   return (
@@ -23,22 +33,10 @@ export default function LabelBottomNavigation() {
       onChange={handleChange}
     >
       <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
-      <BottomNavigationAction
-        label="Explore"
-        value="explore"
-        icon={<SearchIcon />}
-      />
+      <BottomNavigationAction label="Explore" value="explore" icon={<SearchIcon />}/>
       <BottomNavigationAction label="Me" value="me" icon={<AddIcon />} />
-      <BottomNavigationAction
-        label="Favorites"
-        value="favorite"
-        icon={<FavoriteIcon />}
-      />
-      <BottomNavigationAction
-        label="Profile"
-        value="profile"
-        icon={<AccountCircleIcon />}
-      />
+      <BottomNavigationAction label="Favorites" value="favorite" icon={<FavoriteIcon />}/>
+      <BottomNavigationAction label="Profile" value="profile" icon={<AccountCircleIcon />}/>
     </BottomNavigation>
   );
 }

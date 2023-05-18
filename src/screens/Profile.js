@@ -7,24 +7,8 @@ import MaterialCommunityIconsIcon from "react-native-vector-icons/dist/MaterialC
 function Profile(props) {
   return (
     <>
-      <MaterialHeader2
-        style={{
-          height: 56,
-          width: 375,
-          position: "absolute",
-          left: 0,
-          top: 42
-        }}
-      ></MaterialHeader2>
-      <MaterialIconTextButtonsFooter
-        style={{
-          height: 56,
-          width: 375,
-          position: "absolute",
-          top: 735,
-          left: 0
-        }}
-      ></MaterialIconTextButtonsFooter>
+      <Header/>
+      <Footer/>
       <ButtonGroup1>
         <LeftBtn1>
           <ButtonOverlay>
