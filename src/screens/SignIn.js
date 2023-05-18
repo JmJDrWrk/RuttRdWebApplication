@@ -12,13 +12,7 @@ import Footer from "../components/mui/Footer";
 function SignIn(props) {
   return (
     <>
-      <MaterialHeader2
-        style={{
-          height: 56,
-          width: 375,
-          marginTop: 42
-        }}
-      ></MaterialHeader2>
+<Header/>
       <Group>
         <WantToDoSomethingStack>
           <WantToDoSomething

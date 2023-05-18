@@ -28,13 +28,7 @@ function Search(props) {
           }}
         ></MaterialSearchBar>
       </MaterialHeader1Stack>
-      <MaterialIconTextButtonsFooter
-        style={{
-          height: 56,
-          width: 375,
-          marginTop: 637
-        }}
-      ></MaterialIconTextButtonsFooter>
+<Footer/>
       <MaterialCard3
         style={{
           height: 344,

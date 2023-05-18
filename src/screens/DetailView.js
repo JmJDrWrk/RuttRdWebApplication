@@ -10,20 +10,8 @@ import MaterialRightIconTextbox1 from "../components/MaterialRightIconTextbox1";
 function DetailView(props) {
   return (
     <>
-      <MaterialHeader2
-        style={{
-          height: 56,
-          width: 375,
-          marginTop: 42
-        }}
-      ></MaterialHeader2>
-      <MaterialIconTextButtonsFooter
-        style={{
-          height: 56,
-          width: 375,
-          marginTop: 637
-        }}
-      ></MaterialIconTextButtonsFooter>
+<Header/>
+<Footer/>
       <Image1Stack>
         <Image1 src={require("../assets/images/TodosEnLaGorra1.png")}></Image1>
         <Rect>

@@ -7,20 +7,8 @@ import MaterialMapView from "../components/MaterialMapView";
 function Nearby(props) {
   return (
     <>
-      <MaterialHeader2
-        style={{
-          height: 56,
-          width: 375,
-          marginTop: 42
-        }}
-      ></MaterialHeader2>
-      <MaterialIconTextButtonsFooter
-        style={{
-          height: 56,
-          width: 375,
-          marginTop: 637
-        }}
-      ></MaterialIconTextButtonsFooter>
+<Header/>
+<Footer/>
       <MaterialMapView
         style={{
           width: 375,

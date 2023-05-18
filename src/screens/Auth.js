@@ -10,20 +10,8 @@ import MaterialUnderlineTextbox3 from "../components/MaterialUnderlineTextbox3";
 function Auth(props) {
   return (
     <>
-      <MaterialHeader2
-        style={{
-          height: 56,
-          width: 375,
-          marginTop: 42
-        }}
-      ></MaterialHeader2>
-      <MaterialIconTextButtonsFooter
-        style={{
-          height: 56,
-          width: 375,
-          marginTop: 637
-        }}
-      ></MaterialIconTextButtonsFooter>
+<Header/>
+<Footer/>
       <Rect>
         <NotRegisteredRow>
           <NotRegistered>Not registered?</NotRegistered>
