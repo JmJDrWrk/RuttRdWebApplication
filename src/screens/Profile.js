@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled, { css } from "styled-components";
 import Header from "../components/mui/Header";
 import Footer from "../components/mui/Footer";
+import SignIn from "../components/mui/SignIn"
 import MaterialCommunityIconsIcon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 
 function Profile(props) {
@@ -9,44 +10,6 @@ function Profile(props) {
     <>
       <Header/>
       <Footer/>
-      <ButtonGroup1>
-        <LeftBtn1>
-          <ButtonOverlay>
-            <MaterialCommunityIconsIcon
-              name="heart"
-              style={{
-                fontSize: 24,
-                color: "#000",
-                opacity: 0.5
-              }}
-            ></MaterialCommunityIconsIcon>
-          </ButtonOverlay>
-        </LeftBtn1>
-        <CenterBtn1>
-          <ButtonOverlay>
-            <MaterialCommunityIconsIcon
-              name="book"
-              style={{
-                fontSize: 24,
-                color: "#000",
-                opacity: 0.5
-              }}
-            ></MaterialCommunityIconsIcon>
-          </ButtonOverlay>
-        </CenterBtn1>
-        <RightBtn1>
-          <ButtonOverlay>
-            <MaterialCommunityIconsIcon
-              name="share"
-              style={{
-                fontSize: 24,
-                color: "#000",
-                opacity: 0.5
-              }}
-            ></MaterialCommunityIconsIcon>
-          </ButtonOverlay>
-        </RightBtn1>
-      </ButtonGroup1>
     </>
   );
 }

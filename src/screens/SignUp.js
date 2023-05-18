@@ -1,57 +1,46 @@
 import React, { Component } from "react";
 import styled, { css } from "styled-components";
-import Header from "../components/mui/Header";
-import Footer from "../components/mui/Footer";
-import LogIn from "../components/mui/LogIn";
-import MaterialButtonViolet from "../components/MaterialButtonViolet";
+import WantToDoSomething from "../components/WantToDoSomething";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 import MaterialUnderlineTextbox2 from "../components/MaterialUnderlineTextbox2";
 import MaterialUnderlineTextbox3 from "../components/MaterialUnderlineTextbox3";
-
-function Auth(props) {
+import MaterialButtonViolet from "../components/MaterialButtonViolet";
+import MaterialUnderlineTextbox4 from "../components/MaterialUnderlineTextbox4";
+import Header from "../components/mui/Header";
+import Footer from "../components/mui/Footer";
+import SignInForm from "../components/mui/SignIn"
+function SignIn(props) {
   return (
     <>
       <Header/>
-      <LogIn></LogIn>
+        <SignInForm></SignInForm>
       <Footer/>
     </>
   );
 }
 
-const Rect = styled.div`
+const Group = styled.div`
   width: 281px;
   height: 58px;
-  background-color: #E6E6E6;
-  border-radius: 9px;
-  flex-direction: row;
+  flex-direction: column;
   display: flex;
-  margin-top: -162px;
+  margin-top: 530px;
   margin-left: 47px;
 `;
 
-const NotRegistered = styled.span`
+const AlreadyRegistered = styled.span`
   font-family: Roboto;
+  top: 21px;
+  left: 15px;
+  position: absolute;
   font-style: normal;
   font-weight: 400;
   color: #121212;
-  margin-top: 10px;
 `;
 
-const NotRegisteredRow = styled.div`
-  height: 36px;
-  flex-direction: row;
-  display: flex;
-  flex: 1 1 0%;
-  margin-right: 6px;
-  margin-left: 18px;
-  margin-top: 11px;
-`;
-
-const MaterialButtonSuccessStack = styled.div`
-  width: 100px;
-  height: 36px;
-  margin-top: -330px;
-  margin-left: 135px;
+const WantToDoSomethingStack = styled.div`
+  width: 281px;
+  height: 58px;
   position: relative;
 `;
 
@@ -64,8 +53,8 @@ const RuttRadar = styled.span`
   width: 243px;
   text-align: center;
   font-size: 49px;
-  margin-top: -258px;
+  margin-top: -551px;
   margin-left: 66px;
 `;
 
-export default Auth;
+export default SignIn;

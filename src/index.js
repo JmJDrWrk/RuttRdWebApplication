@@ -14,7 +14,7 @@ import Profile from "./screens/Profile";
 import Recent from "./screens/Recent";
 import Search from "./screens/Search";
 import Settings from "./screens/Settings";
-import SignIn from "./screens/SignIn";
+import SignIn from "./screens/SignUp";
 import UploadRutt from "./screens/UploadRutt";
 
 const rootElement = document.getElementById("root");
