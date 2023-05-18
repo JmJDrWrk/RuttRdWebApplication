@@ -5,7 +5,10 @@ import FolderIcon from "@mui/icons-material/Folder";
 import RestoreIcon from "@mui/icons-material/Restore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-
+import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import HomeIcon from "@mui/icons-material/Home";
 export default function LabelBottomNavigation() {
   const [value, setValue] = React.useState("recents");
 
@@ -15,29 +18,26 @@ export default function LabelBottomNavigation() {
 
   return (
     <BottomNavigation
-      sx={{ width: 500, position: "fixed", bottom: 0, left: 0, right: 0 }}
+      sx={{ width: "auto", position: "fixed", bottom: 0, left: 0, right: 0 }}
       value={value}
       onChange={handleChange}
     >
+      <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
       <BottomNavigationAction
-        label="Recents"
-        value="recents"
-        icon={<RestoreIcon />}
+        label="Explore"
+        value="explore"
+        icon={<SearchIcon />}
       />
+      <BottomNavigationAction label="Me" value="me" icon={<AddIcon />} />
       <BottomNavigationAction
         label="Favorites"
-        value="favorites"
+        value="favorite"
         icon={<FavoriteIcon />}
       />
       <BottomNavigationAction
-        label="Nearby"
-        value="nearby"
-        icon={<LocationOnIcon />}
-      />
-      <BottomNavigationAction
-        label="Folder"
-        value="folder"
-        icon={<FolderIcon />}
+        label="Profile"
+        value="profile"
+        icon={<AccountCircleIcon />}
       />
     </BottomNavigation>
   );

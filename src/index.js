@@ -24,7 +24,7 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" exact element=<Auth />></Route>
+        <Route path="/" exact element=<NotFoundError />></Route>
         <Route path="/Auth/" exact element=<Auth />></Route>
         <Route path="/DetailView/" exact element=<DetailView />></Route>
         <Route path="/Favorites/" exact element=<Favorites />></Route>
