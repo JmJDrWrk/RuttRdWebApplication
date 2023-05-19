@@ -49,7 +49,8 @@ function ResponsiveAppBar() {
     handleCloseUserMenu();
   }
   const handleLogoutClick = (event) => {
-    navigate('/Logout');
+    // navigate('/Logout');
+    localStorage.removeItem('auth-token')
     handleCloseUserMenu();
   }
   const settings = [

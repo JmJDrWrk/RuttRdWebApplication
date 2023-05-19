@@ -32,14 +32,15 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  async function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const formdata = {
       email: data.get('email'),
       password: data.get('password'),
-    });
-    ServerApi.doPost('/users/signup', data)
+    };
+    const res = await ServerApi.doPost('/users/login', formdata)
+    localStorage.setItem('auth-token',res.token)
   };
 
   return (

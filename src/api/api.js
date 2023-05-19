@@ -28,7 +28,7 @@ export default class ServerApi {
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json',
-              'sessionid': localStorage.getItem('token')
+              'auth-token': localStorage.getItem('auth-token')
             },
             body: JSON.stringify(jbody)
           })
@@ -51,7 +51,7 @@ export default class ServerApi {
           {
             method: 'GET',
             headers: {
-              sessionid: localStorage.getItem('token')
+              'auth-token': localStorage.getItem('auth-token')
             }
           })
 
@@ -72,7 +72,7 @@ export default class ServerApi {
           {
             method: 'GET',
             headers: {
-              sessionid: localStorage.getItem('token')
+              'auth-token': localStorage.getItem('auth-token')
             }
           })
 

@@ -3,10 +3,14 @@ import styled, { css } from "styled-components";
 import Header from "../components/mui/Header";
 import Footer from "../components/mui/Footer";
 import "../skuba.css";
+import Auth from "./Auth";
+
+
 function InitialView(props) {
+
   return (
     <>
-      <Header />
+      <Header/>
       <Rect></Rect>
       <Footer />
     </>
