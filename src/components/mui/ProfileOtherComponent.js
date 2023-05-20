@@ -44,7 +44,8 @@ const PhotoGallery = ({attachments}) => {
   }
   const navigate = useNavigate();
   const handlePhotoClick = (event) => {
-    navigate('/ProfileOther/published/'+event.target.key)
+    console.log(event.target.getAttribute('itemid'))
+    navigate('/ProfileOther/published/'+event.target.getAttribute('itemid'))
   }
 
   return (
@@ -59,6 +60,7 @@ const PhotoGallery = ({attachments}) => {
           <Card style={{ border: "1px solid #fff" }}>
             <img
               // src={photo.src}
+              itemID={photo.id}
               src={"https://source.unsplash.com/random?" +photo.id}
               alt="Profile Photo"
               style={{ width: "100%", height: "250px", objectFit: "cover" }}

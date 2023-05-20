@@ -24,7 +24,10 @@ const Content = styled("div")(({ theme }) => ({
     padding: theme.spacing(2),
 }));
 
-const DetailView = ({ open = true, onClose, photo }) => {
+const DetailView = ({publishId}) => {
+    let open=true;
+    let onClose=false;
+    console.log('publishID', publishId)
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     useEffect(() => {
         const handleResize = () => {
@@ -47,7 +50,7 @@ const DetailView = ({ open = true, onClose, photo }) => {
     return (
         <DialogContainer open={open} onClose={handleClose} BackdropProps={{ onClick: handleClose }}>
             <CardContainer>
-                <Media sx={{width:screenWidth-50}} image="https://source.unsplash.com/random?1" title="{photo.title}" />
+                <Media sx={{width:screenWidth-50}} image={"https://source.unsplash.com/random?"+publishId} title="{photo.title}" />
                 <Content>
                     <Typography variant="subtitle1">title</Typography>
                     <Typography variant="body2">description</Typography>
