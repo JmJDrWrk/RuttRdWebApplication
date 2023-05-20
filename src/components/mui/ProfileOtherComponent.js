@@ -45,7 +45,7 @@ const PhotoGallery = ({attachments}) => {
   const navigate = useNavigate();
   const handlePhotoClick = (event) => {
     console.log(event.target.getAttribute('itemid'))
-    navigate('/ProfileOther/published/'+event.target.getAttribute('itemid'))
+    navigate(location.pathname+'/published/'+event.target.getAttribute('itemid'))
   }
 
   return (

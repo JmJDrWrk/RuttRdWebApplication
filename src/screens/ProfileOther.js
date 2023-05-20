@@ -26,7 +26,7 @@ function ProfileOther() {
     };
 
     fetchProfile();
-  }, [email]);
+  }, []);
 
   return (
     <>

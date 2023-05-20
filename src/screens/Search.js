@@ -20,7 +20,7 @@ const SearchContainer = styled(Container)`
 `;
 
 const ResultsContainer = styled(Container)`
-  background-color: #f2f2f2;
+  background-color: transparent;
   border-radius: 17px;
   padding: 1rem;
   margin-top: 1rem;

@@ -50,7 +50,7 @@ export default function App() {
           <Route path="/NotFoundError/" exact element=<NotFoundError />></Route>
           <Route path="/Profile/" exact element=<Profile />></Route>
           <Route path="/ProfileOther/:email" exact element=<ProfileOther />></Route>
-          <Route path="/ProfileOther/published/:publishid" exact element=<Published />></Route>
+          <Route path="/ProfileOther/:email/published/:publishid" exact element=<Published />></Route>
           <Route path="/Recent/" exact element=<Recent />></Route>
           <Route path="/Search/" exact element=<Search />></Route>
           <Route path="/Settings/" exact element=<Settings />></Route>
