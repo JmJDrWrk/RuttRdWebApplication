@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader"
-
+import { useNavigate } from "react-router-dom";
 
 const ProfileContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -42,10 +42,15 @@ const PhotoGallery = ({attachments}) => {
   if(!attachments || attachments.length<1){
     return <Typography variant="body1">User has not uploaded anything yet.</Typography>;
   }
+  const navigate = useNavigate();
+  const handlePhotoClick = (event) => {
+    navigate('/ProfileOther/published/'+event.target.key)
+  }
+
   return (
     <Grid container spacing={2}>
       {attachments.map((photo) => (
-        <Grid item key={photo.id} xs={12} sm={6} md={4}>
+        <Grid item key={photo.id} xs={12} sm={6} md={4} onClick={handlePhotoClick}>
           {/* <CardHeader>
             <Typography variant="subtitle1" align="center">
                 {photo.title}
@@ -71,7 +76,6 @@ const PhotoGallery = ({attachments}) => {
   );
 };
 const ProfileComponent = ({ profile }) => {
-  console.log('received profile: ' + JSON.stringify(profile))
   const me = profile
   const [username, setUsername] = useState(profile.user.name)
   const [profilePhoto, setProfilePhoto] = useState(`https://ruttradarvalkiria.jmjdrwrk.repl.co/file/${me.user.profilePhoto}`);

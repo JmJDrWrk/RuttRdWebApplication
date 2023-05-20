@@ -16,6 +16,7 @@ import SignIn from "./screens/SignUp";
 import UploadRutt from "./screens/UploadRutt";
 import SignUp from "./components/mui/SignIn";
 import ProfileOther from "./screens/ProfileOther";
+import Published from "./screens/Published"
 const checkAuth = () => {
   return !(!localStorage.getItem('auth-token'))
 }
@@ -49,6 +50,7 @@ export default function App() {
           <Route path="/NotFoundError/" exact element=<NotFoundError />></Route>
           <Route path="/Profile/" exact element=<Profile />></Route>
           <Route path="/ProfileOther/:email" exact element=<ProfileOther />></Route>
+          <Route path="/ProfileOther/published/:publishedid" exact element=<Published />></Route>
           <Route path="/Recent/" exact element=<Recent />></Route>
           <Route path="/Search/" exact element=<Search />></Route>
           <Route path="/Settings/" exact element=<Settings />></Route>
