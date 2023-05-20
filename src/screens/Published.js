@@ -25,10 +25,10 @@ function Published(props) {
         const fetchProfile = async () => {
             try {
                 const fetchedProfile = await ProfileAPI.getProfileByEmail(email);
-                setProfile(fetchedProfile);
+                setProfile(fetchedProfile.profile);
 
-                const fetchedPublish = await PublishAPI.getPublishById(email);
-                setPublished(fetchedPublish);
+                // const fetchedPublish = await PublishAPI.getPublishById(email);
+                // setPublished(fetchedPublish);
 
                 setIsLoading(false);
             } catch (error) {

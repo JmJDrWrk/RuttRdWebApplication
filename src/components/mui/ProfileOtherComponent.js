@@ -79,10 +79,10 @@ const PhotoGallery = ({attachments}) => {
 };
 const ProfileComponent = ({ profile }) => {
   const me = profile
-  const [username, setUsername] = useState(profile.user.name)
-  const [profilePhoto, setProfilePhoto] = useState(`https://ruttradarvalkiria.jmjdrwrk.repl.co/file/${me.user.profilePhoto}`);
-  const [bio, setBio] = useState(profile.user.bio)
-  const [attachments, setAttachments] = useState(profile.user.attachments)
+  const [username, setUsername] = useState(profile.name)
+  const [profilePhoto, setProfilePhoto] = useState(`https://ruttradarvalkiria.jmjdrwrk.repl.co/file/${profile.profilePhoto}`);
+  const [bio, setBio] = useState(profile.bio)
+  const [attachments, setAttachments] = useState(profile.attachments)
 
 
   return (

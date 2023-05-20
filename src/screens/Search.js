@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom"; // Import useHistory hook
 import Header from "../components/mui/Header";
 import Footer from "../components/mui/Footer";
+import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -11,6 +13,7 @@ import IconButton from "@mui/material/IconButton";
 
 import ProfileSearchResult from "../components/mui/ProfileSearchResult";
 import State from "../api/state";
+import ProfileAPI from "../api/ProfileAPI";
 
 const SearchContainer = styled(Container)`
   margin-top: 2rem;
@@ -27,7 +30,24 @@ const ResultsContainer = styled(Container)`
 `;
 
 function Search(props) {
-  const profiles = [State.getMe()];
+  const [profiles, setProfiles] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const fetchedProfiles = await ProfileAPI.getProfilesIncluding("email");
+        setProfiles(fetchedProfiles.profiles);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        // setIsLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
   return (
     <>
       <Header></Header>
@@ -48,15 +68,24 @@ function Search(props) {
           }}
         />
       </SearchContainer>
+      {isLoading ? (
+        <Container maxWidth="sm">
+          <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
+            <CircularProgress />
+          </Box>
+        </Container>
+      ) : (
+        <ResultsContainer>
 
-      <ResultsContainer>
-        {profiles.map((profile) => (
-          <ProfileSearchResult
-            key={profile.user.email}
-            profile={profile}
-          />
-        ))}
-      </ResultsContainer>
+          {profiles.map((profile) => (
+            <ProfileSearchResult
+              key={profile.email}
+              profile={profile}
+            />
+          ))}
+        </ResultsContainer>
+      )}
+
       <Footer />
     </>
   );

@@ -17,7 +17,8 @@ function ProfileOther() {
     const fetchProfile = async () => {
       try {
         const fetchedProfile = await ProfileAPI.getProfileByEmail(email);
-        setProfile(fetchedProfile);
+        console.log('PROFILE_> ' + JSON.stringify(fetchedProfile))
+        setProfile(fetchedProfile.profile);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching profile:", error);

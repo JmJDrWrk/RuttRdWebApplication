@@ -51,9 +51,9 @@ const PublishedPhoto = ({ publishId, email, profile}) => {
     return (
         <PostCard>
             <PostCardHeader
-                avatar={<PostCardAvatar alt="User Avatar" src={State.fileshost+profile.user.profilePhoto}/>}
-                title={profile.user.attachments[publishId].title}
-                subheader={profile.user.attachments[publishId].location}
+                avatar={<PostCardAvatar alt="User Avatar" src={State.fileshost+profile.profilePhoto}/>}
+                title={profile.attachments[publishId].title}
+                subheader={profile.attachments[publishId].location}
             />
 
             <PostCardContent>
@@ -64,7 +64,7 @@ const PublishedPhoto = ({ publishId, email, profile}) => {
                     title="Photo"
                 />
                 <Typography variant="body2" color="textSecondary" style={{ marginRight: "10px" }}>
-                    {profile.user.attachments[publishId].desc}
+                    {profile.attachments[publishId].desc}
                 </Typography>
                 <div style={{ display: "flex" }}>
                     <FavoriteIcon color="white" style={{ marginRight: "10px" }} />

@@ -41,14 +41,14 @@ function ProfileSearchResult({ profile }) {
     navigate(`/ProfileOther/${profileName}`);
   };
   return (
-    <ProfileCard onClick={()=>{handleProfileClick(profile.user.email)}}>
-      <Avatar src={State.fileshost + profile.user.profilePhoto} alt={profile.username} />
+    <ProfileCard onClick={()=>{handleProfileClick(profile.email)}}>
+      <Avatar src={State.fileshost + profile.profilePhoto} alt={profile.username} />
       <CardContent className="profile-info">
         <Typography variant="h6" component="h3">
-          {profile.user.name}
+          {profile.name}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {profile.user.surname}
+          {profile.surname}
         </Typography>
       </CardContent>
       {/* Add additional actions or information as needed */}
