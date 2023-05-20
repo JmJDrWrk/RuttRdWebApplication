@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,13 +15,38 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
+import LetterAvatar from "./LetterAvatar";
 import { useNavigate, useLocation } from "react-router-dom";
-function ResponsiveAppBar() {
+import ServerApi from "../../api/api";
+import { ImageBackground } from "react-native-web";
+import { minHeight } from "@mui/system";
+import State from "../../api/state";
+function ResponsiveAppBar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [current, setCurrent] = React.useState({
+    user : {
+      email : '0'
+    }
+  })
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    // Fetch the user data from the /me endpoint and update the user name
+    const fetchData = async() => {
+      const res = await ServerApi.doGet('/users/me')
+      if(!res.error){
+        console.log('res: '+JSON.stringify(res))
+        State.setMe(res)
+        setCurrent(res)
+      }
+    }
+    fetchData()
+    .catch(console.error)
+    
+  }, []);
+  
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -51,6 +77,8 @@ function ResponsiveAppBar() {
   const handleLogoutClick = (event) => {
     // navigate('/Logout');
     localStorage.removeItem('auth-token')
+    State.logout()
+    window.location.reload()
     handleCloseUserMenu();
   }
   const settings = [
@@ -138,8 +166,9 @@ function ResponsiveAppBar() {
             ))}
           </Box> */}
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Typography
+          <Box sx={{ flexGrow: 1, borderRadius:"17px", display: { xs: "none", md: "flex" }}}>
+          {/* <Box sx={{ flexGrow: 1, backgroundColor: "#F9F9F9", margin: "20px", borderRadius: "17px", padding: "0px" ,display: { xs: "none", md: "flex" }}}> */}
+            {/* <Typography
               variant="p"
               sx={{
                 fontFamily: "Arial",
@@ -149,13 +178,16 @@ function ResponsiveAppBar() {
               }}
             >
               {location.pathname}
-            </Typography>
+            </Typography> */}
+            {props.component}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                 */}
+                 <LetterAvatar letter={current.user.email.charAt(0).toLocaleUpperCase()}></LetterAvatar>
               </IconButton>
             </Tooltip>
             <Menu

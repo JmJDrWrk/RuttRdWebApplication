@@ -14,7 +14,8 @@ import Search from "./screens/Search";
 import Settings from "./screens/Settings";
 import SignIn from "./screens/SignUp";
 import UploadRutt from "./screens/UploadRutt";
-
+import SignUp from "./components/mui/SignIn";
+import ProfileOther from "./screens/ProfileOther";
 const checkAuth = () => {
   return !(!localStorage.getItem('auth-token'))
 }
@@ -22,36 +23,39 @@ const checkAuth = () => {
 export default function App() {
   const isAuthenticated = checkAuth(); // Replace checkAuth with your authentication logic
   if (!isAuthenticated) {
-    return  (
+    return (
       <StrictMode>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" exact element=<Auth />></Route>
-          <Route path='*' exact={true} element=<NotFoundError /> />
-        </Routes>
-      </BrowserRouter>
-    </StrictMode>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" exact element=<Auth />></Route>
+            <Route path="/Auth" exact element=<Auth />></Route>
+            <Route path="/SignUp" exact element=<SignUp />></Route>
+            <Route path='*' exact={true} element=<NotFoundError /> />
+          </Routes>
+        </BrowserRouter>
+      </StrictMode>
     )
   }
   return (
     <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" exact element=<NotFoundError />></Route>
-        <Route path="/Auth/" exact element=<Auth />></Route>
-        <Route path="/DetailView/" exact element=<DetailView />></Route>
-        <Route path="/Favorites/" exact element=<Favorites />></Route>
-        <Route path="/InitialView/" exact element=<InitialView />></Route>
-        <Route path="/Nearby/" exact element=<Nearby />></Route>
-        <Route path="/NotFoundError/" exact element=<NotFoundError />></Route>
-        <Route path="/Profile/" exact element=<Profile />></Route>
-        <Route path="/Recent/" exact element=<Recent />></Route>
-        <Route path="/Search/" exact element=<Search />></Route>
-        <Route path="/Settings/" exact element=<Settings />></Route>
-        <Route path="/SignIn/" exact element=<SignIn />></Route>
-        <Route path="/UploadRutt/" exact element=<UploadRutt />></Route>
-      </Routes>
-    </BrowserRouter>
-  </StrictMode>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" exact element=<InitialView />></Route>
+          <Route path="/Auth/" exact element=<Auth />></Route>
+          <Route path="/DetailView/" exact element=<DetailView />></Route>
+          <Route path="/Favorites/" exact element=<Favorites />></Route>
+          <Route path="/InitialView/" exact element=<InitialView />></Route>
+          <Route path="/Nearby/" exact element=<Nearby />></Route>
+          <Route path="/NotFoundError/" exact element=<NotFoundError />></Route>
+          <Route path="/Profile/" exact element=<Profile />></Route>
+          <Route path="/ProfileOther/:email" exact element=<ProfileOther />></Route>
+          <Route path="/Recent/" exact element=<Recent />></Route>
+          <Route path="/Search/" exact element=<Search />></Route>
+          <Route path="/Settings/" exact element=<Settings />></Route>
+          <Route path="/SignIn/" exact element=<SignIn />></Route>
+          <Route path="/UploadRutt/" exact element=<UploadRutt />></Route>
+        </Routes>
+      </BrowserRouter>
+    </StrictMode>
   );
 }

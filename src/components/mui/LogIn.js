@@ -13,7 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ServerApi from '../../api/api';
-
+import { useNavigate, useLocation } from "react-router-dom";
+import State from '../../api/state';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -32,6 +33,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
   async function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -40,7 +42,8 @@ export default function SignIn() {
       password: data.get('password'),
     };
     const res = await ServerApi.doPost('/users/login', formdata)
-    localStorage.setItem('auth-token',res.token)
+    State.setToken(res.token)
+    window.location.reload()
   };
 
   return (
@@ -101,7 +104,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/auth" variant="body2">
+                <Link href="/SignUp" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

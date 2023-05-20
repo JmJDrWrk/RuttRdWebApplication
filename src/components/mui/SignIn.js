@@ -12,7 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import ServerApi from '../../api/api';
+import { useNavigate, useLocation } from "react-router-dom";
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -31,13 +32,19 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  async function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const formdata = {
       email: data.get('email'),
       password: data.get('password'),
-    });
+      name: data.get('firstname'),
+      surname: data.get('lastname')
+    };
+    const res = await ServerApi.doPost('/users/signup', formdata)
+    navigate("/")
   };
 
   return (
@@ -119,7 +126,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/Auth" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

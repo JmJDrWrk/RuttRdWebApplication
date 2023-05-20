@@ -59,6 +59,7 @@ export default class ServerApi {
           .then(data => resolve(data));
 
       } catch (err) {
+        console.error(err)
         reject(`GET ERROR ${err}`)
       }
     })
