@@ -30,7 +30,7 @@ export default class ServerApi {
               'Content-Type': 'application/json',
               'auth-token': localStorage.getItem('auth-token')
             },
-            body: JSON.stringify(jbody)
+            body: jbody
           })
           .then(response => response.json())
           .then(data => resolve(data));

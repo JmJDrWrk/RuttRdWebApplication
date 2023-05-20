@@ -58,10 +58,10 @@ const ProfileComponent = () => {
     setBio(event.target.value);
   };
 
-  const updateFileInput = (event) => {
-    console.log('event.target.value', value)
-    setFileInput(event.target.value)
-  }
+  // const updateFileInput = (event) => {
+  //   console.log('event.target.value', value)
+  //   setFileInput(event.target.value)
+  // }
 
   const handleSubmit = (event) => {
     const formData = new FormData();

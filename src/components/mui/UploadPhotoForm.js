@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import Webcam from 'react-webcam';
 import ServerApi from '../../api/api';
+import PublishAPI from '../../api/PublishAPI';
 const UploadPhotoForm = () => {
   const [title, setTitle] = useState('');
   const [photo, setPhoto] = useState(null);
   const [photoURL, setPhotoURL] = useState('');
   const [location, setLocation] = useState('');
+  const [fileInput, setFileInput] = useState(null)
   const webcamRef = useRef(null);
   useEffect(() => {
     // Get user's current location
@@ -37,7 +39,9 @@ const UploadPhotoForm = () => {
 
 
   const handlePhotoChange = (event) => {
+    console.log('photo changed')
     const selectedPhoto = event.target.files[0];
+    setFileInput(event.target.files[0])
     setPhoto(selectedPhoto);
     setPhotoURL(URL.createObjectURL(selectedPhoto));
   };
@@ -55,15 +59,34 @@ const UploadPhotoForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const formData = new FormData();
+
     formData.append('title', title);
-    formData.append('file', photo);
-    formData.append('location', location);
-
+    formData.append('file', fileInput, fileInput.name);
+    formData.append('location', 'location');
     // Make a POST request to /file/upload endpoint with formData
-    ServerApi.doPost('/users/photo/upload', formData)
+    for (const entry of formData.entries()) {
+      console.log('FORMDATA: ' + entry[0] + ', ' + entry[1]);
+    }
 
+    // ServerApi.doPost('/users/photo/upload', formData)
+    // PublishAPI.publishPhoto(formData); NOt working no idea
+    fetch("https://ruttradarvalkiria.jmjdrwrk.repl.co/users/photo/upload", {
+      method: "POST",
+      body: formData,
+      headers : {
+        "auth-token": localStorage.getItem('auth-token')
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle response from the server
+        console.log(data);
+      })
+      .catch((error) => {
+        // Handle error
+        console.error(error);
+      });
   }
   // Convert base64 image data to Blob
   const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
