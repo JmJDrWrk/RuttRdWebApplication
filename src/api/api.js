@@ -28,7 +28,10 @@ export default class ServerApi {
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json',
-              'auth-token': localStorage.getItem('auth-token')
+              'auth-token': localStorage.getItem('auth-token'),
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+              'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
             },
             body: jbody
           })

@@ -35,6 +35,7 @@ const PostCardAvatar = styled(Avatar)(({ theme }) => ({
 
 const PublishedPhoto = ({ publishId, email, profile}) => {
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const attachment = profile.attachments.find(att=>att.src==publishId);
     useEffect(() => {
         const handleResize = () => {
             setScreenWidth(window.innerWidth);
@@ -52,19 +53,19 @@ const PublishedPhoto = ({ publishId, email, profile}) => {
         <PostCard>
             <PostCardHeader
                 avatar={<PostCardAvatar alt="User Avatar" src={State.fileshost+profile.profilePhoto}/>}
-                title={profile.attachments[publishId].title}
-                subheader={profile.attachments[publishId].location}
+                title={attachment.title}
+                subheader={attachment.location}
             />
 
             <PostCardContent>
 
                 <PostCardMedia
                     sx={{ width: screenWidth - 50 }}
-                    image={"https://source.unsplash.com/random?" + publishId}
+                    image={State.fileshost + publishId}
                     title="Photo"
                 />
                 <Typography variant="body2" color="textSecondary" style={{ marginRight: "10px" }}>
-                    {profile.attachments[publishId].desc}
+                    {attachment.desc}
                 </Typography>
                 <div style={{ display: "flex" }}>
                     <FavoriteIcon color="white" style={{ marginRight: "10px" }} />

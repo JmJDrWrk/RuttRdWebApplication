@@ -10,6 +10,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader"
 import { useNavigate } from "react-router-dom";
+import State from "../../api/state";
 
 const ProfileContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -60,8 +61,8 @@ const PhotoGallery = ({attachments}) => {
           <Card style={{ border: "1px solid #fff" }}>
             <img
               // src={photo.src}
-              itemID={photo.id}
-              src={"https://source.unsplash.com/random?" +photo.id}
+              itemID={photo.src}
+              src={State.fileshost +  photo.src}
               alt="Profile Photo"
               style={{ width: "100%", height: "250px", objectFit: "cover" }}
             />

@@ -26,7 +26,7 @@ function Published(props) {
             try {
                 const fetchedProfile = await ProfileAPI.getProfileByEmail(email);
                 setProfile(fetchedProfile.profile);
-
+                console.log("PROFILE->",fetchedProfile.profile)
                 // const fetchedPublish = await PublishAPI.getPublishById(email);
                 // setPublished(fetchedPublish);
 
