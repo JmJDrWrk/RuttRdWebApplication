@@ -13,6 +13,7 @@
     "@mui/icons-material": "5.11.16",
     "@mui/material": "5.13.1",
     "@mui/system": "5.13.1",
+    "clean-modules": "^2.0.6",
     "google-map-react": "2.2.1",
     "loader-utils": "3.2.1",
     "react": "18.2.0",
