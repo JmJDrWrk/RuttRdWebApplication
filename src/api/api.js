@@ -1,4 +1,4 @@
-
+import state from './state'
 
 const URL = {
   // base: "http://10.0.2.2:3000",
@@ -18,6 +18,9 @@ export default class ServerApi {
 
   static async doPost(rUrl, jbody) {
     //OverCall Protection
+    var customHeaders = new Headers();
+    customHeaders.append("Content-Type", "application/json");
+    customHeaders.append("auth-token",  state.getToken());
 
     let promise = new Promise((resolve, reject) => {
       try {
@@ -25,15 +28,8 @@ export default class ServerApi {
         fetch(`${URL.base}${rUrl}`,
           {
             method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'auth-token': localStorage.getItem('auth-token'),
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-              'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-            },
-            body: jbody
+            headers: customHeaders,
+            body: JSON.stringify(jbody)
           })
           .then(response => response.json())
           .then(data => resolve(data));
