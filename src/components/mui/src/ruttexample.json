@@ -1,10 +1,384 @@
-[
-    [
-        43.35699780731542,
-        -8.399562835693361
-    ],
-    [
-        43.349508547464794,
-        -8.451576232910158
-    ]
-]
+addControl
+: 
+ƒ addControl(control)
+addHandler
+: 
+ƒ addHandler(name, HandlerClass)
+addLayer
+: 
+ƒ addLayer(layer)
+callInitHooks
+: 
+ƒ ()
+closePopup
+: 
+ƒ closePopup(popup)
+closeTooltip
+: 
+ƒ closeTooltip(tooltip)
+constructor
+: 
+ƒ NewClass()
+containerPointToLatLng
+: 
+ƒ containerPointToLatLng(point)
+containerPointToLayerPoint
+: 
+ƒ containerPointToLayerPoint(point)
+createPane
+: 
+ƒ createPane(name, container)
+distance
+: 
+ƒ distance(latlng1, latlng2)
+eachLayer
+: 
+ƒ eachLayer(method, context)
+fitBounds
+: 
+ƒ fitBounds(bounds, options)
+fitWorld
+: 
+ƒ fitWorld(options)
+flyTo
+: 
+ƒ flyTo(targetCenter, targetZoom, options)
+flyToBounds
+: 
+ƒ flyToBounds(bounds, options)
+getBounds
+: 
+ƒ getBounds()
+getBoundsZoom
+: 
+ƒ getBoundsZoom(bounds, inside, padding)
+getCenter
+: 
+ƒ getCenter()
+getContainer
+: 
+ƒ getContainer()
+getMaxZoom
+: 
+ƒ getMaxZoom()
+getMinZoom
+: 
+ƒ getMinZoom()
+getPane
+: 
+ƒ getPane(pane)
+getPanes
+: 
+ƒ getPanes()
+getPixelBounds
+: 
+ƒ getPixelBounds(center, zoom)
+getPixelOrigin
+: 
+ƒ getPixelOrigin()
+getPixelWorldBounds
+: 
+ƒ getPixelWorldBounds(zoom)
+getRenderer
+: 
+ƒ getRenderer(layer)
+getScaleZoom
+: 
+ƒ getScaleZoom(scale, fromZoom)
+getSize
+: 
+ƒ getSize()
+getZoom
+: 
+ƒ getZoom()
+getZoomScale
+: 
+ƒ getZoomScale(toZoom, fromZoom)
+hasLayer
+: 
+ƒ hasLayer(layer)
+initialize
+: 
+ƒ initialize(id, options)
+invalidateSize
+: 
+ƒ invalidateSize(options)
+latLngToContainerPoint
+: 
+ƒ latLngToContainerPoint(latlng)
+latLngToLayerPoint
+: 
+ƒ latLngToLayerPoint(latlng)
+layerPointToContainerPoint
+: 
+ƒ layerPointToContainerPoint(point)
+layerPointToLatLng
+: 
+ƒ layerPointToLatLng(point)
+locate
+: 
+ƒ locate(options)
+mouseEventToContainerPoint
+: 
+ƒ mouseEventToContainerPoint(e)
+mouseEventToLatLng
+: 
+ƒ mouseEventToLatLng(e)
+mouseEventToLayerPoint
+: 
+ƒ mouseEventToLayerPoint(e)
+openPopup
+: 
+ƒ openPopup(popup, latlng, options)
+openTooltip
+: 
+ƒ openTooltip(tooltip, latlng, options)
+options
+: 
+{crs: {…}, center: undefined, zoom: undefined, minZoom: undefined, maxZoom: undefined, …}
+panBy
+: 
+ƒ panBy(offset, options)
+panInside
+: 
+ƒ panInside(latlng, options)
+panInsideBounds
+: 
+ƒ panInsideBounds(bounds, options)
+panTo
+: 
+ƒ panTo(center, options)
+project
+: 
+ƒ project(latlng, zoom)
+remove
+: 
+ƒ remove()
+removeControl
+: 
+ƒ removeControl(control)
+removeLayer
+: 
+ƒ removeLayer(layer)
+setMaxBounds
+: 
+ƒ setMaxBounds(bounds)
+setMaxZoom
+: 
+ƒ setMaxZoom(zoom)
+setMinZoom
+: 
+ƒ setMinZoom(zoom)
+setView
+: 
+ƒ setView(center, zoom, options)
+setZoom
+: 
+ƒ setZoom(zoom, options)
+setZoomAround
+: 
+ƒ setZoomAround(latlng, zoom, options)
+stop
+: 
+ƒ stop()
+stopLocate
+: 
+ƒ stopLocate()
+unproject
+: 
+ƒ unproject(point, zoom)
+whenReady
+: 
+ƒ whenReady(callback, context)
+wrapLatLng
+: 
+ƒ wrapLatLng(latlng)
+wrapLatLngBounds
+: 
+ƒ wrapLatLngBounds(latlng)
+zoomIn
+: 
+ƒ zoomIn(delta, options)
+zoomOut
+: 
+ƒ zoomOut(delta, options)
+_addLayers
+: 
+ƒ _addLayers(layers)
+_addZoomLimit
+: 
+ƒ _addZoomLimit(layer)
+_animMoveEnd
+: 
+ƒ _animMoveEnd()
+_animateZoom
+: 
+ƒ _animateZoom(center, zoom, startAnim, noUpdate)
+_catchTransitionEnd
+: 
+ƒ _catchTransitionEnd(e)
+_checkIfLoaded
+: 
+ƒ _checkIfLoaded()
+_clearControlPos
+: 
+ƒ _clearControlPos()
+_clearHandlers
+: 
+ƒ _clearHandlers()
+_createAnimProxy
+: 
+ƒ _createAnimProxy()
+_createRenderer
+: 
+ƒ _createRenderer(options)
+_destroyAnimProxy
+: 
+ƒ _destroyAnimProxy()
+_draggableMoved
+: 
+ƒ _draggableMoved(obj)
+_findEventTargets
+: 
+ƒ _findEventTargets(e, type)
+_fireDOMEvent
+: 
+ƒ _fireDOMEvent(e, type, canvasTargets)
+_getBoundsCenterZoom
+: 
+ƒ _getBoundsCenterZoom(bounds, options)
+_getBoundsOffset
+: 
+ƒ _getBoundsOffset(pxBounds, maxBounds, zoom)
+_getCenterLayerPoint
+: 
+ƒ _getCenterLayerPoint()
+_getCenterOffset
+: 
+ƒ _getCenterOffset(latlng)
+_getMapPanePos
+: 
+ƒ _getMapPanePos()
+_getNewPixelOrigin
+: 
+ƒ _getNewPixelOrigin(center, zoom)
+_getPaneRenderer
+: 
+ƒ _getPaneRenderer(name)
+_getTopLeftPoint
+: 
+ƒ _getTopLeftPoint(center, zoom)
+_getZoomSpan
+: 
+ƒ _getZoomSpan()
+_handleDOMEvent
+: 
+ƒ _handleDOMEvent(e)
+_handleGeolocationError
+: 
+ƒ _handleGeolocationError(error)
+_handleGeolocationResponse
+: 
+ƒ _handleGeolocationResponse(pos)
+_initContainer
+: 
+ƒ _initContainer(id)
+_initControlPos
+: 
+ƒ _initControlPos()
+_initEvents
+: 
+ƒ _initEvents(remove)
+_initHooks
+: 
+(9) [ƒ, ƒ, ƒ, ƒ, ƒ, ƒ, ƒ, ƒ, ƒ]
+_initLayout
+: 
+ƒ _initLayout()
+_initOverlay
+: 
+ƒ _initOverlay(OverlayClass, content, latlng, options)
+_initPanes
+: 
+ƒ _initPanes()
+_isClickDisabled
+: 
+ƒ _isClickDisabled(el)
+_latLngBoundsToNewLayerBounds
+: 
+ƒ _latLngBoundsToNewLayerBounds(latLngBounds, zoom, center)
+_latLngToNewLayerPoint
+: 
+ƒ _latLngToNewLayerPoint(latlng, zoom, center)
+_limitCenter
+: 
+ƒ _limitCenter(center, zoom, bounds)
+_limitOffset
+: 
+ƒ _limitOffset(offset, bounds)
+_limitZoom
+: 
+ƒ _limitZoom(zoom)
+_mouseEvents
+: 
+(5) ['click', 'dblclick', 'mouseover', 'mouseout', 'contextmenu']
+_move
+: 
+ƒ _move(center, zoom, data, supressEvent)
+_moveEnd
+: 
+ƒ _moveEnd(zoomChanged)
+_moveStart
+: 
+ƒ _moveStart(zoomChanged, noMoveStart)
+_moved
+: 
+ƒ _moved()
+_nothingToAnimate
+: 
+ƒ _nothingToAnimate()
+_onMoveEnd
+: 
+ƒ _onMoveEnd()
+_onPanTransitionEnd
+: 
+ƒ _onPanTransitionEnd()
+_onPanTransitionStep
+: 
+ƒ _onPanTransitionStep()
+_onResize
+: 
+ƒ _onResize()
+_onScroll
+: 
+ƒ _onScroll()
+_onZoomTransitionEnd
+: 
+ƒ _onZoomTransitionEnd()
+_panInsideMaxBounds
+: 
+ƒ _panInsideMaxBounds()
+_rawPanBy
+: 
+ƒ _rawPanBy(offset)
+_rebound
+: 
+ƒ _rebound(left, right)
+_removeZoomLimit
+: 
+ƒ _removeZoomLimit(layer)
+_resetView
+: 
+ƒ _resetView(center, zoom, noMoveStart)
+_stop
+: 
+ƒ _stop()
+_tryAnimatedPan
+: 
+ƒ _tryAnimatedPan(center, options)
+_tryAnimatedZoom
+: 
+ƒ _tryAnimatedZoom(center, zoom, options)
+_updateZoomLevels
+: 
+ƒ _updateZoomLevels()

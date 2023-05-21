@@ -1,19 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Polyline, useMapEvents, Popup } from 'react-leaflet';
 import Button from "@mui/material/Button";
-import { IconButton, Tooltip, Box, TextField, FormControl, Grid } from '@mui/material';
+import { IconButton, Tooltip, Box, TextField, FormControl, Grid, Menu, MenuItem, Modal, Typography, InputLabel, Select } from '@mui/material';
 import { CenterFocusStrong, Save, Delete, CloudUpload } from '@mui/icons-material';
 
 import L from 'leaflet';
 import markerIcon from './src/marker1.png';
 import 'leaflet/dist/leaflet.css';
+import RuttApi from '../../api/RuttApi';
 
 const RouteMap = () => {
+  const [drawMode, setDrawMode] = useState('polyline')
   const [markers, setMarkers] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
   const [center, setCenter] = useState([0, 0]);
   const [mapKey, setMapKey] = useState(0);
-  
+  let mapRef = useRef(null)
   const [drawingRoute, setDrawingRoute] = useState(false);
   const customIcon = L.icon({
     iconUrl: markerIcon,
@@ -37,30 +39,52 @@ const RouteMap = () => {
       );
     }
   }, []);
-
+  const [nonPolylineMarkers, setNonPolylineMarkers] = useState([])
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const handleMapClick = (event) => {
-    if (!drawingRoute) {
-      const { lat, lng } = event.latlng;
-      const newMarker = {
-        latlng: event.latlng,
-        id: new Date().getTime(), // Generate a unique ID for the marker
-      };
+    //Right Click
+    if (event.originalEvent.button === 0) {
+      console.log('draw mode: ' + drawMode)
+      if (drawMode == 'polyline') {
+        if (!drawingRoute) {
+          const { lat, lng } = event.latlng;
+          const newMarker = {
+            latlng: event.latlng,
+            id: new Date().getTime(), // Generate a unique ID for the marker
+          };
 
-      setMarkers((prevMarkers) => [...prevMarkers, newMarker]);
-      setCoordinates((prevCoordinates) => [...prevCoordinates, [lat, lng]]);
+          setMarkers((prevMarkers) => [...prevMarkers, newMarker]);
+          setCoordinates((prevCoordinates) => [...prevCoordinates, [lat, lng]]);
+        }
+      } else if (drawMode == 'point') {
+        const newMarker = {
+          latlng: event.latlng,
+          id: new Date().getTime(), // Generate a unique ID for the marker
+          text: 'unnamed',
+          color: 'default'
+        };
+        setNonPolylineMarkers((prevMarkers) => [...prevMarkers, newMarker]);
+      } else {
+        console.error('invalid drawMode!')
+      }
+    } else {
+      console.log('LeftClick')
     }
   };
 
   const handleMouseDown = () => {
+    console.log('mouse down', mapRef)
     setDrawingRoute(true);
   };
 
   const handleMouseUp = () => {
+    console.log('mouse up')
     setDrawingRoute(false);
   };
+  const handleMapMove = () => {
 
+  };
   const handleMouseMove = (event) => {
-
   };
 
   const handleDeleteLastPoint = () => {
@@ -73,12 +97,21 @@ const RouteMap = () => {
   const polylineRef = useRef(null);
   const [polylineKey, setPolylineKey] = useState(0);
 
-  const handleSavePolylineRef = () => {
-    console.log('Polyline reference:', coordinates);
+  const handleSaveRutt = () => {
     let ruttFile = {
       coordinates: coordinates,
       markers: markers,
-      center: center
+      nonPolylineMarkers: nonPolylineMarkers,
+      center: center,
+      ruttData: {
+        name: ruttName,
+        datetimefrom: ruttDateTimeFrom,
+        datetimeto: ruttDateTimeTo,
+        duration: duration,
+        eventType: eventType,
+        accessType: accessType,
+        price: price
+      }
     };
     const data = JSON.stringify(ruttFile);
     const blob = new Blob([data], { type: 'application/json;charset=utf-8' });
@@ -109,17 +142,18 @@ const RouteMap = () => {
     const file = event.target.files[0];
     const fileName = file.name;
     const fileExtension = fileName.split('.').pop().toLowerCase();
-  
+
     const reader = new FileReader();
     reader.onload = (e) => {
       const contents = e.target.result;
       try {
         const data = JSON.parse(contents);
-        console.log('YOU UPLOADED:', data);
-        setCoordinates(data.coordinates);
-        setMarkers(data.markers);
+        setCoordinates(data.coordinates || []);
+        setMarkers(data.markers || []);
         setCenter(data.center);
+        setNonPolylineMarkers(data.nonPolylineMarkers || []);
         setPolylineKey((prevKey) => prevKey + 1); // Trigger re-render of Polyline
+        setMapKey((prevKey) => prevKey + 1); // Update the map key to force re-render
         // Extract the coordinates from the JSON data
         // Set the coordinates and markers state accordingly
       } catch (error) {
@@ -128,7 +162,7 @@ const RouteMap = () => {
     };
     reader.readAsText(file);
   };
-  
+
   const MapEvents = () => {
     useMapEvents({
       click: handleMapClick,
@@ -139,17 +173,176 @@ const RouteMap = () => {
 
     return null;
   };
+  const [clickedMarker, setClickedMarker] = useState(null);
+  const [menuAnchor, setMenuAnchor] = useState(null);
+  const handleMenuClose = () => {
+    setClickedMarker(null);
+    setMenuAnchor(null);
+  };
+  const [markerId, setMarkerId] = useState()
+  const handleMarkerClick = (markerId, event) => {
+    setMarkerId(markerId)
+    setMousePosition({ x: event.originalEvent.clientX, y: event.originalEvent.clientY });
+    setClickedMarker(markerId);
+    setMenuAnchor(event.currentTarget);
+  };
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [newMarkerName, setNewMarkerName] = useState('');
+  const handleRenameMarker = () => {
+    const marker = markers.find((marker) => marker.id === markerId);
+    if (marker) {
+      setClickedMarker(marker.id);
+      setIsRenameModalOpen(true);
+      setNewMarkerName(marker.text);
+    } else {
+      console.error('MARKER NOT FOUND')
+    }
+    setMenuAnchor(null);
+  }
+
+  const handleRenameMarkerSubmit = () => {
+    const updatedMarkers = markers.map((marker) => {
+      if (marker.id === clickedMarker) {
+        return { ...marker, text: newMarkerName };
+      }
+      return marker;
+    });
+    setMarkers(updatedMarkers);
+    setIsRenameModalOpen(false);
+  };
+  const handleDeleteCoordinate = () => {
+    const selectedMarker = markers.find((marker) => marker.id === markerId);
+    setMarkers((prevMarkers) => prevMarkers.filter((marker) => marker.id !== clickedMarker));
+    setCoordinates((prevCoordinates) =>
+      prevCoordinates.filter((coordinate) => {
+        const [lat, lng, markerId] = coordinate;
+        return !(lat === selectedMarker.latlng.lat && lng === selectedMarker.latlng.lng);
+      })
+    );
+    setMenuAnchor(null);
+  };
+  const handleDeleteOnlyMarker = () => {
+    setMarkers((prevMarkers) => prevMarkers.filter((marker) => marker.id !== clickedMarker));
+    setCoordinates((prevCoordinates) =>
+      prevCoordinates.filter((coordinate) => coordinate[2] !== clickedMarker)
+    );
+    setMenuAnchor(null);
+  };
+  //DRAW MODE MENU
+  const [menuDrawAnchor, setMenuDrawAnchor] = useState(null);
+  const handleDrawModeChange = (mode) => {
+    setDrawMode(mode);
+    setMenuDrawAnchor(null);
+  };
+
+  const handleMenuDrawOpen = (event) => {
+    setMenuDrawAnchor(event.currentTarget);
+  };
+
+  const handleMenuDrawClose = () => {
+    setMenuDrawAnchor(null);
+  };
+
+  const [ruttName, setRuttName] = useState(null)
+  const [ruttDateTimeFrom, setRuttDateTimeFrom] = useState(null)
+  const [ruttDateTimeTo, setRuttDateTimeTo] = useState(null)
+  const [eventType, setEventType] = useState(''); // private or public
+  const [accessType, setAccessType] = useState(''); // private, public, pay
+  const [price, setPrice] = useState('');
+  const [duration, setDuration] = useState('');
+
+  const handleDurationChange = (event) => {
+    setDuration(event.target.value);
+  };
+
+  const handleEventTypeChange = (event) => {
+    setEventType(event.target.value);
+  };
+
+  const handleAccessTypeChange = (event) => {
+    setAccessType(event.target.value);
+  };
+
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
+  };
+
+
+  function handleUploadRutt() {
+    const ruttApi = new RuttApi()
+    ruttApi.uploadRutt()
+  }
+
+  function handlePublishRutt() {
+
+  }
 
   return (
     <div>
+      <Modal open={isRenameModalOpen} onClose={() => setIsRenameModalOpen(false)}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+          }}
+        >
+          <Box sx={{ width: 300, p: 2, backgroundColor: 'white' }}>
+            <Typography variant="h6" gutterBottom>
+              Rename Marker
+            </Typography>
+            <TextField
+              label="New Marker Name"
+              value={newMarkerName}
+              onChange={(event) => setNewMarkerName(event.target.value)}
+              fullWidth
+            />
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+              <Button onClick={handleRenameMarkerSubmit} variant="contained" color="primary">
+                Save
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Modal>
       <Box display="flex" justifyContent="space-between" mt={2}>
+        <Tooltip title="Change Draw Mode">
+          <Button
+            onClick={handleMenuDrawOpen}
+            variant="contained"
+            color="inherit"
+            startIcon={<CenterFocusStrong />}
+            style={{ backgroundColor: 'white' }}
+          >
+            {drawMode}
+          </Button>
+        </Tooltip>
+        <Menu
+          anchorEl={menuDrawAnchor}
+          open={Boolean(menuDrawAnchor)}
+          onClose={handleMenuDrawClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          <MenuItem onClick={() => handleDrawModeChange('polyline')}>Polyline</MenuItem>
+          <MenuItem onClick={() => handleDrawModeChange('point')}>Point</MenuItem>
+          <MenuItem onClick={() => handleDrawModeChange('Something')}>Something</MenuItem>
+        </Menu>
+
         <Tooltip title="Center to Current Location">
           <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'white' }}>
             <CenterFocusStrong />
           </IconButton>
         </Tooltip>
         <Tooltip title="Save Polyline Reference">
-          <IconButton onClick={handleSavePolylineRef} style={{ backgroundColor: 'white' }}>
+          <IconButton onClick={handleSaveRutt} style={{ backgroundColor: 'white' }}>
             <Save />
           </IconButton>
         </Tooltip>
@@ -165,43 +358,141 @@ const RouteMap = () => {
           </IconButton>
         </Tooltip>
       </Box>
-      
+
       <MapContainer
         key={mapKey} // Use a unique key to force re-render when center changes
         center={center} // Set the initial center of the map
         zoom={13} // Set the initial zoom level
         style={{ height: '500px', width: '100%' }}
+        ref={(map) => (mapRef = map)}
       >
         <MapEvents />
 
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
         {markers.map((marker) => (
-          <Marker icon={customIcon} position={marker.latlng} key={marker.id} />
+          <Marker icon={customIcon} position={marker.latlng} key={marker.id}
+            eventHandlers={{
+              click: (event) => handleMarkerClick(marker.id, event),
+            }}
+          >
+            <Popup>{marker.text}</Popup>
+          </Marker>
         ))}
 
-        <Polyline positions={coordinates} key={polylineKey} ref={(ref) => (polylineRef.current = ref)}/>
+        {nonPolylineMarkers.map((marker) => (
+          <Marker
+            icon={customIcon}
+            position={marker.latlng}
+            key={marker.id}
+            eventHandlers={{
+              click: (event) => handleMarkerClick(marker.id, event),
+            }}
+          >
+            <Popup>{marker.text}</Popup>
+
+          </Marker>
+        ))}
+
+        <Polyline positions={coordinates} key={polylineKey} ref={(ref) => (polylineRef.current = ref)} />
+
+        <Menu
+          open={menuAnchor !== null}
+          anchorEl={menuAnchor}
+          onClose={handleMenuClose}
+          style={{
+            position: 'fixed',
+            left: mousePosition.x,
+            top: mousePosition.y,
+          }}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          <MenuItem onClick={handleDeleteOnlyMarker}>Remove marker</MenuItem>
+          <MenuItem onClick={handleDeleteCoordinate}>Remove point</MenuItem>
+          <MenuItem onClick={handleRenameMarker}>Rename</MenuItem>
+        </Menu>
+
+
       </MapContainer>
 
-      <Box mt={4}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <FormControl fullWidth>
-              <TextField label="Rutt Name" variant="outlined" />
-            </FormControl>
-          </Grid>
-          <Grid item xs={3}>
-            <FormControl fullWidth>
-              <TextField label="From Date & Time" type="datetime-local" variant="outlined" />
-            </FormControl>
-          </Grid>
-          <Grid item xs={3}>
-            <FormControl fullWidth>
-              <TextField label="To Date & Time" type="datetime-local" variant="outlined" />
-            </FormControl>
-          </Grid>
-        </Grid>
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <Box width={400}>
+          <TextField label="Rutt Name" variant="outlined" fullWidth margin="normal" value={ruttName} />
+
+          <TextField
+            label="From Date & Time"
+            type="datetime-local"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={ruttDateTimeFrom}
+          />
+
+          <TextField
+            label="To Date & Time"
+            type="datetime-local"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={ruttDateTimeTo}
+          />
+
+          <TextField
+            label="Duration"
+            value={duration}
+            onChange={handleDurationChange}
+            fullWidth
+            margin="normal"
+          />
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="event-type-label">Event Type</InputLabel>
+            <Select
+              labelId="event-type-label"
+              id="event-type-select"
+              value={eventType}
+              onChange={handleEventTypeChange}
+            >
+              <MenuItem value="private">Private</MenuItem>
+              <MenuItem value="public">Public</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="access-type-label">Access Type</InputLabel>
+            <Select
+              labelId="access-type-label"
+              id="access-type-select"
+              value={accessType}
+              onChange={handleAccessTypeChange}
+            >
+              <MenuItem value="private">Private</MenuItem>
+              <MenuItem value="public">Public</MenuItem>
+              <MenuItem value="pay">Pay</MenuItem>
+            </Select>
+          </FormControl>
+
+          {accessType === 'pay' && (
+            <TextField
+              label="Price"
+              value={price}
+              onChange={handlePriceChange}
+              fullWidth
+              margin="normal"
+            />
+          )}
+          <Button onClick={handleUploadRutt} variant="contained" color="primary">
+            Save
+          </Button>
+          <Button onClick={handlePublishRutt} variant="contained" color="primary">
+            Publish 
+          </Button>
+        </Box>
       </Box>
+
     </div>
   );
 };

@@ -16,7 +16,7 @@ function UploadRutt(props) {
     <>
       <Header />
         {/* <UploadPhotoForm></UploadPhotoForm> */}
-        <UploadEventForm></UploadEventForm>
+        <CreateEventForm></CreateEventForm>
       <Footer />
     </>
   );
