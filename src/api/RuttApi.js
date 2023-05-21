@@ -5,14 +5,17 @@ export default class RuttApi extends customAPI {
         if (config) {
             Object.assign(this, { ...config });
         }
+        this.relPath = '/rutt'
     }
     async uploadRutt(obj) {
-        await this.doPost('/users/upload/rutt', obj)
+        await this.doPost('/upload', {
+            rutt : obj
+        })
     }
-    async uploadRutt(obj) {
-        await this.doPost('/users/publish/rutt', obj)
+    async publishRutt(obj) {
+        await this.get('/publish')
     }
     async updateRutt(obj) {
-        await this.doPost('/users/update/rutt', obj)
+        await this.doPost('/update', obj)
     }
 }

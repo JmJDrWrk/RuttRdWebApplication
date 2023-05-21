@@ -2,6 +2,7 @@ import State from "./state";
 export default class customAPI {
     constructor() {
         this.host = 'https://ruttradarvalkiria.jmjdrwrk.repl.co';
+        this.relPath = '';
     }
 
     async doPost(rUrl, jbody) {
@@ -12,7 +13,7 @@ export default class customAPI {
 
         let promise = new Promise((resolve, reject) => {
             try {
-                console.log(`doPost ${this.host}${rUrl}`)
+                console.log(`doPost ${this.host}${this.relPath}${rUrl}`)
                 fetch(`${this.host}${rUrl}`,
                     {
                         method: 'POST',
@@ -34,7 +35,7 @@ export default class customAPI {
         //OverCall Protection
         let promise = new Promise((resolve, reject) => {
             try {
-                console.log(`doGet ${this.host}${rUrl}`)
+                console.log(`doGet ${this.host}${this.relPath}${rUrl}`)
                 fetch(`${this.host}${rUrl}`,
                     {
                         method: 'GET',

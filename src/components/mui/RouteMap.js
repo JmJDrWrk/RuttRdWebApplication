@@ -270,7 +270,24 @@ const RouteMap = () => {
 
   function handleUploadRutt() {
     const ruttApi = new RuttApi()
-    ruttApi.uploadRutt()
+
+    let ruttFile = {
+      coordinates: coordinates,
+      markers: markers,
+      nonPolylineMarkers: nonPolylineMarkers,
+      center: center,
+      ruttData: {
+        name: ruttName,
+        datetimefrom: ruttDateTimeFrom,
+        datetimeto: ruttDateTimeTo,
+        duration: duration,
+        eventType: eventType,
+        accessType: accessType,
+        price: price
+      }
+    };
+
+    ruttApi.uploadRutt(ruttFile)
   }
 
   function handlePublishRutt() {
