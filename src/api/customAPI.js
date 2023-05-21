@@ -2,9 +2,12 @@ import State from "./state";
 export default class customAPI {
     constructor() {
         this.host = 'https://ruttradarvalkiria.jmjdrwrk.repl.co';
-        this.relPath = '';
     }
-
+    test() 
+    {
+        console.log(`doPost ${this.host}${this.relPath}`)
+        console.log('THIS IS THIS', JSON.stringify(this))
+    }
     async doPost(rUrl, jbody) {
         //OverCall Protection
         var customHeaders = new Headers();
@@ -14,7 +17,7 @@ export default class customAPI {
         let promise = new Promise((resolve, reject) => {
             try {
                 console.log(`doPost ${this.host}${this.relPath}${rUrl}`)
-                fetch(`${this.host}${rUrl}`,
+                fetch(`${this.host}${this.relPath}${rUrl}`,
                     {
                         method: 'POST',
                         headers: customHeaders,
@@ -36,7 +39,7 @@ export default class customAPI {
         let promise = new Promise((resolve, reject) => {
             try {
                 console.log(`doGet ${this.host}${this.relPath}${rUrl}`)
-                fetch(`${this.host}${rUrl}`,
+                fetch(`${this.host}${this.relPath}${rUrl}`,
                     {
                         method: 'GET',
                         headers: {
