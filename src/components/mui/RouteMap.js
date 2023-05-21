@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline, useMapEvents } from 'react-leaflet';
 import Button from "@mui/material/Button";
-import { IconButton, Tooltip, Box } from '@mui/material';
+import { IconButton, Tooltip, Box, TextField, FormControl, Grid } from '@mui/material';
 import { CenterFocusStrong, Save, Delete, CloudUpload } from '@mui/icons-material';
 
 import L from 'leaflet';
@@ -76,10 +76,10 @@ const RouteMap = () => {
   const handleSavePolylineRef = () => {
     console.log('Polyline reference:', coordinates);
     let ruttFile = {
-      coordinates : coordinates,
-      markers : markers,
-      center : center
-    }
+      coordinates: coordinates,
+      markers: markers,
+      center: center
+    };
     const data = JSON.stringify(ruttFile);
     const blob = new Blob([data], { type: 'application/json;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -110,29 +110,25 @@ const RouteMap = () => {
     const fileName = file.name;
     const fileExtension = fileName.split('.').pop().toLowerCase();
   
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const contents = e.target.result;
-        try {
-          const data = JSON.parse(contents);
-          console.log('YOU UPLOADED:', data);
-          setCoordinates(data.coordinates);
-          setMarkers(data.markers)
-          setCenter(data.center)
-          setPolylineKey((prevKey) => prevKey + 1); // Trigger re-render of Polyline
-          // Extract the coordinates from the JSON data
-          // Set the coordinates and markers state accordingly
-        } catch (error) {
-          console.error('Failed to parse JSON:', error);
-        }
-      };
-      reader.readAsText(file);
-
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const contents = e.target.result;
+      try {
+        const data = JSON.parse(contents);
+        console.log('YOU UPLOADED:', data);
+        setCoordinates(data.coordinates);
+        setMarkers(data.markers);
+        setCenter(data.center);
+        setPolylineKey((prevKey) => prevKey + 1); // Trigger re-render of Polyline
+        // Extract the coordinates from the JSON data
+        // Set the coordinates and markers state accordingly
+      } catch (error) {
+        console.error('Failed to parse JSON:', error);
+      }
+    };
+    reader.readAsText(file);
   };
   
-
-
   const MapEvents = () => {
     useMapEvents({
       click: handleMapClick,
@@ -146,23 +142,6 @@ const RouteMap = () => {
 
   return (
     <div>
-      <MapContainer
-        key={mapKey} // Use a unique key to force re-render when center changes
-        center={center} // Set the initial center of the map
-        zoom={13} // Set the initial zoom level
-        style={{ height: '500px', width: '100%' }}
-      >
-        <MapEvents />
-
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-        {markers.map((marker) => (
-          <Marker icon={customIcon} position={marker.latlng} key={marker.id} />
-        ))}
-
-      <Polyline positions={coordinates} key={polylineKey} ref={(ref) => (polylineRef.current = ref)}/>
-      </MapContainer>
-
       <Box display="flex" justifyContent="space-between" mt={2}>
         <Tooltip title="Center to Current Location">
           <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'white' }}>
@@ -185,6 +164,43 @@ const RouteMap = () => {
             <input type="file" accept=".json" style={{ display: 'none' }} onChange={handleFileUpload} />
           </IconButton>
         </Tooltip>
+      </Box>
+      
+      <MapContainer
+        key={mapKey} // Use a unique key to force re-render when center changes
+        center={center} // Set the initial center of the map
+        zoom={13} // Set the initial zoom level
+        style={{ height: '500px', width: '100%' }}
+      >
+        <MapEvents />
+
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+        {markers.map((marker) => (
+          <Marker icon={customIcon} position={marker.latlng} key={marker.id} />
+        ))}
+
+        <Polyline positions={coordinates} key={polylineKey} ref={(ref) => (polylineRef.current = ref)}/>
+      </MapContainer>
+
+      <Box mt={4}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <TextField label="Rutt Name" variant="outlined" />
+            </FormControl>
+          </Grid>
+          <Grid item xs={3}>
+            <FormControl fullWidth>
+              <TextField label="From Date & Time" type="datetime-local" variant="outlined" />
+            </FormControl>
+          </Grid>
+          <Grid item xs={3}>
+            <FormControl fullWidth>
+              <TextField label="To Date & Time" type="datetime-local" variant="outlined" />
+            </FormControl>
+          </Grid>
+        </Grid>
       </Box>
     </div>
   );
