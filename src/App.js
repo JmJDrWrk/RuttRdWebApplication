@@ -17,6 +17,7 @@ import UploadRutt from "./screens/UploadRutt";
 import SignUp from "./components/mui/SignIn";
 import ProfileOther from "./screens/ProfileOther";
 import Published from "./screens/Published"
+import CreateRutt from "./screens/CreateRutt";
 const checkAuth = () => {
   return !(!localStorage.getItem('auth-token'))
 }
@@ -56,6 +57,7 @@ export default function App() {
           <Route path="/Settings/" exact element=<Settings />></Route>
           <Route path="/SignIn/" exact element=<SignIn />></Route>
           <Route path="/UploadRutt/" exact element=<UploadRutt />></Route>
+          <Route path="/CreateRutt/" exact element=<CreateRutt />></Route>
         </Routes>
       </BrowserRouter>
     </StrictMode>

@@ -10,11 +10,13 @@ import MaterialCheckboxWithLabel from "../components/MaterialCheckboxWithLabel";
 import MaterialCheckboxWithLabel1 from "../components/MaterialCheckboxWithLabel1";
 import MaterialButtonShare1 from "../components/MaterialButtonShare1";
 import UploadPhotoForm from "../components/mui/UploadPhotoForm"
+import CreateEventForm from "../components/mui/CreateEventForm"
 function UploadRutt(props) {
   return (
     <>
       <Header />
-        <UploadPhotoForm></UploadPhotoForm>
+        {/* <UploadPhotoForm></UploadPhotoForm> */}
+        <UploadEventForm></UploadEventForm>
       <Footer />
     </>
   );
