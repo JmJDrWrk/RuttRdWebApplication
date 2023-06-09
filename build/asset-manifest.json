@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.bec1a07e.css",
+    "main.js": "/static/js/main.510e7495.js",
+    "static/media/TodosEnLaGorra1.png": "/static/media/TodosEnLaGorra1.be455585f4a7669624fe.png",
+    "static/media/cardImage16.png": "/static/media/cardImage16.18de07683ffe87a67cd8.png",
+    "index.html": "/index.html",
+    "main.bec1a07e.css.map": "/static/css/main.bec1a07e.css.map",
+    "main.510e7495.js.map": "/static/js/main.510e7495.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bec1a07e.css",
+    "static/js/main.510e7495.js"
+  ]
+}

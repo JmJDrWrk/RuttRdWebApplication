@@ -24,4 +24,10 @@ export default class RuttApi extends customAPI {
     async findById(ruttId) {
         return (await this.doGet('/rutt/'+ruttId)).rutt
     }
+    async findMyRutts() {
+        return (await this.doGet('/myrutts'))
+    }
+    async findOthersRuttsByEmail(email) {
+        return (await this.doGet(`/by-email?email=${email}`))
+    }
 }
