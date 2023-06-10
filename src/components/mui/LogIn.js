@@ -70,6 +70,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
+              data-cy="input-email"
               label="Email Address"
               name="email"
               autoComplete="email"
@@ -83,28 +84,30 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
+              data-cy="input-password"
               autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Remember me" data-cy="check-rememberme"
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              data-cy="bt-submit"
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" data-cy="link-forgotpass">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/SignUp" variant="body2">
+                <Link href="/SignUp" variant="body2" data-cy="link-signup">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
