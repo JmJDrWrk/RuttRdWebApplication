@@ -42,12 +42,13 @@ export default function SignIn() {
       password: data.get('password'),
     };
     const res = await ServerApi.doPost('/users/login', formdata)
+    console.log('server login response: ' + JSON.stringify(res))
     State.setToken(res.token)
     window.location.reload()
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={defaultTheme} data-cy="login-component">
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
