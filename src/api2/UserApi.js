@@ -11,7 +11,7 @@ export default class UserApi extends customAPI {
         await this.doPost('/users/upload/rutt', obj)
     }
     async logIn(obj) {
-        await this.doPost('/users/publish/rutt', obj)
+        await super.doPost('/users/login', obj)
     }
     async getMe(obj) {
         await this.doGet('/users/me', obj)

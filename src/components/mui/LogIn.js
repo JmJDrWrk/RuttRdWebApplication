@@ -12,9 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ServerApi from '../../api/api';
+import ServerApi from '../../api2/api';
 import { useNavigate, useLocation } from "react-router-dom";
-import State from '../../api/state';
+import State from '../../api2/state';
+import UserApi from '../../api2/UserApi';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -41,10 +42,10 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     };
-    const res = await ServerApi.doPost('/users/login', formdata)
-    console.log('server login response: ' + JSON.stringify(res))
-    State.setToken(res.token)
-    window.location.reload()
+    // const res = await ServerApi.doPost('/users/login', formdata)
+    UserApi.login(formdata)
+    // State.setToken(res.token)
+    // window.location.reload()
   };
 
   return (
