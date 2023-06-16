@@ -15,7 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ServerApi from '../../api2/api';
 import { useNavigate, useLocation } from "react-router-dom";
 import State from '../../api2/state';
-import UserApi from '../../api2/UserApi';
+// import UserApi from '../../api2/UserApi';
+import UsersAPI from '../../api/UsersAPI';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -43,7 +44,8 @@ export default function SignIn() {
       password: data.get('password'),
     };
     // const res = await ServerApi.doPost('/users/login', formdata)
-    UserApi.login(formdata)
+    // UserApi.login(formdata)
+    new UsersAPI().login(formdata)
     // State.setToken(res.token)
     // window.location.reload()
   };
