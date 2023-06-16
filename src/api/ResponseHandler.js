@@ -14,10 +14,10 @@ export default class ResponseHandler {
     static handle(response, onSuccess, onError) {
         console.log("RES: ", response)
         if(this.isSuccess(response)){
-            console.log("EXITO")
-            // this.getNotificationModel(data)
+            console.log("success")
+            // this.getNotificationModel(response)
         }
-        this.getNotificationModel(data)
+        this.getNotificationModel(response)
 
     }
 }
