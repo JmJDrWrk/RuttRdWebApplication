@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { Menu, MenuItem, IconButton} from "@mui/material";
+import { Menu, MenuItem, IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -40,16 +40,16 @@ const ProfileBio = styled(Typography)(({ theme }) => ({
 const EditProfileButton = styled(Button)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
-const PhotoGallery = ({attachments}) => {
+const PhotoGallery = ({ attachments }) => {
   // Replace with actual photo data for the profile
   console.log(attachments)
-  if(!attachments || attachments.length<1){
+  if (!attachments || attachments.length < 1) {
     return <Typography variant="body1">User has not uploaded anything yet.</Typography>;
   }
   const navigate = useNavigate();
   const handlePhotoClick = (event) => {
     console.log(event.target.getAttribute('itemid'))
-    navigate(location.pathname+'/published/'+event.target.getAttribute('itemid'))
+    navigate(location.pathname + '/published/' + event.target.getAttribute('itemid'))
   }
 
   return (
@@ -65,7 +65,7 @@ const PhotoGallery = ({attachments}) => {
             <img
               // src={photo.src}
               itemID={photo.src}
-              src={State.fileshost +  photo.src}
+              src={State.fileshost + photo.src}
               alt="Profile Photo"
               style={{ width: "100%", height: "250px", objectFit: "cover" }}
             />
@@ -109,52 +109,72 @@ const RuttGallery = ({ rutts }) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
+  const handleContextMenu = (event) => {
+    event.preventDefault(); // Prevent the default context menu from appearing
     setAnchorEl(event.currentTarget);
   };
+  
+  const handleMenuClose = (event) => {
+    const action = event.target.id
 
-  const handleClose = () => {
+    const actions = {
+      delete : () => {console.log('Deleting this rutt!!')},
+      share : () => {console.log('link now in paster')},
+      export : () => {console.log('exporting to the format lo que sea!!')}
+    }
+
     setAnchorEl(null);
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
   return (
     <Grid container spacing={2}>
       {rutts.map((rutt) => (
-        // <Grid item key={rutt._id} xs={12} sm={6} md={4} onClick={handleRuttClick}>
         <Grid item key={rutt._id} xs={12} sm={6} md={4}>
           <CardHeader>
             <Typography variant="subtitle1" align="center">
               {rutt.ruttData.name} ehh
             </Typography>
           </CardHeader>
-          <div style={{ position: 'relative', top: '10px', right: '10px' }}>
-              <IconButton onClick={handleClick}>
-                <MoreVert />
-              </IconButton>
-              <Menu
-                id={`menu-${rutt._id}`}
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={() => handleDeleteRutt(rutt._id)}>Delete</MenuItem>
-              </Menu>
-            </div>
+
           <Card style={{ border: '1px solid #fff' }}>
             <img
               src="https://zonegis.es/wp-content/uploads/2020/08/Imagen_05-699x556.jpg"
               itemID={rutt._id}
               alt="Profile Photo"
               style={{ width: '100%', height: '250px', objectFit: 'cover' }}
+              onContextMenu={handleContextMenu}
+              onClick={handleRuttClick}
+
             />
             <CardContent>
               <Typography variant="subtitle1" align="center">
                 {rutt.ruttData.name}
               </Typography>
             </CardContent>
-
           </Card>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            PaperProps={{
+              elevation: 3,
+              style: {
+                width: '200px',
+                marginTop: '10px',
+              },
+            }}
+          >
+            <MenuItem onClick={handleMenuClose} id='Share'>share</MenuItem>
+            <MenuItem onClick={handleMenuClose} id='delete'>delete</MenuItem>
+            <MenuItem onClick={handleMenuClose} id='export' disabled>export</MenuItem>
+          </Menu>
         </Grid>
       ))}
     </Grid>
@@ -211,8 +231,8 @@ const ProfileComponent = ({ profile, rutts }) => {
         disabled
       />
       <Paper elevation={0}>
-      <RuttGallery rutts={othersrutts}/>
-      <PhotoGallery attachments={attachments} />
+        <RuttGallery rutts={othersrutts} />
+        <PhotoGallery attachments={attachments} />
       </Paper>
     </ProfileContainer>
   );

@@ -19,7 +19,6 @@ function ProfileOther() {
       try {
         const fetchedProfile = await new ProfileAPI().getProfileByEmail(email);
         const fetchedRutts = await new RuttApi().findOthersRuttsByEmail(email)
-        console.log('PROFILE_> ' + JSON.stringify(fetchedProfile))
         setProfile(fetchedProfile.profile);
         setRutts(fetchedRutts.rutts)
         setIsLoading(false);
