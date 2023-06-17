@@ -3,10 +3,7 @@ import styled, { css } from "styled-components";
 import Header from "../components/mui/Header";
 import Footer from "../components/mui/Footer";
 import LogIn from "../components/mui/LogIn";
-import MaterialButtonViolet from "../components/MaterialButtonViolet";
-import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
-import MaterialUnderlineTextbox2 from "../components/MaterialUnderlineTextbox2";
-import MaterialUnderlineTextbox3 from "../components/MaterialUnderlineTextbox3";
+
 
 function Auth(props) {
   return (
