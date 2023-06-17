@@ -1,5 +1,6 @@
+import ApiRequest from "./ApiRequest";
 import customAPI from "./customAPI";
-export default class RuttApi extends customAPI {
+export default class RuttApi extends ApiRequest {
     constructor(config) {
         super();
         if (config) {
@@ -8,26 +9,26 @@ export default class RuttApi extends customAPI {
         this.relPath = '/rutts'
     }
     async uploadRutt(obj) {
-        return await this.doPost('/upload', {
+        return ResponseHandler.handle(await this.post('/upload', {
             rutt : obj
-        })
+        }))
     }
     async publishRutt(ruttId) {
         return await this.get('/publish/'+ruttId)
     }
     async updateRutt(rutt, ruttId) {
-        return await this.doPost('/update', {
+        return ResponseHandler(await this.post('/update', {
             rutt : rutt,
             ruttId : ruttId
-        })
+        }))
     }
     async findById(ruttId) {
-        return (await this.doGet('/rutt/'+ruttId)).rutt
+        return (await this.get('/rutt/'+ruttId)).data.rutt
     }
     async findMyRutts() {
-        return (await this.doGet('/myrutts'))
+        return (await this.get('/myrutts')).data
     }
     async findOthersRuttsByEmail(email) {
-        return (await this.doGet(`/by-email?email=${email}`))
+        return (await this.get(`/by-email?email=${email}`)).data
     }
 }
