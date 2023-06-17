@@ -17,7 +17,7 @@ function ProfileOther() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const fetchedProfile = await ProfileAPI.getProfileByEmail(email);
+        const fetchedProfile = await new ProfileAPI().getProfileByEmail(email);
         const fetchedRutts = await new RuttApi().findOthersRuttsByEmail(email);
         console.log('PROFILE_> ' + JSON.stringify(fetchedProfile))
         setProfile(fetchedProfile.profile);

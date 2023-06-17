@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ServerApi from '../../api2/api';
 import { useNavigate, useLocation } from "react-router-dom";
+import UsersAPI from '../../api/UsersAPI';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -43,8 +44,9 @@ export default function SignUp() {
       name: data.get('firstname'),
       surname: data.get('lastname')
     };
-    const res = await ServerApi.doPost('/users/signup', formdata)
-    console.log('response: ' + JSON.stringify(res))
+    const succeeded = await new UsersAPI().signup(formdata)
+    // const res = await ServerApi.doPost('/users/signup', formdata)
+    // console.log('response: ' + JSON.stringify(res))
     // navigate("/")
   };
 

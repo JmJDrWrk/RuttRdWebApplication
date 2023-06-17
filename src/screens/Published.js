@@ -24,7 +24,7 @@ function Published(props) {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const fetchedProfile = await ProfileAPI.getProfileByEmail(email);
+                const fetchedProfile = await new ProfileAPI().getProfileByEmail(email);
                 setProfile(fetchedProfile.profile);
                 console.log("PROFILE->",fetchedProfile.profile)
                 // const fetchedPublish = await PublishAPI.getPublishById(email);

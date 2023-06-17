@@ -1,8 +1,12 @@
+import ApiRequest from "./ApiRequest"
 import ServerApi from "./api"
 import State from "./state"
-export default class ProfileAPI {
-
-  static async getProfileByEmail(email) {
+export default class ProfileAPI extends ApiRequest{
+  constructor() {
+    super()
+    this.relPath = '/users'
+  }
+  async getProfileByEmail(email) {
     const res = await ServerApi.doGet('/users/public/profile/' + email)
     if (!res.error) {
       console.log('res: ' + JSON.stringify(res))
@@ -11,22 +15,22 @@ export default class ProfileAPI {
     }
     return res
   }
-  static async getProfilesIncluding(key) {
-    const res = await ServerApi.doGet('/users/public/profiles')
-    if (!res.error) {
-      console.log('res: ' + JSON.stringify(res))
-      State.setOther(res)
+  async getProfilesIncluding(key) {
+    const {data, succeeded} = await this.get('/public/profiles')
+    if (!data.error) {
+      console.log('res: ' + JSON.stringify(data))
+      State.setOther(data)
       new Error('Cant obtain profile data!')
     }
-    return res
+    return data
   }
 
-  static async uploadPhoto(data){
-    if (!res.error) {
-      console.log('res: ' + JSON.stringify(res))
-      State.setOther(res)
-      new Error('Cant upload file!')
-    } 
-    return res
-  }
+  // async uploadPhoto(data){
+  //   if (!res.error) {
+  //     console.log('res: ' + JSON.stringify(res))
+  //     State.setOther(res)
+  //     new Error('Cant upload file!')
+  //   } 
+  //   return res
+  // }
 }

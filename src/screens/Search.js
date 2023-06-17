@@ -37,7 +37,7 @@ function Search(props) {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const fetchedProfiles = await ProfileAPI.getProfilesIncluding("email");
+        const fetchedProfiles = await new ProfileAPI().getProfilesIncluding('email')
         setProfiles(fetchedProfiles.profiles);
         setIsLoading(false);
       } catch (error) {

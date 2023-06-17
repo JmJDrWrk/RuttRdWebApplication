@@ -14,4 +14,15 @@ export default class UsersAPI extends ApiRequest {
             State.setToken(data.token)
         })
     }
+
+    async signup(formData) {
+        return ResponseHandler.handle(await super.post('/signin', formData), (data) => {
+            //OnSuccess
+            State.setToken(data.token)
+        })
+    }
+
+    async getMe() {
+        return await super.get('/me', formData)
+    }
 }

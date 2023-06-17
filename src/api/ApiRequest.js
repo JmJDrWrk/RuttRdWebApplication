@@ -40,6 +40,24 @@ export default class ApiRequest{
         });
         return promise;
     }
-
+    get(path, obj) {
+        let promise = new Promise((resolve, reject) => {
+            try {
+                fetch(this.getFormedUrl(path), {
+                    method: 'GET',
+                    headers: this.getHeaders() // Fixed: Added "this" keyword
+                })
+                .then(response => {
+                    const succeeded = ResponseHandler.handleResponse(response)
+                    return Promise.all([response.json(), succeeded])
+                })
+                .then(([data, succeeded]) => resolve({ data, succeeded }));
+            } catch (err) {
+                console.log('[SERVERAPI][DOPOST]  ', err);
+                reject(`POST ERROR ${err}`);
+            }
+        });
+        return promise;
+    }
 
 }
