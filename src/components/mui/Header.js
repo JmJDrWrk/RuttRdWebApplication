@@ -37,7 +37,7 @@ function ResponsiveAppBar(props) {
     const fetchData = async() => {
       const res = await ServerApi.doGet('/users/me')
       if(!res.error){
-        console.log('res: '+JSON.stringify(res))
+        
         State.setMe(res)
         setCurrent(res)
       }

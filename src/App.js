@@ -19,6 +19,7 @@ import ProfileOther from "./screens/ProfileOther";
 import Published from "./screens/Published"
 import CreateRutt from "./screens/CreateRutt";
 import EditRutt from "./screens/EditRutt"
+import CreateEvent from "./screens/CreateEvent";
 const checkAuth = () => {
   return !(!localStorage.getItem('auth-token'))
 }
@@ -59,6 +60,7 @@ export default function App() {
           <Route path="/SignIn/" exact element=<SignIn />></Route>
           <Route path="/UploadRutt/" exact element=<UploadRutt />></Route>
           <Route path="/CreateRutt/" exact element=<CreateRutt />></Route>
+          <Route path="/CreateEvent/" exact element=<CreateEvent />></Route>
           <Route path="/Rutt/:ruttId" exact element=<EditRutt />></Route>
         </Routes>
       </BrowserRouter>
