@@ -1,21 +1,10 @@
 export default class ResponseHandler {
     static isSuccess(response) {
-        if(!response.ok){
-            console.log('Failed request!')
-            return false
-        }
-        return true
+        // console.log('response.ok: ' + response.ok)
+        return response.ok
     }
 
     static async getNotificationModel(data) {
-        console.log('data: ' + JSON.stringify(data))
-        if(this.isSuccess(data)){
-            console.log("success")
-            data.type = 'sucess'
-        }else{
-            data.type = 'error'
-        }
-
         if(!data.message){
             data.message = 'Unknown error'
         }
@@ -26,10 +15,29 @@ export default class ResponseHandler {
         return data
     }
 
-    static handle(response, onSuccess, onError) {
-        console.log("RES: ", response)
-        const notification = this.getNotificationModel(response)
-        alert(notification.title)
+    static defaultOnSuccess(res) {
+        console.log('[ResponseHandler] ' + JSON.stringify(res))
     }
+
+    static defaultOnError(res) {
+        console.error('[ResponseHandlerError] ', res)
+    }
+
+    static async handle({data, succeeded}, onSuccess=this.defaultOnSuccess, onError=this.defaultOnError) {
+        
+        if(succeeded){
+            onSuccess(data)
+        }else{
+            onError(data)
+        }
+        
+        const notification = await this.getNotificationModel(data)
+        console.log('[NOTIFICATION]', notification)
+        return succeeded
+        // alert(notification.title)
+    }
+    static handleResponse(response, onSuccess=this.defaultOnSuccess, onError=this.defaultOnError) {
+        return this.isSuccess(response)
+    } 
 }
 

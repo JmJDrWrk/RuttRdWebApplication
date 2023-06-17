@@ -1,5 +1,6 @@
 import ApiRequest from "./ApiRequest";
 import ResponseHandler from "./ResponseHandler";
+import State from "./state";
 
 export default class UsersAPI extends ApiRequest {
     constructor() {
@@ -8,7 +9,9 @@ export default class UsersAPI extends ApiRequest {
     }
 
     async login(formData) {
-        const responseData = await super.post('/users', formData)
-        ResponseHandler.handle(responseData)
+        return ResponseHandler.handle(await super.post('/login', formData), (data) => {
+            //OnSuccess
+            State.setToken(data.token)
+        })
     }
 }

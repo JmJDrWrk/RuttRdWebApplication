@@ -43,11 +43,9 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     };
-    // const res = await ServerApi.doPost('/users/login', formdata)
-    // UserApi.login(formdata)
-    new UsersAPI().login(formdata)
-    // State.setToken(res.token)
-    // window.location.reload()
+    if(await new UsersAPI().login(formdata)){
+      window.location.reload()
+    }
   };
 
   return (

@@ -1,3 +1,4 @@
+import ResponseHandler from "./ResponseHandler";
 import State from "./state";
 
 export default class ApiRequest{
@@ -22,14 +23,16 @@ export default class ApiRequest{
     post(path, obj) {
         let promise = new Promise((resolve, reject) => {
             try {
-                console.log(`posting to ${this.getFormedUrl(path)}`);
                 fetch(this.getFormedUrl(path), {
                     method: 'POST',
                     headers: this.getHeaders(), // Fixed: Added "this" keyword
                     body: JSON.stringify(obj) // Fixed: Changed "jbody" to "obj"
                 })
-                .then(response => response.json())
-                .then(data => resolve(data));
+                .then(response => {
+                    const succeeded = ResponseHandler.handleResponse(response)
+                    return Promise.all([response.json(), succeeded])
+                })
+                .then(([data, succeeded]) => resolve({ data, succeeded }));
             } catch (err) {
                 console.log('[SERVERAPI][DOPOST]  ', err);
                 reject(`POST ERROR ${err}`);
