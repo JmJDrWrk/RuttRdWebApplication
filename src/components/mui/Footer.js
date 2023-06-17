@@ -16,7 +16,7 @@ export default function LabelBottomNavigation() {
   const actions = {
     "home": () => { navigate("/InitialView") },
     "explore": () => { navigate("/Search") },
-    "me": () => { navigate("/CreateRutt") },
+    "me": () => { navigate("/CreateEvent") },
     "favorite": () => { navigate("/Favorites") },
     "profile": () => { navigate("/Profile") }
   }
