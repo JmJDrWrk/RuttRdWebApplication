@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { MoreVert } from "@mui/icons-material";
 
 import State from "../../api/state";
+import RuttApi from "../../api/RuttApi";
 
 const ProfileContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -118,11 +119,11 @@ const RuttGallery = ({ rutts }) => {
     const action = event.target.id
 
     const actions = {
-      delete : () => {console.log('Deleting this rutt!!')},
-      share : () => {console.log('link now in paster')},
-      export : () => {console.log('exporting to the format lo que sea!!')}
+      delete : (ruttId) => {handleDeleteRutt(ruttId)},
+      share : () => {console.error('link now in paster')},
+      export : () => {console.error('exporting to the format lo que sea!!')}
     }
-
+    actions[action](event.target.getAttribute(''))
     setAnchorEl(null);
   };
 
@@ -171,9 +172,9 @@ const RuttGallery = ({ rutts }) => {
               },
             }}
           >
-            <MenuItem onClick={handleMenuClose} id='Share'>share</MenuItem>
-            <MenuItem onClick={handleMenuClose} id='delete'>delete</MenuItem>
-            <MenuItem onClick={handleMenuClose} id='export' disabled>export</MenuItem>
+            <MenuItem onClick={handleMenuClose} id='share' itemID={rutt._id}>share</MenuItem>
+            <MenuItem onClick={handleMenuClose} id='delete' itemID={rutt._id}>delete</MenuItem>
+            <MenuItem onClick={handleMenuClose} id='export' itemID={rutt._id} disabled>export</MenuItem>
           </Menu>
         </Grid>
       ))}
