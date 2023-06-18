@@ -96,7 +96,7 @@ const RuttGallery = ({ rutts, profile }) => {
   const navigate = useNavigate();
   const handleRuttClick = (event) => {
     //If belongs or not to user will be checked in the Screen with the RouteMap Component and let user go to Rutt === 'the edit view'
-    navigate('/RuttView/' + event.currentTarget.getAttribute('itemid'));
+    navigate('/Rutt/' + event.currentTarget.getAttribute('itemid'));
   };
 
   const handleDeleteRutt = (ruttId) => {
