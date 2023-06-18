@@ -8,16 +8,20 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import RuttApi from "../api/RuttApi";
+import State from "../api/state";
+import { Typography } from "@mui/material";
 function RuttView(props) {
   var ruttApi = new RuttApi();
   const { ruttId } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [rutt, setRutt] = useState({})
+  const [belongsToUser, setBelongsToUser] = useState(false)
   useEffect(() => {
       const fetchProfile = async () => {
           try {
-              const fetchedProfile = await ruttApi.findById(ruttId);
-              setRutt(fetchedProfile);
+              const result = await ruttApi.findById(ruttId);
+              setBelongsToUser(State.getMe().user.rutts.find(rutt=>rutt==result._id))
+              setRutt(result);
               setIsLoading(false);
           } catch (error) {
               console.error("Error fetching rutt:", error);
@@ -30,7 +34,6 @@ function RuttView(props) {
   return (
       <>
           <Header></Header>
-          Temporal view of the site, this must show only in non-edit-mode
           {isLoading ? (
               <Container maxWidth="sm">
                   <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
@@ -38,7 +41,7 @@ function RuttView(props) {
                   </Box>
               </Container>
           ) : (
-              <RouteMap rutt={rutt}/>
+              <RouteMap rutt={rutt} belongsToUser={belongsToUser}/>
           )}
           <Footer />
       </>

@@ -10,7 +10,7 @@ import 'leaflet/dist/leaflet.css';
 import RuttApi from '../../api/RuttApi';
 import { useNavigate } from 'react-router-dom';
 
-const RouteMap = ({ rutt }) => {
+const RouteMap = ({ rutt, belongsToUser }) => {
   const [drawMode, setDrawMode] = useState('polyline')
   const [markers, setMarkers] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
@@ -306,7 +306,7 @@ const RouteMap = ({ rutt }) => {
 
     const id = (await ruttApi.uploadRutt(ruttFile)).ruttId
 
-    navigate('/Rutt/'+id)
+    navigate('/Rutt/' + id)
   }
 
   function handlePublishRutt() {
@@ -361,7 +361,7 @@ const RouteMap = ({ rutt }) => {
           </Box>
         </Box>
       </Modal>
-      <Box display="flex" justifyContent="space-between" mt={2}>
+      {belongsToUser ? <Box display="flex" justifyContent="space-between" mt={2}>
         <Tooltip title="Change Draw Mode">
           <Button
             onClick={handleMenuDrawOpen}
@@ -412,7 +412,7 @@ const RouteMap = ({ rutt }) => {
             <input type="file" accept=".json" style={{ display: 'none' }} onChange={handleFileUpload} />
           </IconButton>
         </Tooltip>
-      </Box>
+      </Box> : <></>}
 
       <MapContainer
         key={mapKey} // Use a unique key to force re-render when center changes
@@ -451,7 +451,7 @@ const RouteMap = ({ rutt }) => {
 
         <Polyline positions={coordinates} key={polylineKey} ref={(ref) => (polylineRef.current = ref)} />
 
-        <Menu
+            {belongsToUser ?         <Menu
           open={menuAnchor !== null}
           anchorEl={menuAnchor}
           onClose={handleMenuClose}
@@ -468,90 +468,93 @@ const RouteMap = ({ rutt }) => {
           <MenuItem onClick={handleDeleteOnlyMarker}>Remove marker</MenuItem>
           <MenuItem onClick={handleDeleteCoordinate}>Remove point</MenuItem>
           <MenuItem onClick={handleRenameMarker}>Rename</MenuItem>
-        </Menu>
+        </Menu> : <></>}
 
 
       </MapContainer>
 
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <Box width={400}>
-          <TextField label="Rutt Name" variant="outlined" fullWidth margin="normal" value={ruttName} onChange={(e) => setRuttName(e.target.value)} />
+      {belongsToUser ? 
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+            <Box width={400}>
+              <TextField label="Rutt Name" variant="outlined" fullWidth margin="normal" value={ruttName} onChange={(e) => setRuttName(e.target.value)} />
+    
+              <TextField
+                label="From Date & Time"
+                type="datetime-local"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={ruttDateTimeFrom}
+                onChange={(e) => setRuttDateTimeFrom(e.target.value)}
+              />
+    
+              <TextField
+                label="To Date & Time"
+                type="datetime-local"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={ruttDateTimeTo}
+                onChange={(e) => setRuttDateTimeTo(e.target.value)}
+              />
+    
+              <TextField
+                label="Duration"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                fullWidth
+                margin="normal"
+              />
+    
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="event-type-label">Event Type</InputLabel>
+                <Select
+                  labelId="event-type-label"
+                  id="event-type-select"
+                  value={eventType}
+                  onChange={(e) => setEventType(e.target.value)}
+                >
+                  <MenuItem value="private">Private</MenuItem>
+                  <MenuItem value="public">Public</MenuItem>
+                </Select>
+              </FormControl>
+    
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="access-type-label">Access Type</InputLabel>
+                <Select
+                  labelId="access-type-label"
+                  id="access-type-select"
+                  value={accessType}
+                  onChange={(e) => setAccessType(e.target.value)}
+                >
+                  <MenuItem value="private">Private</MenuItem>
+                  <MenuItem value="public">Public</MenuItem>
+                  <MenuItem value="pay">Pay</MenuItem>
+                </Select>
+              </FormControl>
+    
+              {accessType === 'pay' && (
+                <TextField
+                  label="Price"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                />
+              )}
+              <Button onClick={handleUpdateRutt} variant="contained" color="primary">
+                Save Changes
+              </Button>
+              <Button onClick={handleUploadRutt} variant="contained" color="primary">
+                Create
+              </Button>
+              <Button onClick={handlePublishRutt} variant="contained" color="primary">
+                Publish
+              </Button>
+            </Box>
+          </Box> : <></>
 
-          <TextField
-      label="From Date & Time"
-      type="datetime-local"
-      variant="outlined"
-      fullWidth
-      margin="normal"
-      value={ruttDateTimeFrom}
-      onChange={(e) => setRuttDateTimeFrom(e.target.value)}
-    />
-
-    <TextField
-      label="To Date & Time"
-      type="datetime-local"
-      variant="outlined"
-      fullWidth
-      margin="normal"
-      value={ruttDateTimeTo}
-      onChange={(e) => setRuttDateTimeTo(e.target.value)}
-    />
-
-    <TextField
-      label="Duration"
-      value={duration}
-      onChange={(e) => setDuration(e.target.value)}
-      fullWidth
-      margin="normal"
-    />
-
-    <FormControl fullWidth margin="normal">
-      <InputLabel id="event-type-label">Event Type</InputLabel>
-      <Select
-        labelId="event-type-label"
-        id="event-type-select"
-        value={eventType}
-        onChange={(e) => setEventType(e.target.value)}
-      >
-        <MenuItem value="private">Private</MenuItem>
-        <MenuItem value="public">Public</MenuItem>
-      </Select>
-    </FormControl>
-
-    <FormControl fullWidth margin="normal">
-      <InputLabel id="access-type-label">Access Type</InputLabel>
-      <Select
-        labelId="access-type-label"
-        id="access-type-select"
-        value={accessType}
-        onChange={(e) => setAccessType(e.target.value)}
-      >
-        <MenuItem value="private">Private</MenuItem>
-        <MenuItem value="public">Public</MenuItem>
-        <MenuItem value="pay">Pay</MenuItem>
-      </Select>
-    </FormControl>
-
-    {accessType === 'pay' && (
-      <TextField
-        label="Price"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        fullWidth
-        margin="normal"
-      />
-    )}
-          <Button onClick={handleUpdateRutt} variant="contained" color="primary">
-            Save Changes
-          </Button>
-          <Button onClick={handleUploadRutt} variant="contained" color="primary">
-            Create
-          </Button>
-          <Button onClick={handlePublishRutt} variant="contained" color="primary">
-            Publish
-          </Button>
-        </Box>
-      </Box>
+      }
 
     </div>
   );
