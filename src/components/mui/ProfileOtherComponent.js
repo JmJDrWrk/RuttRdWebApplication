@@ -4,7 +4,8 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { Menu, MenuItem, IconButton } from "@mui/material";
+import { Menu, MenuItem, IconButton} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -83,15 +84,19 @@ const PhotoGallery = ({ attachments }) => {
   );
 };
 
-const RuttGallery = ({ rutts }) => {
+const RuttGallery = ({ rutts, profile }) => {
   if (!rutts || rutts.length < 1) {
     return <Typography variant="body1">User has not uploaded any rutt yet.</Typography>;
   }
 
+  function ruttsBelongsMe() {
+    return State.getMe().user.email === profile.mail
+  }
+
   const navigate = useNavigate();
   const handleRuttClick = (event) => {
-    console.log(event.currentTarget.getAttribute('itemid'));
-    navigate('/Rutt/' + event.currentTarget.getAttribute('itemid'));
+    //If belongs or not to user will be checked in the Screen with the RouteMap Component and let user go to Rutt === 'the edit view'
+    navigate('/RuttView/' + event.currentTarget.getAttribute('itemid'));
   };
 
   const handleDeleteRutt = (ruttId) => {
@@ -114,16 +119,17 @@ const RuttGallery = ({ rutts }) => {
     event.preventDefault(); // Prevent the default context menu from appearing
     setAnchorEl(event.currentTarget);
   };
-  
+
   const handleMenuClose = (event) => {
     const action = event.target.id
 
     const actions = {
-      delete : (ruttId) => {handleDeleteRutt(ruttId)},
-      share : () => {console.error('link now in paster')},
-      export : () => {console.error('exporting to the format lo que sea!!')}
+      delete: (ruttId) => { handleDeleteRutt(ruttId) },
+      share: (ruttId) => { navigator.clipboard.writeText('/RuttView/' + ruttId) },
+      // export : (ruttId) => {alert('Export is not avaliable')},
+      edit: (ruttId) => { navigate('/Rutt/' + ruttId); }
     }
-    actions[action](event.target.getAttribute(''))
+    if(action){actions[action](event.target.getAttribute('itemID'))}
     setAnchorEl(null);
   };
 
@@ -174,7 +180,12 @@ const RuttGallery = ({ rutts }) => {
           >
             <MenuItem onClick={handleMenuClose} id='share' itemID={rutt._id}>share</MenuItem>
             <MenuItem onClick={handleMenuClose} id='delete' itemID={rutt._id}>delete</MenuItem>
-            <MenuItem onClick={handleMenuClose} id='export' itemID={rutt._id} disabled>export</MenuItem>
+            {/* <MenuItem onClick={handleMenuClose} id='export' itemID={rutt._id} disabled>export</MenuItem> */}
+            {ruttsBelongsMe() ?
+              <MenuItem onClick={handleMenuClose} id='edit' itemID={rutt._id}>edit</MenuItem> :
+              false
+            }
+
           </Menu>
         </Grid>
       ))}
@@ -232,7 +243,7 @@ const ProfileComponent = ({ profile, rutts }) => {
         disabled
       />
       <Paper elevation={0}>
-        <RuttGallery rutts={othersrutts} />
+        <RuttGallery rutts={othersrutts} profile={profile} />
         <PhotoGallery attachments={attachments} />
       </Paper>
     </ProfileContainer>
