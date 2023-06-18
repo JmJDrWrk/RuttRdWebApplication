@@ -15,6 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { ArrowBack } from "@mui/icons-material";
 import LetterAvatar from "./LetterAvatar";
 import { useNavigate, useLocation } from "react-router-dom";
 import ServerApi from "../../api/api";
@@ -46,7 +47,9 @@ function ResponsiveAppBar(props) {
     .catch(console.error)
     
   }, []);
-  
+  const handleGoBack = () => {
+    navigate(-1)
+  }
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -131,7 +134,8 @@ function ResponsiveAppBar(props) {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <FavoriteBorderIcon />
+              {/* <FavoriteBorderIcon /> */}
+              <ArrowBack onClick={handleGoBack}></ArrowBack>
             </IconButton>
 
           </Box>
