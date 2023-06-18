@@ -7,7 +7,7 @@ const CreateRutt = () => {
     return (
         <>
             <Header></Header>
-            <RouteMap />
+            <RouteMap belongsToUser={true}/>
             <Footer></Footer>
         </>
     )
