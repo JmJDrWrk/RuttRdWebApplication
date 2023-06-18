@@ -9,7 +9,6 @@ export default class ProfileAPI extends ApiRequest{
   async getProfileByEmail(email) {
     const res = await ServerApi.doGet('/users/public/profile/' + email)
     if (!res.error) {
-      console.log('res: ' + JSON.stringify(res))
       State.setOther(res)
       new Error('Cant obtain profiles data!')
     }
@@ -18,7 +17,6 @@ export default class ProfileAPI extends ApiRequest{
   async getProfilesIncluding(key) {
     const {data, succeeded} = await this.get('/public/profiles')
     if (!data.error) {
-      console.log('res: ' + JSON.stringify(data))
       State.setOther(data)
       new Error('Cant obtain profile data!')
     }
