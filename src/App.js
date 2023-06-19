@@ -66,6 +66,7 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    
     const authenticate = async () => {
       const authenticated = await checkAuth();
       setIsAuthenticated(authenticated);
