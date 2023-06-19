@@ -10,6 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate, useLocation } from "react-router-dom";
+
 export default function LabelBottomNavigation() {
   const [value, setValue] = React.useState("recents");
   const navigate = useNavigate();
@@ -33,9 +34,8 @@ export default function LabelBottomNavigation() {
 
   const handleChange = (event, newValue) => {
     window.localStorage.setItem("newValue", newValue);
-    setValue(newValue, () => {
-      actions[newValue]();
-    });
+    setValue(newValue);
+    actions[newValue](); // Call the action after setting the value
   };
 
   return (
@@ -60,11 +60,7 @@ export default function LabelBottomNavigation() {
         icon={<SearchIcon />}
         showLabel={false}
       />
-      <BottomNavigationAction
-        value="me"
-        icon={<AddIcon />}
-        showLabel={false}
-      />
+      <BottomNavigationAction value="me" icon={<AddIcon />} showLabel={false} />
       <BottomNavigationAction
         value="favorite"
         icon={<FavoriteIcon />}
@@ -78,5 +74,3 @@ export default function LabelBottomNavigation() {
     </BottomNavigation>
   );
 }
-
-
