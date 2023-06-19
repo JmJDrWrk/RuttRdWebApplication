@@ -54,7 +54,7 @@ export default function App() {
   const isAuthenticated = checkAuth(); // Replace checkAuth with your authentication logic
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={lightBlack}>
       {!isAuthenticated ?
 
         <StrictMode>
