@@ -29,12 +29,11 @@ import { purple, teal } from '@mui/material/colors';
 // Define your dark theme
 const darkTheme = createTheme({
   palette: {
-    mode: 'dark',
     primary: {
-      main: purple[500],
+      main: '#000000', // black color
     },
-    secondary: {
-      main: teal[500],
+    background: {
+      default: '#FFFFFF', // white color
     },
   },
 });
