@@ -20,11 +20,11 @@ import CreateRutt from "./screens/CreateRutt";
 import EditRutt from "./screens/EditRutt"
 import CreateEvent from "./screens/CreateEvent";
 import RuttView from "./screens/RuttView";
-const checkAuth = () => {
-  return !(!localStorage.getItem('auth-token'))
-}
+import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, teal } from '@mui/material/colors';
+import UsersAPI from "./api/UsersAPI";
+
 
 // Define your dark theme
 const lightBlack = createTheme({
@@ -50,9 +50,30 @@ const darkTheme = createTheme({
     },
   },
 });
-export default function App() {
-  const isAuthenticated = checkAuth(); // Replace checkAuth with your authentication logic
 
+const checkAuth = async () => {
+  if(!(!localStorage.getItem('auth-token'))){
+    const { succeeded } = await new UsersAPI().getMe();
+    if (!succeeded) {
+      localStorage.removeItem('auth-token')
+      return false;
+    }
+  }
+  return !(!localStorage.getItem('auth-token'));
+};
+
+export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    
+    const authenticate = async () => {
+      const authenticated = await checkAuth();
+      setIsAuthenticated(authenticated);
+    };
+
+    authenticate();
+  }, []);
   return (
     <ThemeProvider theme={lightBlack}>
       {!isAuthenticated ?
