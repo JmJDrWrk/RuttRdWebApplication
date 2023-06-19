@@ -7,9 +7,7 @@ import CreateEventType from '../components/mui/CreateEventType';
 const CreateEvent = () => {
     return (
         <>
-            <Header></Header>
             <CreateEventType />
-            <Footer></Footer>
         </>
     )
 };

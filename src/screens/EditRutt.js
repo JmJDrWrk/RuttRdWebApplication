@@ -29,7 +29,6 @@ const CreateRutt = () => {
     }, []);
     return (
         <>
-            <Header />
             {isLoading ? (
                 <Container maxWidth="sm">
                     <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
@@ -39,7 +38,6 @@ const CreateRutt = () => {
             ) : (
                 <RouteMap rutt={rutt}/>
             )}
-            <Footer />
         </>
     );
 };

@@ -33,7 +33,6 @@ function ProfileOther() {
 
   return (
     <>
-      <Header />
       {isLoading ? (
         <Container maxWidth="sm">
           <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
@@ -43,7 +42,6 @@ function ProfileOther() {
       ) : (
         <ProfileOtherComponent letter={email.charAt(0)} profile={profile} rutts={rutts}/>
       )}
-      <Footer />
     </>
   );
 }

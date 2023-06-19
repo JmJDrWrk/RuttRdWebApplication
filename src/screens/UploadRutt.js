@@ -8,11 +8,9 @@ import CreateEventType from "../components/mui/CreateEventType"
 function UploadRutt(props) {
   return (
     <>
-      <Header />
         {/* <UploadPhotoForm></UploadPhotoForm> */}
         {/* <CreateEventType></CreateEventType> */}
         <CreateEventForm></CreateEventForm>
-      <Footer />
     </>
   );
 }
