@@ -6,9 +6,7 @@ import SignInForm from "../components/mui/SignIn"
 function SignIn(props) {
   return (
     <>
-      <Header/>
         <SignInForm></SignInForm>
-      <Footer/>
     </>
   );
 }

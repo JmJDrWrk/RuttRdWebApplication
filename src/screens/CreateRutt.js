@@ -6,9 +6,7 @@ import Footer from "../components/mui/Footer"
 const CreateRutt = () => {
     return (
         <>
-            <Header></Header>
             <RouteMap belongsToUser={true}/>
-            <Footer></Footer>
         </>
     )
 };

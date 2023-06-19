@@ -50,7 +50,6 @@ function Search(props) {
   }, []);
   return (
     <>
-      <Header></Header>
       <SearchContainer maxWidth="sm">
         <TextField
           sx={{ backgroundColor: "white", display: { xs: "flex", md: "flex" } }}
@@ -85,8 +84,6 @@ function Search(props) {
           ))}
         </ResultsContainer>
       )}
-
-      <Footer />
     </>
   );
 }

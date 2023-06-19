@@ -7,8 +7,6 @@ import Footer from "../components/mui/Footer";
 function Nearby(props) {
   return (
     <>
-<Header/>
-<Footer/>
       <MaterialMapView
         style={{
           width: 375,

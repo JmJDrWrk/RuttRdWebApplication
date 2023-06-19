@@ -41,7 +41,6 @@ function Published(props) {
 
     return (
         <>
-            <Header />
             {isLoading ? (
                 <Container maxWidth="sm">
                     <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
@@ -51,8 +50,6 @@ function Published(props) {
             ) : (
                 <DetailViewComponent2 publishId={publishid} email={email} profile={profile} published={published}></DetailViewComponent2>
             )}
-
-            <Footer />
         </>
     );
 }

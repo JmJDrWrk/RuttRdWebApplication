@@ -33,7 +33,6 @@ function RuttView(props) {
   }, []);
   return (
       <>
-          <Header></Header>
           {isLoading ? (
               <Container maxWidth="sm">
                   <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
@@ -43,7 +42,6 @@ function RuttView(props) {
           ) : (
               <RouteMap rutt={rutt} belongsToUser={belongsToUser}/>
           )}
-          <Footer />
       </>
   );
 }

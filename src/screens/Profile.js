@@ -9,9 +9,7 @@ function Profile(props) {
   // String(JSON.parse(localStorage.getItem('me')).user.email).charAt(0).toLocaleUpperCase
   return (
     <>
-      <Header/>
         <ProfileComponent letter=""></ProfileComponent>
-      <Footer/>
     </>
   );
 }
