@@ -54,41 +54,26 @@ export default function LabelBottomNavigation() {
         value="home"
         icon={<HomeIcon />}
         showLabel={false}
-        sx={{
-          color: "black",
-        }}
       />
       <BottomNavigationAction
         value="explore"
         icon={<SearchIcon />}
         showLabel={false}
-        sx={{
-          color: "black",
-        }}
       />
       <BottomNavigationAction
         value="me"
         icon={<AddIcon />}
         showLabel={false}
-        sx={{
-          color: "black",
-        }}
       />
       <BottomNavigationAction
         value="favorite"
         icon={<FavoriteIcon />}
         showLabel={false}
-        sx={{
-          color: "black",
-        }}
       />
       <BottomNavigationAction
         value="profile"
         icon={<AccountCircleIcon />}
         showLabel={false}
-        sx={{
-          color: "black",
-        }}
       />
     </BottomNavigation>
   );
