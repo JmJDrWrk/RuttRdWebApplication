@@ -27,7 +27,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, teal } from '@mui/material/colors';
 
 // Define your dark theme
-const darkTheme = createTheme({
+const lightBlack = createTheme({
   palette: {
     primary: {
       main: '#000000', // black color
@@ -37,16 +37,16 @@ const darkTheme = createTheme({
     },
   },
 });
-const lightBlackTheme = createTheme({
+const darkTheme = createTheme({
   palette: {
-    mode: 'light',
+    primary: {
+      main: '#212121', // darker black color
+    },
     background: {
-      default: '#000',
-      paper: '#111',
+      default: '#000000', // black color
     },
     text: {
-      primary: '#FFF',
-      secondary: 'rgba(255, 255, 255, 0.7)',
+      primary: '#FFFFFF', // white color for text
     },
   },
 });
