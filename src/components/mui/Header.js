@@ -103,7 +103,7 @@ function ResponsiveAppBar(props) {
   },
 ];
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{backgroundColor: "black"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <TwoWheelerIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
