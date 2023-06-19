@@ -14,29 +14,69 @@ export default function LabelBottomNavigation() {
   const [value, setValue] = React.useState("recents");
   const navigate = useNavigate();
   const actions = {
-    "home": () => { navigate("/InitialView") },
-    "explore": () => { navigate("/Search") },
-    "me": () => { navigate("/CreateEvent") },
-    "favorite": () => { navigate("/Favorites") },
-    "profile": () => { navigate("/Profile") }
-  }
+    home: () => {
+      navigate("/InitialView");
+    },
+    explore: () => {
+      navigate("/Search");
+    },
+    me: () => {
+      navigate("/CreateEvent");
+    },
+    favorite: () => {
+      navigate("/Favorites");
+    },
+    profile: () => {
+      navigate("/Profile");
+    },
+  };
+
   const handleChange = (event, newValue) => {
-    window.localStorage.setItem('newValue', newValue)
-    setValue(newValue);
-    actions[newValue]()
+    window.localStorage.setItem("newValue", newValue);
+    setValue(newValue, () => {
+      actions[newValue]();
+    });
   };
 
   return (
     <BottomNavigation
-      sx={{ width: "auto", position: "fixed", bottom: 0, left: 0, right: 0 }}
+      sx={{
+        width: "auto",
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+      }}
       value={value}
       onChange={handleChange}
     >
-      <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
-      <BottomNavigationAction label="Explore" value="explore" icon={<SearchIcon />}/>
-      <BottomNavigationAction label="Me" value="me" icon={<AddIcon />} />
-      <BottomNavigationAction label="Favorites" value="favorite" icon={<FavoriteIcon />}/>
-      <BottomNavigationAction label="Profile" value="profile" icon={<AccountCircleIcon />}/>
+      <BottomNavigationAction
+        value="home"
+        icon={<HomeIcon />}
+        showLabel={false}
+      />
+      <BottomNavigationAction
+        value="explore"
+        icon={<SearchIcon />}
+        showLabel={false}
+      />
+      <BottomNavigationAction
+        value="me"
+        icon={<AddIcon />}
+        showLabel={false}
+      />
+      <BottomNavigationAction
+        value="favorite"
+        icon={<FavoriteIcon />}
+        showLabel={false}
+      />
+      <BottomNavigationAction
+        value="profile"
+        icon={<AccountCircleIcon />}
+        showLabel={false}
+      />
     </BottomNavigation>
   );
 }
+
+
