@@ -24,6 +24,8 @@ import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, teal } from '@mui/material/colors';
 import UsersAPI from "./api/UsersAPI";
+import Header from "./components/mui/Header";
+import Footer from "./components/mui/Footer";
 
 
 // Define your dark theme
@@ -76,6 +78,7 @@ export default function App() {
   }, []);
   return (
     <ThemeProvider theme={lightBlack}>
+
       {!isAuthenticated ?
 
         <StrictMode>
@@ -93,6 +96,7 @@ export default function App() {
 
         <StrictMode>
           <BrowserRouter>
+          <Header></Header>
             <Routes>
               <Route path="/" exact element=<InitialView />></Route>
               <Route path="/Auth/" exact element=<Auth />></Route>
@@ -114,10 +118,12 @@ export default function App() {
               <Route path="/Rutt/:ruttId" exact element=<EditRutt />></Route>
               <Route path="/RuttView/:ruttId" exact element=<RuttView />></Route>
             </Routes>
+            <Footer></Footer>
           </BrowserRouter>
         </StrictMode>
 
       }
+
     </ThemeProvider>
   )
 }

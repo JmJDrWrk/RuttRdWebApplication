@@ -22,7 +22,7 @@ import ServerApi from "../../api/api";
 import { ImageBackground } from "react-native-web";
 import { minHeight } from "@mui/system";
 import State from "../../api/state";
-function ResponsiveAppBar(props) {
+function Header(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [current, setCurrent] = React.useState({
@@ -225,4 +225,4 @@ function ResponsiveAppBar(props) {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default Header;
