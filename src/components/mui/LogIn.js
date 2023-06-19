@@ -72,7 +72,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              data-cy="input-email"
+              inputProps={{"data-cy":"input-email"}}
               label="Email Address"
               name="email"
               autoComplete="email"
@@ -86,12 +86,12 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
-              data-cy="input-password"
+              inputProps={{"data-cy":"input-password"}}
               autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me" data-cy="check-rememberme"
+              label="Remember me"
             />
             <Button
               type="submit"
