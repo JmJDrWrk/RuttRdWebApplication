@@ -303,10 +303,10 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         price: price
       }
     };
+    const id = (await ruttApi.uploadRutt()).data.ruttId
+    // const id = (await ruttApi.uploadRutt(ruttFile)).ruttId
 
-    const id = (await ruttApi.uploadRutt(ruttFile)).ruttId
-
-    navigate('/Rutt/' + id)
+    navigate('/RuttView/' + id)
   }
 
   function handlePublishRutt() {
