@@ -1,0 +1,6 @@
+{
+  "uploadRutt" : "/CreateRutt",
+  "uploadNewApplicationRutt" : "/NotFoundError",
+  "uploadImportedFromMaps" : "/NotFoundError",
+  "uploadConcentration" : "/NotFoundError"
+}

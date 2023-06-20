@@ -1,4 +1,5 @@
 import ApiRequest from "./ApiRequest";
+import ResponseHandler from "./ResponseHandler";
 import customAPI from "./customAPI";
 export default class RuttApi extends ApiRequest {
     constructor(config) {
@@ -17,7 +18,7 @@ export default class RuttApi extends ApiRequest {
         return await this.get('/publish/'+ruttId)
     }
     async updateRutt(rutt, ruttId) {
-        return ResponseHandler(await this.post('/update', {
+        return ResponseHandler.handle(await this.post('/update', {
             rutt : rutt,
             ruttId : ruttId
         }))
@@ -30,5 +31,8 @@ export default class RuttApi extends ApiRequest {
     }
     async findOthersRuttsByEmail(email) {
         return (await this.get(`/by-email?email=${email}`)).data
+    }
+    async deleteRutt(something) {
+        console.log('Method delete rutt not ready ' + something)
     }
 }

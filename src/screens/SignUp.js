@@ -1,20 +1,12 @@
 import React, { Component } from "react";
 import styled, { css } from "styled-components";
-import WantToDoSomething from "../components/WantToDoSomething";
-import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
-import MaterialUnderlineTextbox2 from "../components/MaterialUnderlineTextbox2";
-import MaterialUnderlineTextbox3 from "../components/MaterialUnderlineTextbox3";
-import MaterialButtonViolet from "../components/MaterialButtonViolet";
-import MaterialUnderlineTextbox4 from "../components/MaterialUnderlineTextbox4";
 import Header from "../components/mui/Header";
 import Footer from "../components/mui/Footer";
 import SignInForm from "../components/mui/SignIn"
 function SignIn(props) {
   return (
     <>
-      <Header/>
         <SignInForm></SignInForm>
-      <Footer/>
     </>
   );
 }

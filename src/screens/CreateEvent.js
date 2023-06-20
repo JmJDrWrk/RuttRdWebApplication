@@ -3,12 +3,13 @@ import RouteMap from '../components/mui/RouteMap';
 import 'leaflet/dist/leaflet.css'
 import Header from "../components/mui/Header"
 import Footer from "../components/mui/Footer"
-const CreateRutt = () => {
+import CreateEventType from '../components/mui/CreateEventType';
+const CreateEvent = () => {
     return (
         <>
-            <RouteMap belongsToUser={true}/>
+            <CreateEventType />
         </>
     )
 };
 
-export default CreateRutt;
+export default CreateEvent;

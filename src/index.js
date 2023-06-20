@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import Main from "./Main.js";
 import Auth from "./screens/Auth";
-import DetailView from "./screens/DetailView";
+import RuttView from "./screens/RuttView";
 import Favorites from "./screens/Favorites";
 import InitialView from "./screens/InitialView";
 import Nearby from "./screens/Nearby";

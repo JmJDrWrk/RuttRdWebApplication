@@ -15,13 +15,14 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { ArrowBack } from "@mui/icons-material";
 import LetterAvatar from "./LetterAvatar";
 import { useNavigate, useLocation } from "react-router-dom";
 import ServerApi from "../../api/api";
 import { ImageBackground } from "react-native-web";
 import { minHeight } from "@mui/system";
 import State from "../../api/state";
-function ResponsiveAppBar(props) {
+function Header(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [current, setCurrent] = React.useState({
@@ -34,19 +35,23 @@ function ResponsiveAppBar(props) {
 
   useEffect(() => {
     // Fetch the user data from the /me endpoint and update the user name
-    const fetchData = async() => {
-      const res = await ServerApi.doGet('/users/me')
-      if(!res.error){
-        console.log('res: '+JSON.stringify(res))
-        State.setMe(res)
-        setCurrent(res)
+    if(!props.blockLoad){
+      const fetchData = async() => {
+        const res = await ServerApi.doGet('/users/me')
+        if(!res.error){
+          
+          State.setMe(res)
+          setCurrent(res)
+        }
       }
+      fetchData()
+      .catch(console.error)
     }
-    fetchData()
-    .catch(console.error)
     
   }, []);
-  
+  const handleGoBack = () => {
+    navigate(-1)
+  }
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -131,7 +136,8 @@ function ResponsiveAppBar(props) {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <FavoriteBorderIcon />
+              {/* <FavoriteBorderIcon /> */}
+              <ArrowBack onClick={handleGoBack}></ArrowBack>
             </IconButton>
 
           </Box>
@@ -221,4 +227,4 @@ function ResponsiveAppBar(props) {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default Header;

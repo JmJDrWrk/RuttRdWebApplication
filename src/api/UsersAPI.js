@@ -20,6 +20,6 @@ export default class UsersAPI extends ApiRequest {
     }
 
     async getMe() {
-        return await super.get('/me', formData)
+        return await super.get('/me')
     }
 }

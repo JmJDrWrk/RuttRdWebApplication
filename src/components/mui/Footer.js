@@ -10,13 +10,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate, useLocation } from "react-router-dom";
-export default function LabelBottomNavigation() {
+export default function Footer() {
   const [value, setValue] = React.useState("recents");
   const navigate = useNavigate();
   const actions = {
     "home": () => { navigate("/InitialView") },
     "explore": () => { navigate("/Search") },
-    "me": () => { navigate("/CreateRutt") },
+    "me": () => { navigate("/CreateEvent") },
     "favorite": () => { navigate("/Favorites") },
     "profile": () => { navigate("/Profile") }
   }

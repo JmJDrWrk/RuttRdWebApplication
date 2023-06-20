@@ -8,6 +8,7 @@ import RuttApi from "../api/RuttApi";
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import Loading from "../components/mui/Loading";
 
 function ProfileOther() {
   const { email } = useParams();
@@ -19,7 +20,6 @@ function ProfileOther() {
       try {
         const fetchedProfile = await new ProfileAPI().getProfileByEmail(email);
         const fetchedRutts = await new RuttApi().findOthersRuttsByEmail(email)
-        console.log('PROFILE_> ' + JSON.stringify(fetchedProfile))
         setProfile(fetchedProfile.profile);
         setRutts(fetchedRutts.rutts)
         setIsLoading(false);
@@ -34,17 +34,11 @@ function ProfileOther() {
 
   return (
     <>
-      <Header />
       {isLoading ? (
-        <Container maxWidth="sm">
-          <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
-            <CircularProgress />
-          </Box>
-        </Container>
+        <Loading></Loading>
       ) : (
-        <ProfileOtherComponent letter={email.charAt(0)} profile={profile} rutts={rutts}/>
+        <ProfileOtherComponent letter={email.charAt(0)} profile={profile} rutts={rutts} />
       )}
-      <Footer />
     </>
   );
 }
