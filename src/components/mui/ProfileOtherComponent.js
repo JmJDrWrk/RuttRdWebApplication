@@ -90,9 +90,9 @@ const RuttGallery = ({ rutts, profile }) => {
   }
 
   function ruttsBelongsMe() {
-    return State.getMe().user.email === profile.mail
+    return State.getMe().user.email === profile.email
   }
-
+  const belongsMe = ruttsBelongsMe()
   const navigate = useNavigate();
   const handleRuttClick = (event) => {
     //If belongs or not to user will be checked in the Screen with the RouteMap Component and let user go to Rutt === 'the edit view'
@@ -127,7 +127,7 @@ const RuttGallery = ({ rutts, profile }) => {
       delete: (ruttId) => { handleDeleteRutt(ruttId) },
       share: (ruttId) => { navigator.clipboard.writeText('/RuttView/' + ruttId) },
       // export : (ruttId) => {alert('Export is not avaliable')},
-      edit: (ruttId) => { navigate('/Rutt/' + ruttId); }
+      edit: (ruttId) => { navigate('/RuttView/' + ruttId); }
     }
     if(action){actions[action](event.target.getAttribute('itemID'))}
     setAnchorEl(null);
@@ -181,7 +181,7 @@ const RuttGallery = ({ rutts, profile }) => {
             <MenuItem onClick={handleMenuClose} id='share' itemID={rutt._id}>share</MenuItem>
             <MenuItem onClick={handleMenuClose} id='delete' itemID={rutt._id}>delete</MenuItem>
             {/* <MenuItem onClick={handleMenuClose} id='export' itemID={rutt._id} disabled>export</MenuItem> */}
-            {ruttsBelongsMe() ?
+            {belongsMe ?
               <MenuItem onClick={handleMenuClose} id='edit' itemID={rutt._id}>edit</MenuItem> :
               false
             }
