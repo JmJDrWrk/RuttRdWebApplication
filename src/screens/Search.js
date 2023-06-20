@@ -14,6 +14,7 @@ import IconButton from "@mui/material/IconButton";
 import ProfileSearchResult from "../components/mui/ProfileSearchResult";
 import State from "../api/state";
 import ProfileAPI from "../api/ProfileAPI";
+import Loading from "../components/mui/Loading";
 
 const SearchContainer = styled(Container)`
   margin-top: 2rem;
@@ -68,11 +69,7 @@ function Search(props) {
         />
       </SearchContainer>
       {isLoading ? (
-        <Container maxWidth="sm">
-          <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
-            <CircularProgress />
-          </Box>
-        </Container>
+        <Loading label="Searching..."></Loading>
       ) : (
         <ResultsContainer>
 

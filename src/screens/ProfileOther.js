@@ -8,6 +8,7 @@ import RuttApi from "../api/RuttApi";
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import Loading from "../components/mui/Loading";
 
 function ProfileOther() {
   const { email } = useParams();
@@ -34,13 +35,9 @@ function ProfileOther() {
   return (
     <>
       {isLoading ? (
-        <Container maxWidth="sm">
-          <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
-            <CircularProgress />
-          </Box>
-        </Container>
+        <Loading></Loading>
       ) : (
-        <ProfileOtherComponent letter={email.charAt(0)} profile={profile} rutts={rutts}/>
+        <ProfileOtherComponent letter={email.charAt(0)} profile={profile} rutts={rutts} />
       )}
     </>
   );

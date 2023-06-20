@@ -11,6 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import PublishAPI from "../api/PublishAPI";
+import Loading from "../components/mui/Loading";
 function Published(props) {
 
     const { publishid } = useParams();
@@ -24,7 +25,7 @@ function Published(props) {
             try {
                 const fetchedProfile = await new ProfileAPI().getProfileByEmail(email);
                 setProfile(fetchedProfile.profile);
-                console.log("PROFILE->",fetchedProfile.profile)
+                console.log("PROFILE->", fetchedProfile.profile)
                 // const fetchedPublish = await PublishAPI.getPublishById(email);
                 // setPublished(fetchedPublish);
 
@@ -42,11 +43,7 @@ function Published(props) {
     return (
         <>
             {isLoading ? (
-                <Container maxWidth="sm">
-                    <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
-                        <CircularProgress />
-                    </Box>
-                </Container>
+                <Loading></Loading>
             ) : (
                 <DetailViewComponent2 publishId={publishid} email={email} profile={profile} published={published}></DetailViewComponent2>
             )}
