@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import RuttApi from "../api/RuttApi";
+import Loading from "../components/mui/Loading";
 const CreateRutt = () => {
     var ruttApi = new RuttApi();
     const { ruttId } = useParams();
@@ -30,13 +31,9 @@ const CreateRutt = () => {
     return (
         <>
             {isLoading ? (
-                <Container maxWidth="sm">
-                    <Box display="flex" justifyContent="center" alignItems="center" height="70vh">
-                        <CircularProgress />
-                    </Box>
-                </Container>
+                <Loading></Loading>
             ) : (
-                <RouteMap rutt={rutt}/>
+                <RouteMap rutt={rutt} />
             )}
         </>
     );

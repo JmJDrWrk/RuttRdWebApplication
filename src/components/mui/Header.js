@@ -35,16 +35,18 @@ function Header(props) {
 
   useEffect(() => {
     // Fetch the user data from the /me endpoint and update the user name
-    const fetchData = async() => {
-      const res = await ServerApi.doGet('/users/me')
-      if(!res.error){
-        
-        State.setMe(res)
-        setCurrent(res)
+    if(!props.blockLoad){
+      const fetchData = async() => {
+        const res = await ServerApi.doGet('/users/me')
+        if(!res.error){
+          
+          State.setMe(res)
+          setCurrent(res)
+        }
       }
+      fetchData()
+      .catch(console.error)
     }
-    fetchData()
-    .catch(console.error)
     
   }, []);
   const handleGoBack = () => {

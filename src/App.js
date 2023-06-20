@@ -20,6 +20,7 @@ import CreateRutt from "./screens/CreateRutt";
 import EditRutt from "./screens/EditRutt"
 import CreateEvent from "./screens/CreateEvent";
 import RuttView from "./screens/RuttView";
+import CheckingAuth from "./screens/CheckingAuth"
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, teal } from '@mui/material/colors';
@@ -87,6 +88,21 @@ export default function App() {
               <Route path="/" exact element=<Auth />></Route>
               <Route path="/Auth" exact element=<Auth />></Route>
               <Route path="/SignUp" exact element=<SignUp />></Route>
+              <Route path="/InitialView/" exact element=<CheckingAuth /> />
+              <Route path="/Nearby/" exact element=<CheckingAuth /> />
+              <Route path="/NotFoundError/" exact element=<NotFoundError /> />
+              <Route path="/Profile/" exact element=<CheckingAuth /> />
+              <Route path="/ProfileOther/:email" exact element=<CheckingAuth /> />
+              <Route path="/ProfileOther/:email/published/:publishid" exact element=<CheckingAuth /> />
+              <Route path="/Recent/" exact element=<CheckingAuth /> />
+              <Route path="/Search/" exact element=<CheckingAuth /> />
+              <Route path="/Settings/" exact element=<CheckingAuth /> />
+              <Route path="/SignIn/" exact element=<CheckingAuth /> />
+              <Route path="/UploadRutt/" exact element=<CheckingAuth /> />
+              <Route path="/CreateRutt/" exact element=<CheckingAuth /> />
+              <Route path="/CreateEvent/" exact element=<CheckingAuth /> />
+              <Route path="/Rutt/:ruttId" exact element=<CheckingAuth /> />
+              <Route path="/RuttView/:ruttId" exact element=<CheckingAuth /> />
               <Route path='*' exact={true} element=<NotFoundError /> />
             </Routes>
           </BrowserRouter>
@@ -100,7 +116,6 @@ export default function App() {
             <Routes>
               <Route path="/" exact element=<InitialView />></Route>
               <Route path="/Auth/" exact element=<Auth />></Route>
-              {/* <Route path="/RuttView/" exact element=<RuttView />></Route> */}
               <Route path="/Favorites/" exact element=<Favorites />></Route>
               <Route path="/InitialView/" exact element=<InitialView />></Route>
               <Route path="/Nearby/" exact element=<Nearby />></Route>
