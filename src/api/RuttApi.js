@@ -1,4 +1,5 @@
 import ApiRequest from "./ApiRequest";
+import ResponseHandler from "./ResponseHandler";
 import customAPI from "./customAPI";
 export default class RuttApi extends ApiRequest {
     constructor(config) {
