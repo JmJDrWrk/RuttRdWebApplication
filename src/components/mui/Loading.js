@@ -22,4 +22,5 @@ const Loading = ({ label }) => {
         </Container>
     )
 }
+
 export default Loading
