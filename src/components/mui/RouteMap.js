@@ -303,16 +303,10 @@ const RouteMap = ({ rutt }) => {
         price: price
       }
     };
-    const id = (await ruttApi.uploadRutt()).data.ruttId
-    // const id = (await ruttApi.uploadRutt(ruttFile)).ruttId
 
-<<<<<<< Updated upstream
     const id = (await ruttApi.uploadRutt(ruttFile)).ruttId
 
     navigate('/Rutt/'+id)
-=======
-    navigate('/RuttView/' + id)
->>>>>>> Stashed changes
   }
 
   function handlePublishRutt() {

@@ -9,11 +9,9 @@ export default class RuttApi extends ApiRequest {
         this.relPath = '/rutts'
     }
     async uploadRutt(obj) {
-        const response = await this.post('/upload', {
+        return ResponseHandler.handle(await this.post('/upload', {
             rutt : obj
-        })
-        ResponseHandler.handle(response)
-        return response
+        }))
     }
     async publishRutt(ruttId) {
         return await this.get('/publish/'+ruttId)
