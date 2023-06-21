@@ -8,9 +8,7 @@ import LogIn from "../components/mui/LogIn";
 function Auth(props) {
   return (
     <>
-      <Header/>
       <LogIn></LogIn>
-      <Footer/>
     </>
   );
 }

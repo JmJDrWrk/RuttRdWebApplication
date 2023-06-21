@@ -10,9 +10,11 @@ export default class RuttApi extends ApiRequest {
         this.relPath = '/rutts'
     }
     async uploadRutt(obj) {
-        return ResponseHandler.handle(await this.post('/upload', {
+        const response = await this.post('/upload', {
             rutt : obj
-        }))
+        })
+        ResponseHandler.handle(response)
+        return response
     }
     async publishRutt(ruttId) {
         return await this.get('/publish/'+ruttId)
@@ -27,12 +29,12 @@ export default class RuttApi extends ApiRequest {
         return (await this.get('/rutt/'+ruttId)).data.rutt
     }
     async findMyRutts() {
-        return (await this.get('/myrutts')).data
+        return (await this.get('/myrutts'))
     }
     async findOthersRuttsByEmail(email) {
         return (await this.get(`/by-email?email=${email}`)).data
     }
-    async deleteRutt(something) {
-        console.log('Method delete rutt not ready ' + something)
+    async deleteById(ruttId) {
+        return (await this.get(`/delete/${ruttId}`))
     }
 }

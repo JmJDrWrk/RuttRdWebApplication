@@ -49,7 +49,8 @@ export default function SignIn() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme} data-cy="login-component">
+    // <ThemeProvider theme={defaultTheme} data-cy="login-component">
+    <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -118,6 +119,7 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </ThemeProvider>
+    {/* </ThemeProvider> */}
+    </>
   );
 }

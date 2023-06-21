@@ -20,51 +20,125 @@ import CreateRutt from "./screens/CreateRutt";
 import EditRutt from "./screens/EditRutt"
 import CreateEvent from "./screens/CreateEvent";
 import RuttView from "./screens/RuttView";
-const checkAuth = () => {
-  return !(!localStorage.getItem('auth-token'))
-}
+import CheckingAuth from "./screens/CheckingAuth"
+import { useState, useEffect } from "react";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { purple, teal } from '@mui/material/colors';
+import UsersAPI from "./api/UsersAPI";
+import Header from "./components/mui/Header";
+import Footer from "./components/mui/Footer";
+
+
+// Define your dark theme
+const lightBlack = createTheme({
+  palette: {
+    primary: {
+      main: '#000000', // black color
+    },
+    background: {
+      default: '#FFFFFF', // white color
+    },
+  },
+});
+const darkTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#212121', // darker black color
+    },
+    background: {
+      default: '#000000', // black color
+    },
+    text: {
+      primary: '#FFFFFF', // white color for text
+    },
+  },
+});
+
+const checkAuth = async () => {
+  if(!(!localStorage.getItem('auth-token'))){
+    const { succeeded } = await new UsersAPI().getMe();
+    if (!succeeded) {
+      localStorage.removeItem('auth-token')
+      return false;
+    }
+  }
+  return !(!localStorage.getItem('auth-token'));
+};
 
 export default function App() {
-  const isAuthenticated = checkAuth(); // Replace checkAuth with your authentication logic
-  if (!isAuthenticated) {
-    return (
-      <StrictMode>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" exact element=<Auth />></Route>
-            <Route path="/Auth" exact element=<Auth />></Route>
-            <Route path="/SignUp" exact element=<SignUp />></Route>
-            <Route path='*' exact={true} element=<NotFoundError /> />
-          </Routes>
-        </BrowserRouter>
-      </StrictMode>
-    )
-  }
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    
+    const authenticate = async () => {
+      const authenticated = await checkAuth();
+      setIsAuthenticated(authenticated);
+    };
+
+    authenticate();
+  }, []);
   return (
-    <StrictMode>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" exact element=<InitialView />></Route>
-          <Route path="/Auth/" exact element=<Auth />></Route>
-          {/* <Route path="/RuttView/" exact element=<RuttView />></Route> */}
-          <Route path="/Favorites/" exact element=<Favorites />></Route>
-          <Route path="/InitialView/" exact element=<InitialView />></Route>
-          <Route path="/Nearby/" exact element=<Nearby />></Route>
-          <Route path="/NotFoundError/" exact element=<NotFoundError />></Route>
-          <Route path="/Profile/" exact element=<Profile />></Route>
-          <Route path="/ProfileOther/:email" exact element=<ProfileOther />></Route>
-          <Route path="/ProfileOther/:email/published/:publishid" exact element=<Published />></Route>
-          <Route path="/Recent/" exact element=<Recent />></Route>
-          <Route path="/Search/" exact element=<Search />></Route>
-          <Route path="/Settings/" exact element=<Settings />></Route>
-          <Route path="/SignIn/" exact element=<SignIn />></Route>
-          <Route path="/UploadRutt/" exact element=<UploadRutt />></Route>
-          <Route path="/CreateRutt/" exact element=<CreateRutt />></Route>
-          <Route path="/CreateEvent/" exact element=<CreateEvent />></Route>
-          <Route path="/Rutt/:ruttId" exact element=<EditRutt />></Route>
-          <Route path="/RuttView/:ruttId" exact element=<RuttView />></Route>
-        </Routes>
-      </BrowserRouter>
-    </StrictMode>
-  );
+    <ThemeProvider theme={lightBlack}>
+
+      {!isAuthenticated ?
+
+        <StrictMode>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" exact element=<Auth />></Route>
+              <Route path="/Auth" exact element=<Auth />></Route>
+              <Route path="/SignUp" exact element=<SignUp />></Route>
+              <Route path="/InitialView/" exact element=<CheckingAuth /> />
+              <Route path="/Nearby/" exact element=<CheckingAuth /> />
+              <Route path="/NotFoundError/" exact element=<NotFoundError /> />
+              <Route path="/Profile/" exact element=<CheckingAuth /> />
+              <Route path="/ProfileOther/:email" exact element=<CheckingAuth /> />
+              <Route path="/ProfileOther/:email/published/:publishid" exact element=<CheckingAuth /> />
+              <Route path="/Recent/" exact element=<CheckingAuth /> />
+              <Route path="/Search/" exact element=<CheckingAuth /> />
+              <Route path="/Settings/" exact element=<CheckingAuth /> />
+              <Route path="/SignIn/" exact element=<CheckingAuth /> />
+              <Route path="/UploadRutt/" exact element=<CheckingAuth /> />
+              <Route path="/CreateRutt/" exact element=<CheckingAuth /> />
+              <Route path="/CreateEvent/" exact element=<CheckingAuth /> />
+              <Route path="/Rutt/:ruttId" exact element=<CheckingAuth /> />
+              <Route path="/RuttView/:ruttId" exact element=<CheckingAuth /> />
+              <Route path='*' exact={true} element=<NotFoundError /> />
+            </Routes>
+          </BrowserRouter>
+        </StrictMode>
+
+        :
+
+        <StrictMode>
+          <BrowserRouter>
+          <Header></Header>
+            <Routes>
+              <Route path="/" exact element=<InitialView />></Route>
+              <Route path="/Auth/" exact element=<Auth />></Route>
+              <Route path="/Favorites/" exact element=<Favorites />></Route>
+              <Route path="/InitialView/" exact element=<InitialView />></Route>
+              <Route path="/Nearby/" exact element=<Nearby />></Route>
+              <Route path="/NotFoundError/" exact element=<NotFoundError />></Route>
+              <Route path="/Profile/" exact element=<Profile />></Route>
+              <Route path="/ProfileOther/:email" exact element=<ProfileOther />></Route>
+              <Route path="/ProfileOther/:email/published/:publishid" exact element=<Published />></Route>
+              <Route path="/Recent/" exact element=<Recent />></Route>
+              <Route path="/Search/" exact element=<Search />></Route>
+              <Route path="/Settings/" exact element=<Settings />></Route>
+              <Route path="/SignIn/" exact element=<SignIn />></Route>
+              <Route path="/UploadRutt/" exact element=<UploadRutt />></Route>
+              <Route path="/CreateRutt/" exact element=<CreateRutt />></Route>
+              <Route path="/CreateEvent/" exact element=<CreateEvent />></Route>
+              <Route path="/Rutt/:ruttId" exact element=<EditRutt />></Route>
+              <Route path="/RuttView/:ruttId" exact element=<RuttView />></Route>
+            </Routes>
+            <Footer></Footer>
+          </BrowserRouter>
+        </StrictMode>
+
+      }
+
+    </ThemeProvider>
+  )
 }
