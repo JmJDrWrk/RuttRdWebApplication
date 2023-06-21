@@ -29,7 +29,7 @@ const Notification = ({ properties }) => {
         }
         setOpen(false);
     };
-
+    console.log('spacing: ' + spacing)
     const action = (
         <React.Fragment>
             <Button color="secondary" size="small" onClick={handleClose}>
@@ -55,11 +55,11 @@ const Notification = ({ properties }) => {
                 onClose={handleClose}
                 message={message}
                 action={action}
-                sx={{ mt: spacing }}
+                sx={{ mb: spacing }}
             >
                 {
                     severity && (
-                        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                        <Alert onClose={handleClose} severity={severity} sx={{ width: '80%' }}>
                             {message}
                         </Alert>
                     )

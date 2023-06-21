@@ -25,7 +25,8 @@ export default class ApiRequest{
                 success: 'success',
                 error: 'error',
                 succeeded: succeeded,
-                lifetime: 100
+                lifetime: 100,
+                spacing : 6
             });
             // console.log('data', data)
         }
