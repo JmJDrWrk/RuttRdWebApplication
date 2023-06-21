@@ -16,10 +16,12 @@ import Search from "./screens/Search";
 import Settings from "./screens/Settings";
 import SignIn from "./screens/SignUp";
 import UploadRutt from "./screens/UploadRutt";
-
+import { NotificationProvider } from "./NotificationContext";
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 root.render(
-  <App/>
+  <NotificationProvider>
+    <App />
+  </NotificationProvider>
 );

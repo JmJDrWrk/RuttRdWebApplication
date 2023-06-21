@@ -29,7 +29,7 @@ export default class RuttApi extends ApiRequest {
         return (await this.get('/rutt/'+ruttId)).data.rutt
     }
     async findMyRutts() {
-        return (await this.get('/myrutts')).data
+        return (await this.get('/myrutts'))
     }
     async findOthersRuttsByEmail(email) {
         return (await this.get(`/by-email?email=${email}`)).data

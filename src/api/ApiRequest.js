@@ -4,9 +4,32 @@ import State from "./state";
 export default class ApiRequest{
     constructor() {
         this.relPath = '/default';
+        this.hasNotificationContext = false;
         this.URL = {
             base : 'https://ruttradarvalkiria.jmjdrwrk.repl.co'
         }
+    }
+    notificationContext(show) {
+        this.hasNotificationContext = true;
+        this.show = show;
+        return this
+    }
+
+    handleResponse({data, succeeded}) {
+        if(!this.hasNotificationContext){
+            // console.log('skipping handler')
+        }else{
+            // console.log('handling response')
+            this.show({
+                message: data.message,
+                success: 'success',
+                error: 'error',
+                succeeded: succeeded,
+                lifetime: 100
+            });
+            // console.log('data', data)
+        }
+
     }
 
     getHeaders() {
@@ -32,7 +55,10 @@ export default class ApiRequest{
                     const succeeded = ResponseHandler.handleResponse(response)
                     return Promise.all([response.json(), succeeded])
                 })
-                .then(([data, succeeded]) => resolve({ data, succeeded }));
+                .then(([data, succeeded]) => {
+                    this.handleResponse({data, succeeded})
+                    resolve({ data, succeeded })
+                });
             } catch (err) {
                 console.log('[SERVERAPI][DOPOST]  ', err);
                 reject(`POST ERROR ${err}`);
@@ -51,7 +77,10 @@ export default class ApiRequest{
                     const succeeded = ResponseHandler.handleResponse(response)
                     return Promise.all([response.json(), succeeded])
                 })
-                .then(([data, succeeded]) => resolve({ data, succeeded }));
+                .then(([data, succeeded]) => {
+                    this.handleResponse({data, succeeded})
+                    resolve({ data, succeeded })
+                });
             } catch (err) {
                 console.log('[SERVERAPI][DOPOST]  ', err);
                 reject(`POST ERROR ${err}`);
