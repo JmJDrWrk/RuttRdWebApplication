@@ -417,7 +417,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         key={mapKey} // Use a unique key to force re-render when center changes
         center={center} // Set the initial center of the map
         zoom={13} // Set the initial zoom level
-        style={{ height: '500px', width: '100%' }}
+        style={{ height: '585px', width: '100%' }}
         ref={(map) => (mapRef = map)}
       >
         <MapEvents />
