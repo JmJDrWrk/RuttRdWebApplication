@@ -99,18 +99,10 @@ const RuttGallery = ({ rutts, profile }) => {
     navigate('/Rutt/' + event.currentTarget.getAttribute('itemid'));
   };
 
-  const handleDeleteRutt = (ruttId) => {
+  const handleDeleteRutt = async (ruttId) => {
     // Call the API method to delete the rutt
-    new RuttApi()
-      .deleteRutt(ruttId)
-      .then(() => {
-        // Handle successful deletion, such as refreshing the gallery
-        console.log('Rutt deleted successfully');
-      })
-      .catch((error) => {
-        // Handle error, such as displaying an error message
-        console.error('Error deleting rutt:', error);
-      });
+    const {data, succeeded} = await new RuttApi().deleteById(ruttId);
+    console.log('Rutt deletion: ', data, succeeded)
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
