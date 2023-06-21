@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { styled } from "@mui/system";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
@@ -16,6 +16,7 @@ import { MoreVert } from "@mui/icons-material";
 
 import State from "../../api/state";
 import RuttApi from "../../api/RuttApi";
+
 
 const ProfileContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -42,7 +43,7 @@ const ProfileBio = styled(Typography)(({ theme }) => ({
 const EditProfileButton = styled(Button)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
-const PhotoGallery = ({ attachments }) => {
+const PhotoGallery = ({ attachments}) => {
   // Replace with actual photo data for the profile
   console.log(attachments)
   if (!attachments || attachments.length < 1) {
@@ -84,7 +85,7 @@ const PhotoGallery = ({ attachments }) => {
   );
 };
 
-const RuttGallery = ({ rutts, profile }) => {
+const RuttGallery = ({ rutts, profile, show }) => {
   if (!rutts || rutts.length < 1) {
     return <Typography variant="body1">User has not uploaded any rutt yet.</Typography>;
   }
@@ -99,18 +100,10 @@ const RuttGallery = ({ rutts, profile }) => {
     navigate('/Rutt/' + event.currentTarget.getAttribute('itemid'));
   };
 
-  const handleDeleteRutt = (ruttId) => {
+  const handleDeleteRutt = async (ruttId) => {
     // Call the API method to delete the rutt
-    new RuttApi()
-      .deleteRutt(ruttId)
-      .then(() => {
-        // Handle successful deletion, such as refreshing the gallery
-        console.log('Rutt deleted successfully');
-      })
-      .catch((error) => {
-        // Handle error, such as displaying an error message
-        console.error('Error deleting rutt:', error);
-      });
+    const {data, succeeded} = await new RuttApi().notificationContext(show).deleteById(ruttId);
+    console.log('Rutt deletion: ', data, succeeded)
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -193,7 +186,7 @@ const RuttGallery = ({ rutts, profile }) => {
   );
 };
 
-const ProfileComponent = ({ profile, rutts }) => {
+const ProfileComponent = ({ profile, rutts, show}) => {
   const me = profile
   const [username, setUsername] = useState(profile.name)
   const [profilePhoto, setProfilePhoto] = useState(`https://ruttradarvalkiria.jmjdrwrk.repl.co/file/${profile.profilePhoto}`);
@@ -243,7 +236,7 @@ const ProfileComponent = ({ profile, rutts }) => {
         disabled
       />
       <Paper elevation={0}>
-        <RuttGallery rutts={othersrutts} profile={profile} />
+        <RuttGallery rutts={othersrutts} profile={profile} show={show}/>
         <PhotoGallery attachments={attachments} />
       </Paper>
     </ProfileContainer>
