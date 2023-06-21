@@ -328,7 +328,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         price: price
       }
     };
-    ruttApi.updateRutt(ruttFile, rutt._id)
+    new RuttApi().updateRutt(ruttFile, rutt._id)
   }
 
   return (
