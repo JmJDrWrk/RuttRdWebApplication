@@ -506,47 +506,70 @@ const RouteMap = ({ rutt, belongsToUser }) => {
 
       </MapContainer>
 
-      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={() => { }} btref="drawmode" place="3" undecorated={false}>
-        <Tooltip title="Change Draw Mode">
-          <Button
-            onClick={handleMenuDrawOpen}
-            variant="contained"
-            color="inherit"
-            // icon={}
-            style={{ backgroundColor: 'transparent', boxShadow: 'none' }}
-          >
-            <Architecture />
-            {/* <Typography fontSize={4}>{drawMode}</Typography> */}
-          </Button>
-        </Tooltip>
+      {belongsToUser ?
+        <>
+          <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={() => { }} btref="drawmode" place="3" undecorated={false}>
+            <Tooltip title="Change Draw Mode">
+              <Button
+                onClick={handleMenuDrawOpen}
+                variant="contained"
+                color="inherit"
+                // icon={}
+                style={{ backgroundColor: 'transparent', boxShadow: 'none' }}
+              >
+                <Architecture />
+                {/* <Typography fontSize={4}>{drawMode}</Typography> */}
+              </Button>
+            </Tooltip>
 
-        <Menu
-          anchorEl={menuDrawAnchor}
-          open={Boolean(menuDrawAnchor)}
-          onClose={handleMenuDrawClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-        >
-          <MenuItem onClick={() => handleDrawModeChange('polyline')}>Polyline</MenuItem>
-          <MenuItem onClick={() => handleDrawModeChange('point')}>Point</MenuItem>
-          <MenuItem onClick={() => handleDrawModeChange('polygon')}>Polygon</MenuItem>
-        </Menu>
-      </FloatingAction>
+            <Menu
+              anchorEl={menuDrawAnchor}
+              open={Boolean(menuDrawAnchor)}
+              onClose={handleMenuDrawClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+            >
+              <MenuItem onClick={() => handleDrawModeChange('polyline')}>Polyline</MenuItem>
+              <MenuItem onClick={() => handleDrawModeChange('point')}>Point</MenuItem>
+              <MenuItem onClick={() => handleDrawModeChange('polygon')}>Polygon</MenuItem>
+            </Menu>
+          </FloatingAction>
 
-      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="save" place="2">
-        <Tooltip title="Delete Last Point">
-          <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
-            <Undo style={{ color: 'white' }} />
-          </IconButton>
-        </Tooltip>
-      </FloatingAction>
+          <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="save" place="2">
+            <Tooltip title="Delete Last Point">
+              <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                <Undo style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+          </FloatingAction>
 
+          <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="4">
+            <Tooltip title="Save changes">
+              <IconButton onClick={handleUpdateRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                <Save style={{ color: 'white' }} />
+
+              </IconButton>
+            </Tooltip>
+          </FloatingAction>
+
+          <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="5">
+            <Tooltip title="Create a new map">
+              <IconButton onClick={handleUploadRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                <AddCircleOutlineIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+          </FloatingAction>
+        </>
+        : false
+
+
+      }
       <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="1">
         <Tooltip title="Center to Current Location">
           <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
@@ -554,24 +577,6 @@ const RouteMap = ({ rutt, belongsToUser }) => {
           </IconButton>
         </Tooltip>
       </FloatingAction>
-
-      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="4">
-        <Tooltip title="Save changes">
-          <IconButton onClick={handleUpdateRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
-            <Save style={{ color: 'white' }} />
-            
-          </IconButton>
-        </Tooltip>
-      </FloatingAction>
-
-      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="5">
-        <Tooltip title="Create a new map">
-          <IconButton onClick={handleUploadRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
-            <AddCircleOutlineIcon style={{ color: 'white' }} />
-          </IconButton>
-        </Tooltip>
-      </FloatingAction>
-
 
       {/* <Button onClick={handleUpdateRutt} variant="contained" color="primary">
         Save Changes
