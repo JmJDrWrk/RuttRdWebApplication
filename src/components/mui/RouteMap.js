@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Polyline, useMapEvents, Popup } from '
 import Button from "@mui/material/Button";
 import { IconButton, Tooltip, Box, TextField, FormControl, Grid, Menu, MenuItem, Modal, Typography, InputLabel, Select } from '@mui/material';
 import { CenterFocusStrong, Save, Delete, CloudUpload, Architecture, Undo } from '@mui/icons-material';
-
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import L from 'leaflet';
 import markerIcon from './src/marker1.png';
 import 'leaflet/dist/leaflet.css';
@@ -540,21 +540,48 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       </FloatingAction>
 
       <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="save" place="2">
-      <Tooltip title="Delete Last Point">
-            <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
-              <Undo style={{color:'white'}}/>
-            </IconButton>
-          </Tooltip>
+        <Tooltip title="Delete Last Point">
+          <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+            <Undo style={{ color: 'white' }} />
+          </IconButton>
+        </Tooltip>
       </FloatingAction>
 
       <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="1">
         <Tooltip title="Center to Current Location">
           <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
-            <CenterFocusStrong  style={{color:'white'}} />
+            <CenterFocusStrong style={{ color: 'white' }} />
           </IconButton>
         </Tooltip>
       </FloatingAction>
 
+      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="4">
+        <Tooltip title="Save changes">
+          <IconButton onClick={handleUpdateRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+            <Save style={{ color: 'white' }} />
+            
+          </IconButton>
+        </Tooltip>
+      </FloatingAction>
+
+      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="4">
+        <Tooltip title="Create a new map">
+          <IconButton onClick={handleUploadRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+            <AddCircleOutlineIcon style={{ color: 'white' }} />
+          </IconButton>
+        </Tooltip>
+      </FloatingAction>
+
+
+      {/* <Button onClick={handleUpdateRutt} variant="contained" color="primary">
+        Save Changes
+      </Button>
+      <Button onClick={handleUploadRutt} variant="contained" color="primary">
+        Create
+      </Button>
+      <Button onClick={handlePublishRutt} variant="contained" color="primary">
+        Publish
+      </Button> */}
 
       {belongsToUser ?
         <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
