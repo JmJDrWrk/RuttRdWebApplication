@@ -564,7 +564,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         </Tooltip>
       </FloatingAction>
 
-      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="4">
+      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="5">
         <Tooltip title="Create a new map">
           <IconButton onClick={handleUploadRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
             <AddCircleOutlineIcon style={{ color: 'white' }} />
