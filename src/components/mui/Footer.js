@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate, useLocation } from "react-router-dom";
-export default function Footer() {
+export default function LabelBottomNavigation() {
   const [value, setValue] = React.useState("recents");
   const navigate = useNavigate();
   const actions = {
@@ -31,12 +31,13 @@ export default function Footer() {
       sx={{ width: "auto", position: "fixed", bottom: 0, left: 0, right: 0 }}
       value={value}
       onChange={handleChange}
+      id="appfooter"
     >
       <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
-      <BottomNavigationAction label="Explore" value="explore" icon={<SearchIcon />} />
+      <BottomNavigationAction label="Explore" value="explore" icon={<SearchIcon />}/>
       <BottomNavigationAction label="Me" value="me" icon={<AddIcon />} />
-      <BottomNavigationAction label="Favorites" value="favorite" icon={<FavoriteIcon />} />
-      <BottomNavigationAction label="Profile" value="profile" icon={<AccountCircleIcon />} />
+      <BottomNavigationAction label="Favorites" value="favorite" icon={<FavoriteIcon />}/>
+      <BottomNavigationAction label="Profile" value="profile" icon={<AccountCircleIcon />}/>
     </BottomNavigation>
   );
 }

@@ -9,6 +9,8 @@ import markerIcon from './src/marker1.png';
 import 'leaflet/dist/leaflet.css';
 import RuttApi from '../../api/RuttApi';
 import { useNavigate } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
 
 const RouteMap = ({ rutt, belongsToUser }) => {
   const [drawMode, setDrawMode] = useState('polyline')
@@ -23,6 +25,30 @@ const RouteMap = ({ rutt, belongsToUser }) => {
     iconSize: [32, 32], // Adjust the size as needed
     iconAnchor: [16, 32], // Adjust the anchor point if necessary
   });
+
+  const [optHeightPx, setOptHeightPx] = useState(() => {
+    const documentHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    );
+
+    const headerHeight = document.getElementById('appheader').offsetHeight
+    const footerHeight = document.getElementById('appfooter').offsetHeight
+
+    const finalSizeInPx = documentHeight - headerHeight - footerHeight
+
+    console.log('documentHeight', documentHeight)
+    console.log('headerHeight', headerHeight)
+    console.log('footerHeight', footerHeight)
+    console.log('finalSizeInPx', finalSizeInPx)
+
+    return finalSizeInPx
+    // return '200px'
+  })
 
   useEffect(() => {
     // Get user's current location
@@ -57,6 +83,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       setPolylineKey((prevKey) => prevKey + 1); // Trigger re-render of Polyline
       setMapKey((prevKey) => prevKey + 1);
     }
+
   }, []);
   const [nonPolylineMarkers, setNonPolylineMarkers] = useState([])
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -303,7 +330,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         price: price
       }
     };
-    const {data, succeeded} = (await ruttApi.uploadRutt(ruttFile))
+    const { data, succeeded } = (await ruttApi.uploadRutt(ruttFile))
     navigate('/RuttView/' + data.ruttId)
 
   }
@@ -417,7 +444,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         key={mapKey} // Use a unique key to force re-render when center changes
         center={center} // Set the initial center of the map
         zoom={13} // Set the initial zoom level
-        style={{ height: '500px', width: '100%' }}
+        style={{ height: optHeightPx, width: '100%' }}
         ref={(map) => (mapRef = map)}
       >
         <MapEvents />
@@ -450,7 +477,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
 
         <Polyline positions={coordinates} key={polylineKey} ref={(ref) => (polylineRef.current = ref)} />
 
-            {belongsToUser ?         <Menu
+        {belongsToUser ? <Menu
           open={menuAnchor !== null}
           anchorEl={menuAnchor}
           onClose={handleMenuClose}
@@ -472,86 +499,86 @@ const RouteMap = ({ rutt, belongsToUser }) => {
 
       </MapContainer>
 
-      {belongsToUser ? 
-            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-            <Box width={400}>
-              <TextField label="Rutt Name" variant="outlined" fullWidth margin="normal" value={ruttName} onChange={(e) => setRuttName(e.target.value)} />
-    
+      {belongsToUser ?
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+          <Box width={400}>
+            <TextField label="Rutt Name" variant="outlined" fullWidth margin="normal" value={ruttName} onChange={(e) => setRuttName(e.target.value)} />
+
+            <TextField
+              label="From Date & Time"
+              type="datetime-local"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={ruttDateTimeFrom}
+              onChange={(e) => setRuttDateTimeFrom(e.target.value)}
+            />
+
+            <TextField
+              label="To Date & Time"
+              type="datetime-local"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={ruttDateTimeTo}
+              onChange={(e) => setRuttDateTimeTo(e.target.value)}
+            />
+
+            <TextField
+              label="Duration"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="event-type-label">Event Type</InputLabel>
+              <Select
+                labelId="event-type-label"
+                id="event-type-select"
+                value={eventType}
+                onChange={(e) => setEventType(e.target.value)}
+              >
+                <MenuItem value="private">Private</MenuItem>
+                <MenuItem value="public">Public</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="access-type-label">Access Type</InputLabel>
+              <Select
+                labelId="access-type-label"
+                id="access-type-select"
+                value={accessType}
+                onChange={(e) => setAccessType(e.target.value)}
+              >
+                <MenuItem value="private">Private</MenuItem>
+                <MenuItem value="public">Public</MenuItem>
+                <MenuItem value="pay">Pay</MenuItem>
+              </Select>
+            </FormControl>
+
+            {accessType === 'pay' && (
               <TextField
-                label="From Date & Time"
-                type="datetime-local"
-                variant="outlined"
+                label="Price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
                 fullWidth
                 margin="normal"
-                value={ruttDateTimeFrom}
-                onChange={(e) => setRuttDateTimeFrom(e.target.value)}
               />
-    
-              <TextField
-                label="To Date & Time"
-                type="datetime-local"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                value={ruttDateTimeTo}
-                onChange={(e) => setRuttDateTimeTo(e.target.value)}
-              />
-    
-              <TextField
-                label="Duration"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                fullWidth
-                margin="normal"
-              />
-    
-              <FormControl fullWidth margin="normal">
-                <InputLabel id="event-type-label">Event Type</InputLabel>
-                <Select
-                  labelId="event-type-label"
-                  id="event-type-select"
-                  value={eventType}
-                  onChange={(e) => setEventType(e.target.value)}
-                >
-                  <MenuItem value="private">Private</MenuItem>
-                  <MenuItem value="public">Public</MenuItem>
-                </Select>
-              </FormControl>
-    
-              <FormControl fullWidth margin="normal">
-                <InputLabel id="access-type-label">Access Type</InputLabel>
-                <Select
-                  labelId="access-type-label"
-                  id="access-type-select"
-                  value={accessType}
-                  onChange={(e) => setAccessType(e.target.value)}
-                >
-                  <MenuItem value="private">Private</MenuItem>
-                  <MenuItem value="public">Public</MenuItem>
-                  <MenuItem value="pay">Pay</MenuItem>
-                </Select>
-              </FormControl>
-    
-              {accessType === 'pay' && (
-                <TextField
-                  label="Price"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  fullWidth
-                  margin="normal"
-                />
-              )}
-              <Button onClick={handleUpdateRutt} variant="contained" color="primary">
-                Save Changes
-              </Button>
-              <Button onClick={handleUploadRutt} variant="contained" color="primary">
-                Create
-              </Button>
-              <Button onClick={handlePublishRutt} variant="contained" color="primary">
-                Publish
-              </Button>
-            </Box>
-          </Box> : <></>
+            )}
+            <Button onClick={handleUpdateRutt} variant="contained" color="primary">
+              Save Changes
+            </Button>
+            <Button onClick={handleUploadRutt} variant="contained" color="primary">
+              Create
+            </Button>
+            <Button onClick={handlePublishRutt} variant="contained" color="primary">
+              Publish
+            </Button>
+          </Box>
+        </Box> : <></>
 
       }
 
