@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline, useMapEvents, Popup } from 'react-leaflet';
 import Button from "@mui/material/Button";
 import { IconButton, Tooltip, Box, TextField, FormControl, Grid, Menu, MenuItem, Modal, Typography, InputLabel, Select } from '@mui/material';
-import { CenterFocusStrong, Save, Delete, CloudUpload } from '@mui/icons-material';
+import { CenterFocusStrong, Save, Delete, CloudUpload, Architecture, Undo } from '@mui/icons-material';
 
 import L from 'leaflet';
 import markerIcon from './src/marker1.png';
@@ -11,6 +11,7 @@ import RuttApi from '../../api/RuttApi';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import FloatingAction from './utils/FloatingAction';
 
 const RouteMap = ({ rutt, belongsToUser }) => {
   const [drawMode, setDrawMode] = useState('polyline')
@@ -62,6 +63,9 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         },
         (error) => {
           console.error(error);
+          console.error('USING DEFAULT COORDINATES')
+          setCenter([43.370731, -8.395850]);
+          setMapKey((prevKey) => prevKey + 1); // Update the map key to force re-render
         }
       );
     }
@@ -134,6 +138,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
   };
 
   const handleDeleteLastPoint = () => {
+    console.log('deleting last point')
     if (coordinates.length > 0) {
       setMarkers((prevMarkers) => prevMarkers.slice(0, -1));
       setCoordinates((prevCoordinates) => prevCoordinates.slice(0, -1));
@@ -357,7 +362,9 @@ const RouteMap = ({ rutt, belongsToUser }) => {
     };
     new RuttApi().updateRutt(ruttFile, rutt._id)
   }
-
+  const handleFloatingClick = (event) => {
+    event.preventDefault()
+  }
   return (
     <div>
       <Modal open={isRenameModalOpen} onClose={() => setIsRenameModalOpen(false)}>
@@ -387,58 +394,59 @@ const RouteMap = ({ rutt, belongsToUser }) => {
           </Box>
         </Box>
       </Modal>
-      {belongsToUser ? <Box display="flex" justifyContent="space-between" mt={2}>
-        <Tooltip title="Change Draw Mode">
-          <Button
-            onClick={handleMenuDrawOpen}
-            variant="contained"
-            color="inherit"
-            startIcon={<CenterFocusStrong />}
-            style={{ backgroundColor: 'white' }}
+      {/* {belongsToUser ?
+        <Box display="flex" justifyContent="space-between" mt={2}>
+          <Tooltip title="Change Draw Mode">
+            <Button
+              onClick={handleMenuDrawOpen}
+              variant="contained"
+              color="inherit"
+              startIcon={<CenterFocusStrong />}
+              style={{ backgroundColor: 'white' }}
+            >
+              {drawMode}
+            </Button>
+          </Tooltip>
+          <Menu
+            anchorEl={menuDrawAnchor}
+            open={Boolean(menuDrawAnchor)}
+            onClose={handleMenuDrawClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
           >
-            {drawMode}
-          </Button>
-        </Tooltip>
-        <Menu
-          anchorEl={menuDrawAnchor}
-          open={Boolean(menuDrawAnchor)}
-          onClose={handleMenuDrawClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-        >
-          <MenuItem onClick={() => handleDrawModeChange('polyline')}>Polyline</MenuItem>
-          <MenuItem onClick={() => handleDrawModeChange('point')}>Point</MenuItem>
-          <MenuItem onClick={() => handleDrawModeChange('Something')}>Something</MenuItem>
-        </Menu>
+            <MenuItem onClick={() => handleDrawModeChange('polyline')}>Polyline</MenuItem>
+            <MenuItem onClick={() => handleDrawModeChange('point')}>Point</MenuItem>
+            <MenuItem onClick={() => handleDrawModeChange('Something')}>Something</MenuItem>
+          </Menu>
 
-        <Tooltip title="Center to Current Location">
-          <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'white' }}>
-            <CenterFocusStrong />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Save Polyline Reference">
-          <IconButton onClick={handleSaveRutt} style={{ backgroundColor: 'white' }}>
-            <Save />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Delete Last Point">
-          <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'white' }}>
-            <Delete />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Load Polyline from File">
-          <IconButton component="label" style={{ backgroundColor: 'white' }}>
-            <CloudUpload />
-            <input type="file" accept=".json" style={{ display: 'none' }} onChange={handleFileUpload} />
-          </IconButton>
-        </Tooltip>
-      </Box> : <></>}
+          <Tooltip title="Center to Current Location">
+            <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'white' }}>
+              <CenterFocusStrong />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Save Polyline Reference">
+            <IconButton onClick={handleSaveRutt} style={{ backgroundColor: 'white' }}>
+              <Save />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete Last Point">
+            <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'white' }}>
+              <Delete />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Load Polyline from File">
+            <IconButton component="label" style={{ backgroundColor: 'white' }}>
+              <CloudUpload />
+              <input type="file" accept=".json" style={{ display: 'none' }} onChange={handleFileUpload} />
+            </IconButton>
+          </Tooltip>
+        </Box> : false} */}
 
       <MapContainer
         key={mapKey} // Use a unique key to force re-render when center changes
@@ -494,10 +502,59 @@ const RouteMap = ({ rutt, belongsToUser }) => {
           <MenuItem onClick={handleDeleteOnlyMarker}>Remove marker</MenuItem>
           <MenuItem onClick={handleDeleteCoordinate}>Remove point</MenuItem>
           <MenuItem onClick={handleRenameMarker}>Rename</MenuItem>
-        </Menu> : <></>}
-
+        </Menu> : false}
 
       </MapContainer>
+
+      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={() => { }} btref="drawmode" place="3" undecorated={false}>
+        <Tooltip title="Change Draw Mode">
+          <Button
+            onClick={handleMenuDrawOpen}
+            variant="contained"
+            color="inherit"
+            // icon={}
+            style={{ backgroundColor: 'transparent', boxShadow: 'none' }}
+          >
+            <Architecture />
+            {/* <Typography fontSize={4}>{drawMode}</Typography> */}
+          </Button>
+        </Tooltip>
+
+        <Menu
+          anchorEl={menuDrawAnchor}
+          open={Boolean(menuDrawAnchor)}
+          onClose={handleMenuDrawClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          <MenuItem onClick={() => handleDrawModeChange('polyline')}>Polyline</MenuItem>
+          <MenuItem onClick={() => handleDrawModeChange('point')}>Point</MenuItem>
+          <MenuItem onClick={() => handleDrawModeChange('polygon')}>Polygon</MenuItem>
+        </Menu>
+      </FloatingAction>
+
+      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="save" place="2">
+      <Tooltip title="Delete Last Point">
+            <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+              <Undo style={{color:'white'}}/>
+            </IconButton>
+          </Tooltip>
+      </FloatingAction>
+
+      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="1">
+        <Tooltip title="Center to Current Location">
+          <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+            <CenterFocusStrong  style={{color:'white'}} />
+          </IconButton>
+        </Tooltip>
+      </FloatingAction>
+
 
       {belongsToUser ?
         <Box display="flex" justifyContent="center" alignItems="center" height="100vh">

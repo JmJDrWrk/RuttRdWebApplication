@@ -11,19 +11,45 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-const FloatingAction = ({clickHandler=()=>{alert('Floating action clicked')}, bottomSpacing=5, rightSpacing=2}) => {
+const FloatingAction = ({ clickHandler = () => { alert('Floating action clicked') }, bottomSpacing = 5, rightSpacing = 2, place = 0, children, undecorated }) => {
+    if (place != 0) {
+        bottomSpacing += place * 8
+    }
     return (
-        <Fab
-            color="secondary"
-            sx={{
-                position: 'absolute',
-                bottom: (theme) => theme.spacing(bottomSpacing),
-                right: (theme) => theme.spacing(rightSpacing),
-            }}
-            onClick={clickHandler}
-            >
-            <AddIcon />
-        </Fab>
+        <>
+            {!undecorated ?
+                <Fab
+                    color="secondary"
+                    sx={{
+                        position: 'absolute',
+                        bottom: (theme) => theme.spacing(bottomSpacing),
+                        right: (theme) => theme.spacing(rightSpacing),
+                        zIndex: 1000
+                    }}
+                    onClick={clickHandler}
+                >
+                    {children}
+
+                </Fab>
+                :
+                <Fab
+                    color="transparent"
+                    sx={{
+                        backgroundColor: 'transparent',
+                        boxShadow: 'none',
+                        position: 'absolute',
+                        bottom: (theme) => theme.spacing(bottomSpacing),
+                        right: (theme) => theme.spacing(rightSpacing),
+                        zIndex: 1000
+                    }}
+                    onClick={clickHandler}
+                >
+                    {children}
+
+                </Fab>
+
+            }
+        </>
     );
 
 }
