@@ -21,6 +21,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
   const [center, setCenter] = useState([0, 0]);
   const [mapKey, setMapKey] = useState(0);
   const [mapZoom, setMapZoom] = useState(13);
+  const [firstTimeMapView, setFirstTimeMapView] = useState(true)
   let mapRef = useRef(null)
   const [drawingRoute, setDrawingRoute] = useState(false);
   const customIcon = L.icon({
@@ -71,6 +72,9 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       );
     }
     if (rutt) {
+      //setFirstTimeMapView because is a loaded map
+      setFirstTimeMapView(false)
+
       console.debug('[Rutt] Rendering rutt data', rutt)
       setCoordinates(rutt.coordinates || [])
       setMarkers(rutt.markers || [])
@@ -514,21 +518,24 @@ const RouteMap = ({ rutt, belongsToUser }) => {
             </Tooltip>
           </FloatingAction>
 
-          <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="4">
-            <Tooltip title="Save changes">
-              <IconButton onClick={handleUpdateRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
-                <Save style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
-          </FloatingAction>
-
-          <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="5">
-            <Tooltip title="Create a new map">
-              <IconButton onClick={handleUploadRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
-                <AddCircleOutlineIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
-          </FloatingAction>
+          {firstTimeMapView ?
+            <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="5">
+              <Tooltip title="Create a new map">
+                <IconButton onClick={handleUploadRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                  <AddCircleOutlineIcon style={{ color: 'white' }} />
+                </IconButton>
+              </Tooltip>
+            </FloatingAction>
+            :
+            <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="4">
+              <Tooltip title="Save changes">
+                <IconButton onClick={handleUpdateRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                  <Save style={{ color: 'white' }} />
+                </IconButton>
+              </Tooltip>
+            </FloatingAction>
+          }
+          
         </>
         : false
       }
