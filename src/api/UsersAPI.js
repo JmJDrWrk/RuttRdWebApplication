@@ -16,7 +16,7 @@ export default class UsersAPI extends ApiRequest {
     }
 
     async signup(formData) {
-        return ResponseHandler.handle(await super.post('/signin', formData))
+        return ResponseHandler.handle(await super.post('/signup', formData))
     }
 
     async getMe() {
