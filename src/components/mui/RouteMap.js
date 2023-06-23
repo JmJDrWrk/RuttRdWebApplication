@@ -14,7 +14,7 @@ import Footer from './Footer';
 import FloatingAction from './utils/FloatingAction';
 import CustomModal from './utils/CustomModal';
 
-const RouteMap = ({ rutt, belongsToUserm, show}) => {
+const RouteMap = ({ rutt, belongsToUser, show}) => {
   const [drawMode, setDrawMode] = useState('polyline')
   const [markers, setMarkers] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
