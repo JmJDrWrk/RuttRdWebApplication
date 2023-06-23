@@ -14,7 +14,7 @@ import Footer from './Footer';
 import FloatingAction from './utils/FloatingAction';
 import CustomModal from './utils/CustomModal';
 
-const RouteMap = ({ rutt, belongsToUser, show}) => {
+const RouteMap = ({ rutt, belongsToUser, show }) => {
   const [drawMode, setDrawMode] = useState('polyline')
   const [markers, setMarkers] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
@@ -231,11 +231,13 @@ const RouteMap = ({ rutt, belongsToUser, show}) => {
       mouseup: handleMouseUp,
       mousemove: handleMouseMove,
       zoomend: () => { setMapZoom(mapRef.getZoom()) },
-      moveend: () => { try {
-        setCenter([mapRef._lastCenter.lat, mapRef._lastCenter.lng])
-      } catch (error) {
-        console.error('[Rutt] _lastCenter error', error)
-      }}
+      moveend: () => {
+        try {
+          setCenter([mapRef._lastCenter.lat, mapRef._lastCenter.lng])
+        } catch (error) {
+          console.error('[Rutt] _lastCenter error', error)
+        }
+      }
     });
 
     return null;
@@ -256,26 +258,50 @@ const RouteMap = ({ rutt, belongsToUser, show}) => {
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [newMarkerName, setNewMarkerName] = useState('');
   const handleRenameMarker = () => {
-    const marker = markers.find((marker) => marker.id === markerId);
-    if (marker) {
-      setClickedMarker(marker.id);
-      setIsRenameModalOpen(true);
-      setNewMarkerName(marker.text);
-    } else {
-      console.error('[Rutt] Selected marker does not exist/couldnt be found')
+    if (drawMode == 'point') {
+      const marker = nonPolylineMarkers.find((marker) => marker.id === markerId);
+      if (marker) {
+        setClickedMarker(marker.id);
+        setIsRenameModalOpen(true);
+        setNewMarkerName(marker.text);
+      } else {
+        console.error('[Rutt] Selected marker does not exist/couldnt be found')
+      }
+      setMenuAnchor(null);
+    }else{
+      const marker = markers.find((marker) => marker.id === markerId);
+      if (marker) {
+        setClickedMarker(marker.id);
+        setIsRenameModalOpen(true);
+        setNewMarkerName(marker.text);
+      } else {
+        console.error('[Rutt] Selected marker does not exist/couldnt be found')
+      }
+      setMenuAnchor(null);
     }
-    setMenuAnchor(null);
+
   }
 
   const handleRenameMarkerSubmit = () => {
-    const updatedMarkers = markers.map((marker) => {
-      if (marker.id === clickedMarker) {
-        return { ...marker, text: newMarkerName };
-      }
-      return marker;
-    });
-    setMarkers(updatedMarkers);
-    setIsRenameModalOpen(false);
+    if (drawMode == 'point') {
+      const updatedMarkers = nonPolylineMarkers.map((marker) => {
+        if (marker.id === clickedMarker) {
+          return { ...marker, text: newMarkerName };
+        }
+        return marker;
+      });
+      setNonPolylineMarkers(updatedMarkers);
+      setIsRenameModalOpen(false);
+    } else {
+      const updatedMarkers = markers.map((marker) => {
+        if (marker.id === clickedMarker) {
+          return { ...marker, text: newMarkerName };
+        }
+        return marker;
+      });
+      setMarkers(updatedMarkers);
+      setIsRenameModalOpen(false);
+    }
   };
   const handleDeleteCoordinate = () => {
     const selectedMarker = markers.find((marker) => marker.id === markerId);
@@ -540,7 +566,7 @@ const RouteMap = ({ rutt, belongsToUser, show}) => {
               </Tooltip>
             </FloatingAction>
           }
-          
+
         </>
         : false
       }
