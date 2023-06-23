@@ -51,7 +51,7 @@ export default function SignUp() {
     const succeeded = await new UsersAPI().notificationContext(show).signup(formdata)
     // const res = await ServerApi.doPost('/users/signup', formdata)
     // console.log('response: ' + JSON.stringify(res))
-    // navigate("/")
+    navigate("/")
   };
 
   return (
