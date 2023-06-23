@@ -11,12 +11,15 @@ import RuttApi from "../api/RuttApi";
 import State from "../api/state";
 import { Typography } from "@mui/material";
 import Loading from "../components/mui/Loading";
+import { NotificationContext } from "../NotificationContext";
+import { useContext } from "react";
 function RuttView(props) {
     var ruttApi = new RuttApi();
     const { ruttId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [rutt, setRutt] = useState({})
     const [belongsToUser, setBelongsToUser] = useState(false)
+    const { show } = useContext(NotificationContext);
     useEffect(() => {
         const fetchProfile = async () => {
             try {
@@ -37,7 +40,7 @@ function RuttView(props) {
             {isLoading ? (
                 <Loading></Loading>
             ) : (
-                <RouteMap rutt={rutt} belongsToUser={belongsToUser} />
+                <RouteMap rutt={rutt} belongsToUser={belongsToUser} show={show}/>
             )}
         </>
     );

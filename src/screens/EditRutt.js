@@ -14,7 +14,10 @@ import { Tooltip } from "leaflet";
 import { IconButton } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import State from "../api/state";
+import { NotificationContext } from "../NotificationContext";
+import { useContext } from "react";
 const CreateRutt = () => {
+    const { show } = useContext(NotificationContext);
     var ruttApi = new RuttApi();
     const { ruttId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
@@ -52,7 +55,7 @@ const CreateRutt = () => {
                         :
                         false
                     }
-                    <RouteMap rutt={rutt} />
+                    <RouteMap rutt={rutt} show={show}/>
                 </>
 
             )}

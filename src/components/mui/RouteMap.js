@@ -14,7 +14,7 @@ import Footer from './Footer';
 import FloatingAction from './utils/FloatingAction';
 import CustomModal from './utils/CustomModal';
 
-const RouteMap = ({ rutt, belongsToUser }) => {
+const RouteMap = ({ rutt, belongsToUserm, show}) => {
   const [drawMode, setDrawMode] = useState('polyline')
   const [markers, setMarkers] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
@@ -349,7 +349,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         price: price
       }
     };
-    const { data, succeeded } = (await ruttApi.uploadRutt(ruttFile))
+    const { data, succeeded } = (await ruttApi.notificationContext(show).uploadRutt(ruttFile))
     navigate('/RuttView/' + data.ruttId)
 
   }
@@ -375,7 +375,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         price: price
       }
     };
-    new RuttApi().updateRutt(ruttFile, rutt._id)
+    new RuttApi().notificationContext(show).updateRutt(ruttFile, rutt._id)
   }
   const handleFloatingClick = (event) => {
     event.preventDefault()
