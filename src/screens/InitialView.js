@@ -26,7 +26,14 @@ function InitialView(props) {
     }
     doFetch()
   }, []);
-
+  const opt = {
+    vertical: 'bottom',
+    spacing: 8,
+    message: 'Not coded',
+    displayForEver: false,
+    lifetime: 1000,
+    severity: 'info'
+  }
   return (
     <>
       <Notification properties={opt}></Notification>
