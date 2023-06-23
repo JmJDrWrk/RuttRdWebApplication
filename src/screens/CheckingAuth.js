@@ -14,9 +14,8 @@ const CheckingAuth = () => {
   const navigate = useNavigate();
   const location = useLocation()
   useEffect(() => {
-    console.log('location.pathname', location.pathname)
-    State.setUserIntention(location.pathname)
     const timeout = setTimeout(() => {
+      State.setUserIntention(location.pathname)
       navigate("/");
     }, 5000);
 

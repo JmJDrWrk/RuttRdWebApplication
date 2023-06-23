@@ -28,6 +28,9 @@ export default class RuttApi extends ApiRequest {
     async findById(ruttId) {
         return (await this.get('/rutt/'+ruttId)).data.rutt
     }
+    async findByOthersId(ruttId) {
+        return (await this.get('/rutt/other/'+ruttId)).data.rutt
+    }
     async findMyRutts() {
         return (await this.get('/myrutts'))
     }

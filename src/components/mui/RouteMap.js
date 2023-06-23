@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline, useMapEvents, Popup } from 'react-leaflet';
 import Button from "@mui/material/Button";
 import { IconButton, Tooltip, Box, TextField, FormControl, Grid, Menu, MenuItem, Modal, Typography, InputLabel, Select } from '@mui/material';
-import { CenterFocusStrong, Save, Delete, CloudUpload, Architecture, Undo } from '@mui/icons-material';
+import { CenterFocusStrong, Save, Delete, CloudUpload, Architecture, Undo, Edit } from '@mui/icons-material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import L from 'leaflet';
 import markerIcon from './src/marker1.png';
@@ -566,9 +566,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
             </Tooltip>
           </FloatingAction>
         </>
-        : false
-
-
+        :false
       }
       <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="1">
         <Tooltip title="Center to Current Location">
