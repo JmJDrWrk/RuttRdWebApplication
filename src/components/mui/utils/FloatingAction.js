@@ -19,7 +19,7 @@ const FloatingAction = ({ clickHandler = () => { alert('Floating action clicked'
         <>
             {!undecorated ?
                 <Fab
-                    color="secondary"
+                    color="primary"
                     sx={{
                         position: 'absolute',
                         bottom: (theme) => theme.spacing(bottomSpacing),
