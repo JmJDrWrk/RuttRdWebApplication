@@ -19,7 +19,7 @@ function InitialView(props) {
   const navigate = useNavigate()
   useEffect(() => {
     async function doFetch() {
-      const { data, succeeded } = await (new RuttApi().notificationContext(show).findMyRutts())
+      // const { data, succeeded } = await (new RuttApi().notificationContext(show).findMyRutts())
       if(State.getUserIntention()){
         navigate(State.consumeUserIntention())
       }
