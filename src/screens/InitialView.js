@@ -19,6 +19,14 @@ function InitialView(props) {
   const navigate = useNavigate()
   useEffect(() => {
     async function doFetch() {
+      show({
+        vertical: 'bottom',
+        spacing: 8,
+        message: 'Not coded',
+        displayForEver: false,
+        lifetime: 1000,
+        severity: 'info'
+      })
       // const { data, succeeded } = await (new RuttApi().notificationContext(show).findMyRutts())
       if (State.getUserIntention()) {
         navigate(State.consumeUserIntention())
@@ -26,17 +34,10 @@ function InitialView(props) {
     }
     doFetch()
   }, []);
-  const opt = {
-    vertical: 'bottom',
-    spacing: 8,
-    message: 'Not coded',
-    displayForEver: false,
-    lifetime: 1000,
-    severity: 'info'
-  }
+
   return (
     <>
-      <Notification properties={opt}></Notification>
+
     </>
   );
 }
