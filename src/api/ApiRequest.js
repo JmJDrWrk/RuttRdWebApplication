@@ -10,9 +10,12 @@ export default class ApiRequest{
         }
     }
     notificationContext(show) {
-        this.hasNotificationContext = true;
-        this.show = show;
-        return this
+        if(show){
+            this.hasNotificationContext = true;
+            this.show = show;
+            return this
+        }
+        console.error('[NotificationContext] show is undefined')
     }
 
     handleResponse({data, succeeded}) {
