@@ -14,12 +14,12 @@ import Loading from "../components/mui/Loading";
 import { NotificationContext } from "../NotificationContext";
 import { useContext } from "react";
 function RuttView(props) {
+    const { show } = useContext(NotificationContext);
     var ruttApi = new RuttApi();
     const { ruttId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [rutt, setRutt] = useState({})
     const [belongsToUser, setBelongsToUser] = useState(false)
-    const { show } = useContext(NotificationContext);
     useEffect(() => {
         const fetchProfile = async () => {
             try {
