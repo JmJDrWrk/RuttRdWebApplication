@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, useMapEvents, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Polyline, useMapEvents, Popup, useMap } from 'react-leaflet';
 import Button from "@mui/material/Button";
 import { IconButton, Tooltip, Box, TextField, FormControl, Grid, Menu, MenuItem, Modal, Typography, InputLabel, Select } from '@mui/material';
 import { CenterFocusStrong, Save, Delete, CloudUpload, Architecture, Undo, Edit } from '@mui/icons-material';
@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import FloatingAction from './utils/FloatingAction';
+import CustomModal from './utils/CustomModal';
 
 const RouteMap = ({ rutt, belongsToUser }) => {
   const [drawMode, setDrawMode] = useState('polyline')
@@ -19,6 +20,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
   const [coordinates, setCoordinates] = useState([]);
   const [center, setCenter] = useState([0, 0]);
   const [mapKey, setMapKey] = useState(0);
+  const [mapZoom, setMapZoom] = useState(13);
   let mapRef = useRef(null)
   const [drawingRoute, setDrawingRoute] = useState(false);
   const customIcon = L.icon({
@@ -42,11 +44,6 @@ const RouteMap = ({ rutt, belongsToUser }) => {
 
     const finalSizeInPx = documentHeight - headerHeight - footerHeight
 
-    console.log('documentHeight', documentHeight)
-    console.log('headerHeight', headerHeight)
-    console.log('footerHeight', footerHeight)
-    console.log('finalSizeInPx', finalSizeInPx)
-
     return finalSizeInPx
     // return '200px'
   })
@@ -57,25 +54,25 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          console.log('YOUR POSITION: ', latitude, longitude);
+          console.debug('[Rutt]: Your position', latitude, longitude);
           setCenter([latitude, longitude]);
           setMapKey((prevKey) => prevKey + 1); // Update the map key to force re-render
         },
         (error) => {
           console.error(error);
-          console.error('USING DEFAULT COORDINATES')
+          console.debug('[Rutt] Using default coordinates')
           setCenter([43.370731, -8.395850]);
           setMapKey((prevKey) => prevKey + 1); // Update the map key to force re-render
         }
       );
     }
     if (rutt) {
-      console.log('RENDERING CHANGES', rutt)
-      setCoordinates(rutt.coordinates || []);
-      setMarkers(rutt.markers || []);
-      setCenter(rutt.center);
-      setNonPolylineMarkers(rutt.nonPolylineMarkers || []);
-
+      console.debug('[Rutt] Rendering data', rutt)
+      setCoordinates(rutt.coordinates || [])
+      setMarkers(rutt.markers || [])
+      setCenter(rutt.center || [43.370731, -8.395850])
+      setNonPolylineMarkers(rutt.nonPolylineMarkers || [])
+      setMapZoom(rutt.zoom || 13)
       //ruttData
       setRuttName(rutt.ruttData.name)
       setAccessType(rutt.ruttData.accessType)
@@ -92,9 +89,13 @@ const RouteMap = ({ rutt, belongsToUser }) => {
   const [nonPolylineMarkers, setNonPolylineMarkers] = useState([])
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const handleMapClick = (event) => {
+    if(!belongsToUser){
+      console.debug('[Rutt] Click disabled on view mode')
+      return false
+    }
     //Right Click
     if (event.originalEvent.button === 0) {
-      console.log('draw mode: ' + drawMode)
+      console.debug('[Rutt] Drawmode changed to', drawMode)
       if (drawMode == 'polyline') {
         if (!drawingRoute) {
           const { lat, lng } = event.latlng;
@@ -115,20 +116,20 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         };
         setNonPolylineMarkers((prevMarkers) => [...prevMarkers, newMarker]);
       } else {
-        console.error('invalid drawMode!')
+        console.debug('[Rutt] No such a drawmode avaliable')
       }
     } else {
-      console.log('LeftClick')
+      console.debug('[Rutt][Event] LeftClick')
     }
   };
 
   const handleMouseDown = () => {
-    console.log('mouse down', mapRef)
+    console.debug('[Rutt][Event] MouseDown', mapRef)
     setDrawingRoute(true);
   };
 
   const handleMouseUp = () => {
-    console.log('mouse up')
+    console.debug('[Rutt][Event] MouseUp')
     setDrawingRoute(false);
   };
   const handleMapMove = () => {
@@ -138,7 +139,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
   };
 
   const handleDeleteLastPoint = () => {
-    console.log('deleting last point')
+    console.debug('[Rutt] Undo point')
     if (coordinates.length > 0) {
       setMarkers((prevMarkers) => prevMarkers.slice(0, -1));
       setCoordinates((prevCoordinates) => prevCoordinates.slice(0, -1));
@@ -154,6 +155,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       markers: markers,
       nonPolylineMarkers: nonPolylineMarkers,
       center: center,
+      zoom : mapZoom,
       ruttData: {
         name: ruttName,
         datetimefrom: ruttDateTimeFrom,
@@ -220,6 +222,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       mousedown: handleMouseDown,
       mouseup: handleMouseUp,
       mousemove: handleMouseMove,
+      zoomend: () => {setMapZoom(mapRef.getZoom())}
     });
 
     return null;
@@ -320,11 +323,13 @@ const RouteMap = ({ rutt, belongsToUser }) => {
   const navigate = useNavigate()
   const ruttApi = new RuttApi()
   async function handleUploadRutt() {
+
     let ruttFile = {
       coordinates: coordinates,
       markers: markers,
       nonPolylineMarkers: nonPolylineMarkers,
       center: center,
+      zoom: mapZoom,
       ruttData: {
         name: ruttName,
         datetimefrom: ruttDateTimeFrom,
@@ -350,6 +355,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       markers: markers,
       nonPolylineMarkers: nonPolylineMarkers,
       center: center,
+      zoom: mapZoom,
       ruttData: {
         name: ruttName,
         datetimefrom: ruttDateTimeFrom,
@@ -451,7 +457,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       <MapContainer
         key={mapKey} // Use a unique key to force re-render when center changes
         center={center} // Set the initial center of the map
-        zoom={13} // Set the initial zoom level
+        zoom={mapZoom} // Set the initial zoom level
         style={{ height: optHeightPx, width: '100%' }}
         ref={(map) => (mapRef = map)}
       >
@@ -553,7 +559,6 @@ const RouteMap = ({ rutt, belongsToUser }) => {
             <Tooltip title="Save changes">
               <IconButton onClick={handleUpdateRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
                 <Save style={{ color: 'white' }} />
-
               </IconButton>
             </Tooltip>
           </FloatingAction>
