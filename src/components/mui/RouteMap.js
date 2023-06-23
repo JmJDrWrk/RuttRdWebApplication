@@ -59,15 +59,19 @@ const RouteMap = ({ rutt, belongsToUser }) => {
           setMapKey((prevKey) => prevKey + 1); // Update the map key to force re-render
         },
         (error) => {
-          console.error(error);
-          console.debug('[Rutt] Using default coordinates')
-          setCenter([43.370731, -8.395850]);
-          setMapKey((prevKey) => prevKey + 1); // Update the map key to force re-render
+          console.error('[Rutt] Geolocation failed', error);
+          if (!rutt) {
+            console.debug('[Rutt] Using default coordinates')
+            setCenter([43.370731, -8.395850]);
+            setMapKey((prevKey) => prevKey + 1); // Update the map key to force re-render
+          } else {
+            console.debug('[Rutt] Geolocation service failed and using default coordinates was skipped because a rutt is ready to be loaded.')
+          }
         }
       );
     }
     if (rutt) {
-      console.debug('[Rutt] Rendering data', rutt)
+      console.debug('[Rutt] Rendering rutt data', rutt)
       setCoordinates(rutt.coordinates || [])
       setMarkers(rutt.markers || [])
       setCenter(rutt.center || [43.370731, -8.395850])
@@ -89,8 +93,8 @@ const RouteMap = ({ rutt, belongsToUser }) => {
   const [nonPolylineMarkers, setNonPolylineMarkers] = useState([])
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const handleMapClick = (event) => {
-    if(!belongsToUser){
-      console.debug('[Rutt] Click disabled on view mode')
+    if (!belongsToUser) {
+      console.debug('[Rutt] Click is disabled on view mode')
       return false
     }
     //Right Click
@@ -155,7 +159,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       markers: markers,
       nonPolylineMarkers: nonPolylineMarkers,
       center: center,
-      zoom : mapZoom,
+      zoom: mapZoom,
       ruttData: {
         name: ruttName,
         datetimefrom: ruttDateTimeFrom,
@@ -222,7 +226,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       mousedown: handleMouseDown,
       mouseup: handleMouseUp,
       mousemove: handleMouseMove,
-      zoomend: () => {setMapZoom(mapRef.getZoom())}
+      zoomend: () => { setMapZoom(mapRef.getZoom()) }
     });
 
     return null;
@@ -249,7 +253,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       setIsRenameModalOpen(true);
       setNewMarkerName(marker.text);
     } else {
-      console.error('MARKER NOT FOUND')
+      console.error('[Rutt] Selected marker does not exist/couldnt be found')
     }
     setMenuAnchor(null);
   }
@@ -401,51 +405,6 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         </Box>
       </Modal>
       {/* {belongsToUser ?
-        <Box display="flex" justifyContent="space-between" mt={2}>
-          <Tooltip title="Change Draw Mode">
-            <Button
-              onClick={handleMenuDrawOpen}
-              variant="contained"
-              color="inherit"
-              startIcon={<CenterFocusStrong />}
-              style={{ backgroundColor: 'white' }}
-            >
-              {drawMode}
-            </Button>
-          </Tooltip>
-          <Menu
-            anchorEl={menuDrawAnchor}
-            open={Boolean(menuDrawAnchor)}
-            onClose={handleMenuDrawClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            <MenuItem onClick={() => handleDrawModeChange('polyline')}>Polyline</MenuItem>
-            <MenuItem onClick={() => handleDrawModeChange('point')}>Point</MenuItem>
-            <MenuItem onClick={() => handleDrawModeChange('Something')}>Something</MenuItem>
-          </Menu>
-
-          <Tooltip title="Center to Current Location">
-            <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'white' }}>
-              <CenterFocusStrong />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Save Polyline Reference">
-            <IconButton onClick={handleSaveRutt} style={{ backgroundColor: 'white' }}>
-              <Save />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Delete Last Point">
-            <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'white' }}>
-              <Delete />
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Load Polyline from File">
             <IconButton component="label" style={{ backgroundColor: 'white' }}>
               <CloudUpload />
@@ -571,7 +530,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
             </Tooltip>
           </FloatingAction>
         </>
-        :false
+        : false
       }
       <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="1">
         <Tooltip title="Center to Current Location">
