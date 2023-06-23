@@ -20,7 +20,7 @@ function InitialView(props) {
   useEffect(() => {
     async function doFetch() {
       // const { data, succeeded } = await (new RuttApi().notificationContext(show).findMyRutts())
-      if(State.getUserIntention()){
+      if (State.getUserIntention()) {
         navigate(State.consumeUserIntention())
       }
     }
@@ -29,6 +29,7 @@ function InitialView(props) {
 
   return (
     <>
+      <Notification properties={opt}></Notification>
     </>
   );
 }

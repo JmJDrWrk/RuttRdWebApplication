@@ -6,10 +6,17 @@ import { Typography } from "@mui/material";
 import FloatingAction from "../components/mui/utils/FloatingAction";
 import Notification from "../components/mui/utils/Notification";
 function Favorites(props) {
+  const opt = {
+    vertical: 'bottom',
+    spacing: 8,
+    message: 'Not coded',
+    displayForEver: false,
+    lifetime: 1000,
+    severity: 'info'
+  }
   return (
     <>
-      <FloatingAction bottomSpacing={8}></FloatingAction>
-      <Notification vertical="top" spacing={8} message="Not coded" displayForEver={false}></Notification>
+      <Notification properties={opt}></Notification>
     </>
   );
 }

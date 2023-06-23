@@ -59,7 +59,7 @@ const Notification = ({ properties }) => {
             >
                 {
                     severity && (
-                        <Alert onClose={handleClose} severity={severity} sx={{ width: '80%' }}>
+                        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
                             {message}
                         </Alert>
                     )
