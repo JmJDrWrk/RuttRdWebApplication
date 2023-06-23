@@ -230,7 +230,8 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       mousedown: handleMouseDown,
       mouseup: handleMouseUp,
       mousemove: handleMouseMove,
-      zoomend: () => { setMapZoom(mapRef.getZoom()) }
+      zoomend: () => { setMapZoom(mapRef.getZoom()) },
+      moveend: () => { setCenter([mapRef._lastCenter.lat, mapRef._lastCenter.lng])}
     });
 
     return null;
