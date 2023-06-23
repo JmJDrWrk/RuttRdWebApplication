@@ -22,7 +22,7 @@ import ServerApi from "../../api/api";
 import { ImageBackground } from "react-native-web";
 import { minHeight } from "@mui/system";
 import State from "../../api/state";
-function Header(props) {
+function ResponsiveAppBar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [current, setCurrent] = React.useState({
@@ -35,18 +35,16 @@ function Header(props) {
 
   useEffect(() => {
     // Fetch the user data from the /me endpoint and update the user name
-    if(!props.blockLoad){
-      const fetchData = async() => {
-        const res = await ServerApi.doGet('/users/me')
-        if(!res.error){
-          
-          State.setMe(res)
-          setCurrent(res)
-        }
+    const fetchData = async() => {
+      const res = await ServerApi.doGet('/users/me')
+      if(!res.error){
+        
+        State.setMe(res)
+        setCurrent(res)
       }
-      fetchData()
-      .catch(console.error)
     }
+    fetchData()
+    .catch(console.error)
     
   }, []);
   const handleGoBack = () => {
@@ -105,7 +103,7 @@ function Header(props) {
   },
 ];
   return (
-    <AppBar position="static">
+    <AppBar position="static" id="appheader">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <TwoWheelerIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -227,4 +225,4 @@ function Header(props) {
     </AppBar>
   );
 }
-export default Header;
+export default ResponsiveAppBar;

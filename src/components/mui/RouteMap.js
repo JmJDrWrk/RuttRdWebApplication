@@ -2,13 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline, useMapEvents, Popup } from 'react-leaflet';
 import Button from "@mui/material/Button";
 import { IconButton, Tooltip, Box, TextField, FormControl, Grid, Menu, MenuItem, Modal, Typography, InputLabel, Select } from '@mui/material';
-import { CenterFocusStrong, Save, Delete, CloudUpload } from '@mui/icons-material';
-
+import { CenterFocusStrong, Save, Delete, CloudUpload, Architecture, Undo } from '@mui/icons-material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import L from 'leaflet';
 import markerIcon from './src/marker1.png';
 import 'leaflet/dist/leaflet.css';
 import RuttApi from '../../api/RuttApi';
 import { useNavigate } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
+import FloatingAction from './utils/FloatingAction';
 
 const RouteMap = ({ rutt, belongsToUser }) => {
   const [drawMode, setDrawMode] = useState('polyline')
@@ -24,6 +27,30 @@ const RouteMap = ({ rutt, belongsToUser }) => {
     iconAnchor: [16, 32], // Adjust the anchor point if necessary
   });
 
+  const [optHeightPx, setOptHeightPx] = useState(() => {
+    const documentHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    );
+
+    const headerHeight = document.getElementById('appheader').offsetHeight
+    const footerHeight = document.getElementById('appfooter').offsetHeight
+
+    const finalSizeInPx = documentHeight - headerHeight - footerHeight
+
+    console.log('documentHeight', documentHeight)
+    console.log('headerHeight', headerHeight)
+    console.log('footerHeight', footerHeight)
+    console.log('finalSizeInPx', finalSizeInPx)
+
+    return finalSizeInPx
+    // return '200px'
+  })
+
   useEffect(() => {
     // Get user's current location
     if (navigator.geolocation) {
@@ -36,6 +63,9 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         },
         (error) => {
           console.error(error);
+          console.error('USING DEFAULT COORDINATES')
+          setCenter([43.370731, -8.395850]);
+          setMapKey((prevKey) => prevKey + 1); // Update the map key to force re-render
         }
       );
     }
@@ -57,6 +87,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
       setPolylineKey((prevKey) => prevKey + 1); // Trigger re-render of Polyline
       setMapKey((prevKey) => prevKey + 1);
     }
+
   }, []);
   const [nonPolylineMarkers, setNonPolylineMarkers] = useState([])
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -107,6 +138,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
   };
 
   const handleDeleteLastPoint = () => {
+    console.log('deleting last point')
     if (coordinates.length > 0) {
       setMarkers((prevMarkers) => prevMarkers.slice(0, -1));
       setCoordinates((prevCoordinates) => prevCoordinates.slice(0, -1));
@@ -303,7 +335,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
         price: price
       }
     };
-    const {data, succeeded} = (await ruttApi.uploadRutt(ruttFile))
+    const { data, succeeded } = (await ruttApi.uploadRutt(ruttFile))
     navigate('/RuttView/' + data.ruttId)
 
   }
@@ -330,7 +362,9 @@ const RouteMap = ({ rutt, belongsToUser }) => {
     };
     new RuttApi().updateRutt(ruttFile, rutt._id)
   }
-
+  const handleFloatingClick = (event) => {
+    event.preventDefault()
+  }
   return (
     <div>
       <Modal open={isRenameModalOpen} onClose={() => setIsRenameModalOpen(false)}>
@@ -360,64 +394,65 @@ const RouteMap = ({ rutt, belongsToUser }) => {
           </Box>
         </Box>
       </Modal>
-      {belongsToUser ? <Box display="flex" justifyContent="space-between" mt={2}>
-        <Tooltip title="Change Draw Mode">
-          <Button
-            onClick={handleMenuDrawOpen}
-            variant="contained"
-            color="inherit"
-            startIcon={<CenterFocusStrong />}
-            style={{ backgroundColor: 'white' }}
+      {/* {belongsToUser ?
+        <Box display="flex" justifyContent="space-between" mt={2}>
+          <Tooltip title="Change Draw Mode">
+            <Button
+              onClick={handleMenuDrawOpen}
+              variant="contained"
+              color="inherit"
+              startIcon={<CenterFocusStrong />}
+              style={{ backgroundColor: 'white' }}
+            >
+              {drawMode}
+            </Button>
+          </Tooltip>
+          <Menu
+            anchorEl={menuDrawAnchor}
+            open={Boolean(menuDrawAnchor)}
+            onClose={handleMenuDrawClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
           >
-            {drawMode}
-          </Button>
-        </Tooltip>
-        <Menu
-          anchorEl={menuDrawAnchor}
-          open={Boolean(menuDrawAnchor)}
-          onClose={handleMenuDrawClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-        >
-          <MenuItem onClick={() => handleDrawModeChange('polyline')}>Polyline</MenuItem>
-          <MenuItem onClick={() => handleDrawModeChange('point')}>Point</MenuItem>
-          <MenuItem onClick={() => handleDrawModeChange('Something')}>Something</MenuItem>
-        </Menu>
+            <MenuItem onClick={() => handleDrawModeChange('polyline')}>Polyline</MenuItem>
+            <MenuItem onClick={() => handleDrawModeChange('point')}>Point</MenuItem>
+            <MenuItem onClick={() => handleDrawModeChange('Something')}>Something</MenuItem>
+          </Menu>
 
-        <Tooltip title="Center to Current Location">
-          <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'white' }}>
-            <CenterFocusStrong />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Save Polyline Reference">
-          <IconButton onClick={handleSaveRutt} style={{ backgroundColor: 'white' }}>
-            <Save />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Delete Last Point">
-          <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'white' }}>
-            <Delete />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Load Polyline from File">
-          <IconButton component="label" style={{ backgroundColor: 'white' }}>
-            <CloudUpload />
-            <input type="file" accept=".json" style={{ display: 'none' }} onChange={handleFileUpload} />
-          </IconButton>
-        </Tooltip>
-      </Box> : <></>}
+          <Tooltip title="Center to Current Location">
+            <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'white' }}>
+              <CenterFocusStrong />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Save Polyline Reference">
+            <IconButton onClick={handleSaveRutt} style={{ backgroundColor: 'white' }}>
+              <Save />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete Last Point">
+            <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'white' }}>
+              <Delete />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Load Polyline from File">
+            <IconButton component="label" style={{ backgroundColor: 'white' }}>
+              <CloudUpload />
+              <input type="file" accept=".json" style={{ display: 'none' }} onChange={handleFileUpload} />
+            </IconButton>
+          </Tooltip>
+        </Box> : false} */}
 
       <MapContainer
         key={mapKey} // Use a unique key to force re-render when center changes
         center={center} // Set the initial center of the map
         zoom={13} // Set the initial zoom level
-        style={{ height: '585px', width: '100%' }}
+        style={{ height: optHeightPx, width: '100%' }}
         ref={(map) => (mapRef = map)}
       >
         <MapEvents />
@@ -450,7 +485,7 @@ const RouteMap = ({ rutt, belongsToUser }) => {
 
         <Polyline positions={coordinates} key={polylineKey} ref={(ref) => (polylineRef.current = ref)} />
 
-            {belongsToUser ?         <Menu
+        {belongsToUser ? <Menu
           open={menuAnchor !== null}
           anchorEl={menuAnchor}
           onClose={handleMenuClose}
@@ -467,91 +502,172 @@ const RouteMap = ({ rutt, belongsToUser }) => {
           <MenuItem onClick={handleDeleteOnlyMarker}>Remove marker</MenuItem>
           <MenuItem onClick={handleDeleteCoordinate}>Remove point</MenuItem>
           <MenuItem onClick={handleRenameMarker}>Rename</MenuItem>
-        </Menu> : <></>}
-
+        </Menu> : false}
 
       </MapContainer>
 
-      {belongsToUser ? 
-            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-            <Box width={400}>
-              <TextField label="Rutt Name" variant="outlined" fullWidth margin="normal" value={ruttName} onChange={(e) => setRuttName(e.target.value)} />
-    
+      {belongsToUser ?
+        <>
+          <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={() => { }} btref="drawmode" place="3" undecorated={false}>
+            <Tooltip title="Change Draw Mode">
+              <Button
+                onClick={handleMenuDrawOpen}
+                variant="contained"
+                color="inherit"
+                // icon={}
+                style={{ backgroundColor: 'transparent', boxShadow: 'none' }}
+              >
+                <Architecture />
+                {/* <Typography fontSize={4}>{drawMode}</Typography> */}
+              </Button>
+            </Tooltip>
+
+            <Menu
+              anchorEl={menuDrawAnchor}
+              open={Boolean(menuDrawAnchor)}
+              onClose={handleMenuDrawClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+            >
+              <MenuItem onClick={() => handleDrawModeChange('polyline')}>Polyline</MenuItem>
+              <MenuItem onClick={() => handleDrawModeChange('point')}>Point</MenuItem>
+              <MenuItem onClick={() => handleDrawModeChange('polygon')}>Polygon</MenuItem>
+            </Menu>
+          </FloatingAction>
+
+          <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="save" place="2">
+            <Tooltip title="Delete Last Point">
+              <IconButton onClick={handleDeleteLastPoint} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                <Undo style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+          </FloatingAction>
+
+          <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="4">
+            <Tooltip title="Save changes">
+              <IconButton onClick={handleUpdateRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                <Save style={{ color: 'white' }} />
+
+              </IconButton>
+            </Tooltip>
+          </FloatingAction>
+
+          <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="5">
+            <Tooltip title="Create a new map">
+              <IconButton onClick={handleUploadRutt} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                <AddCircleOutlineIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+          </FloatingAction>
+        </>
+        : false
+
+
+      }
+      <FloatingAction bottomSpacing={8} rightSpacing={1} clickHandler={handleFloatingClick} btref="center" place="1">
+        <Tooltip title="Center to Current Location">
+          <IconButton onClick={centerToCurrentLocation} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+            <CenterFocusStrong style={{ color: 'white' }} />
+          </IconButton>
+        </Tooltip>
+      </FloatingAction>
+
+      {/* <Button onClick={handleUpdateRutt} variant="contained" color="primary">
+        Save Changes
+      </Button>
+      <Button onClick={handleUploadRutt} variant="contained" color="primary">
+        Create
+      </Button>
+      <Button onClick={handlePublishRutt} variant="contained" color="primary">
+        Publish
+      </Button> */}
+
+      {belongsToUser ?
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+          <Box width={400}>
+            <TextField label="Rutt Name" variant="outlined" fullWidth margin="normal" value={ruttName} onChange={(e) => setRuttName(e.target.value)} />
+
+            <TextField
+              label="From Date & Time"
+              type="datetime-local"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={ruttDateTimeFrom}
+              onChange={(e) => setRuttDateTimeFrom(e.target.value)}
+            />
+
+            <TextField
+              label="To Date & Time"
+              type="datetime-local"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={ruttDateTimeTo}
+              onChange={(e) => setRuttDateTimeTo(e.target.value)}
+            />
+
+            <TextField
+              label="Duration"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="event-type-label">Event Type</InputLabel>
+              <Select
+                labelId="event-type-label"
+                id="event-type-select"
+                value={eventType}
+                onChange={(e) => setEventType(e.target.value)}
+              >
+                <MenuItem value="private">Private</MenuItem>
+                <MenuItem value="public">Public</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="access-type-label">Access Type</InputLabel>
+              <Select
+                labelId="access-type-label"
+                id="access-type-select"
+                value={accessType}
+                onChange={(e) => setAccessType(e.target.value)}
+              >
+                <MenuItem value="private">Private</MenuItem>
+                <MenuItem value="public">Public</MenuItem>
+                <MenuItem value="pay">Pay</MenuItem>
+              </Select>
+            </FormControl>
+
+            {accessType === 'pay' && (
               <TextField
-                label="From Date & Time"
-                type="datetime-local"
-                variant="outlined"
+                label="Price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
                 fullWidth
                 margin="normal"
-                value={ruttDateTimeFrom}
-                onChange={(e) => setRuttDateTimeFrom(e.target.value)}
               />
-    
-              <TextField
-                label="To Date & Time"
-                type="datetime-local"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                value={ruttDateTimeTo}
-                onChange={(e) => setRuttDateTimeTo(e.target.value)}
-              />
-    
-              <TextField
-                label="Duration"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                fullWidth
-                margin="normal"
-              />
-    
-              <FormControl fullWidth margin="normal">
-                <InputLabel id="event-type-label">Event Type</InputLabel>
-                <Select
-                  labelId="event-type-label"
-                  id="event-type-select"
-                  value={eventType}
-                  onChange={(e) => setEventType(e.target.value)}
-                >
-                  <MenuItem value="private">Private</MenuItem>
-                  <MenuItem value="public">Public</MenuItem>
-                </Select>
-              </FormControl>
-    
-              <FormControl fullWidth margin="normal">
-                <InputLabel id="access-type-label">Access Type</InputLabel>
-                <Select
-                  labelId="access-type-label"
-                  id="access-type-select"
-                  value={accessType}
-                  onChange={(e) => setAccessType(e.target.value)}
-                >
-                  <MenuItem value="private">Private</MenuItem>
-                  <MenuItem value="public">Public</MenuItem>
-                  <MenuItem value="pay">Pay</MenuItem>
-                </Select>
-              </FormControl>
-    
-              {accessType === 'pay' && (
-                <TextField
-                  label="Price"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  fullWidth
-                  margin="normal"
-                />
-              )}
-              <Button onClick={handleUpdateRutt} variant="contained" color="primary">
-                Save Changes
-              </Button>
-              <Button onClick={handleUploadRutt} variant="contained" color="primary">
-                Create
-              </Button>
-              <Button onClick={handlePublishRutt} variant="contained" color="primary">
-                Publish
-              </Button>
-            </Box>
-          </Box> : <></>
+            )}
+            <Button onClick={handleUpdateRutt} variant="contained" color="primary">
+              Save Changes
+            </Button>
+            <Button onClick={handleUploadRutt} variant="contained" color="primary">
+              Create
+            </Button>
+            <Button onClick={handlePublishRutt} variant="contained" color="primary">
+              Publish
+            </Button>
+          </Box>
+        </Box> : <></>
 
       }
 

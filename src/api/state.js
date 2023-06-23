@@ -36,6 +36,17 @@ export default class State {
             window.localStorage.removeItem('his')
         });
     }
+    static setUserIntention(str) {
+        return window.localStorage.setItem('userIntention', str)
+    }
+    static getUserIntention() {
+        return window.localStorage.getItem('userIntention')
+    }
+    static consumeUserIntention() {
+        const userIntention = window.localStorage.getItem('userIntention')
+        window.localStorage.removeItem('userIntention')
+        return userIntention
+    }
 
     
 }
