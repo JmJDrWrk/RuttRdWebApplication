@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ServerApi from '../../api2/api';
 import { useNavigate, useLocation } from "react-router-dom";
 import UsersAPI from '../../api/UsersAPI';
+import { useContext } from 'react';
+import { NotificationContext } from '../../NotificationContext';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -33,6 +35,8 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  
+  const { show } = useContext(NotificationContext);
   const navigate = useNavigate();
   const location = useLocation();
   async function handleSubmit(event) {
@@ -41,10 +45,10 @@ export default function SignUp() {
     const formdata = {
       email: data.get('email'),
       password: data.get('password'),
-      name: data.get('firstname'),
-      surname: data.get('lastname')
+      name: data.get('firstName'),
+      surname: data.get('lastName')
     };
-    const succeeded = await new UsersAPI().signup(formdata)
+    const succeeded = await new UsersAPI().notificationContext(show).signup(formdata)
     // const res = await ServerApi.doPost('/users/signup', formdata)
     // console.log('response: ' + JSON.stringify(res))
     // navigate("/")
