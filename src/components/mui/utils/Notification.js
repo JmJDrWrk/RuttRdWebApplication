@@ -6,67 +6,68 @@ import CloseIcon from '@mui/icons-material/Close';
 import MuiAlert from '@mui/material/Alert';
 
 const Notification = ({ properties }) => {
-    const [open, setOpen] = useState(false);
-    const { vertical = 'bottom', horizontal = 'center', message = 'Default notification message!!', lifetime = 2752, severity = 'error', displayForEver = true, spacing = 2 } = properties;
-    
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
+  const [open, setOpen] = useState(false);
+  const {
+    vertical = 'bottom',
+    horizontal = 'center',
+    message = 'Default notification message!!',
+    severity = 'error',
+    spacing = 2,
+    handleTheClose = () => {console.debug('[NotificationComponent] handleCloseIsDefaultHandleCloseException')}
+  } = properties;
 
-    useEffect(() => {
-        setOpen(true);
-        if (!displayForEver) {
-            const timer = setTimeout(() => {
-                setOpen(false);
-            }, lifetime);
-            return () => clearTimeout(timer);
-        }
-    }, []);
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
-    console.log('spacing: ' + spacing)
-    const action = (
-        <React.Fragment>
-            <Button color="secondary" size="small" onClick={handleClose}>
-                UNDO
-            </Button>
-            <IconButton
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={handleClose}
-            >
-                <CloseIcon fontSize="small" />
-            </IconButton>
-        </React.Fragment>
-    );
+  useEffect(() => {
+    console.log('[NotificationComponent] useEffect opens')
+    setOpen(true);
+  }, [open]);
 
-    return (
-        <div>
-            <Snackbar
-                anchorOrigin={{ vertical, horizontal }}
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                message={message}
-                action={action}
-                sx={{ mb: spacing }}
-            >
-                {
-                    severity && (
-                        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
-                            {message}
-                        </Alert>
-                    )
-                }
-            </Snackbar>
-        </div>
-    );
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    handleTheClose()
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  return (
+    <div>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={message}
+        action={action}
+        sx={{ mb: spacing }}
+      >
+        {severity && (
+          <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+            {message}
+          </Alert>
+        )}
+      </Snackbar>
+    </div>
+  );
 };
 
 export default Notification;

@@ -20,7 +20,7 @@ export default class ApiRequest{
 
     handleResponse({data, succeeded}) {
         if(!this.hasNotificationContext){
-            // console.log('skipping handler')
+            console.debug('[NotificationContext] skipping notification')
         }else{
             // console.log('handling response')
             this.show({

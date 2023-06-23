@@ -231,7 +231,11 @@ const RouteMap = ({ rutt, belongsToUser, show}) => {
       mouseup: handleMouseUp,
       mousemove: handleMouseMove,
       zoomend: () => { setMapZoom(mapRef.getZoom()) },
-      moveend: () => { setCenter([mapRef._lastCenter.lat, mapRef._lastCenter.lng])}
+      moveend: () => { try {
+        setCenter([mapRef._lastCenter.lat, mapRef._lastCenter.lng])
+      } catch (error) {
+        console.error('[Rutt] _lastCenter error', error)
+      }}
     });
 
     return null;
