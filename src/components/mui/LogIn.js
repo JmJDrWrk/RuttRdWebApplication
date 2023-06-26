@@ -17,6 +17,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import State from '../../api2/state';
 // import UserApi from '../../api2/UserApi';
 import UsersAPI from '../../api/UsersAPI';
+
+import { useContext } from 'react';
+import { NotificationContext } from '../../NotificationContext';
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -35,6 +39,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const { show } = useContext(NotificationContext);
   const navigate = useNavigate();
   async function handleSubmit(event) {
     event.preventDefault();
@@ -43,7 +48,7 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     };
-    if(await new UsersAPI().login(formdata)){
+    if(await new UsersAPI().notificationContext(show).login(formdata)){
       window.location.reload()
     }
   };

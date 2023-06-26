@@ -250,6 +250,7 @@ const RouteMap = ({ rutt, belongsToUser, show }) => {
   };
   const [markerId, setMarkerId] = useState()
   const handleMarkerClick = (markerId, event) => {
+    console.debug('[Rutt][handleMarkerClick] markerId', markerId)
     setMarkerId(markerId)
     setMousePosition({ x: event.originalEvent.clientX, y: event.originalEvent.clientY });
     setClickedMarker(markerId);
@@ -304,7 +305,9 @@ const RouteMap = ({ rutt, belongsToUser, show }) => {
     }
   };
   const handleDeleteCoordinate = () => {
+    console.debug('[Rutt][handleDeleteCoordinate] previous markerId', markerId)
     const selectedMarker = markers.find((marker) => marker.id === markerId);
+    console.debug('[Rutt][handleDeleteCoordinate] selected marker', selectedMarker)
     setMarkers((prevMarkers) => prevMarkers.filter((marker) => marker.id !== clickedMarker));
     setCoordinates((prevCoordinates) =>
       prevCoordinates.filter((coordinate) => {
