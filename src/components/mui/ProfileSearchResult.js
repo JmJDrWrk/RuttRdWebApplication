@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import State from "../../api/state";
 import Card from "@mui/material/Card";
@@ -6,7 +6,19 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
+import { Menu, MenuItem } from "@mui/material";
+import { MoreVert as MoreVertIcon } from "@mui/icons-material";
 
+//Prototype
+import io from "socket.io-client"; // Import the socket.io-client library
+const socket = io("https://locationsocket.jmjdrwrk.repl.co/", {
+  transports: ["websocket"],
+  secure: true,
+  rejectUnauthorized: false,
+  auth : {
+    token : State.getToken()
+  }
+});
 const ProfileCard = styled(Card)`
   display: flex;
   align-items: center;
@@ -35,15 +47,48 @@ const ProfileCard = styled(Card)`
 
 function ProfileSearchResult({ profile }) {
   const navigate = useNavigate();
-  // Function to handle profile click and redirect
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+
   const handleProfileClick = (profileName) => {
-    console.log('Navigating')
+    console.log("Navigating");
     navigate(`/ProfileOther/${profileName}`);
   };
+
+  const handleContextMenuOpen = (e) => {
+    e.preventDefault();
+    setMenuAnchorEl(e.currentTarget);
+  };
+  
+  const handleContextMenuClose = (e) => {
+    const actions = {
+      'requestposition' : () => {
+        requestUserPosition()
+      }
+    }
+    actions[e.target.getAttribute('itemID')]()
+    setMenuAnchorEl(null);
+  };
+
+  //ACTIONS
+  const requestUserPosition = () => {
+    console.log('Requesting someone location')
+    socket.emit('requestLocation',{'to':'target@ruttradar.com'})
+  }
+
+  socket.on('requestedLocation', () => {
+    console.log('Someone requested your location!!')
+  })
+
   return (
-    <ProfileCard onClick={()=>{handleProfileClick(profile.email)}}>
+    <ProfileCard
+
+      onContextMenu={handleContextMenuOpen}
+    >
       <Avatar src={State.fileshost + profile.profilePhoto} alt={profile.username} />
-      <CardContent className="profile-info">
+      <CardContent className="profile-info"
+        onClick={() => {
+          handleProfileClick(profile.email);
+        }}>
         <Typography variant="h6" component="h3">
           {profile.name}
         </Typography>
@@ -51,7 +96,20 @@ function ProfileSearchResult({ profile }) {
           {profile.surname}
         </Typography>
       </CardContent>
-      {/* Add additional actions or information as needed */}
+      <MoreVertIcon
+        style={{ marginLeft: "auto", cursor: "pointer" }}
+        onClick={handleContextMenuOpen}
+      />
+      <Menu
+        anchorEl={menuAnchorEl}
+        open={Boolean(menuAnchorEl)}
+        onClose={handleContextMenuClose}
+      >
+        <MenuItem onClick={handleContextMenuClose}>Follow</MenuItem>
+        <MenuItem onClick={handleContextMenuClose}>Message</MenuItem>
+        <MenuItem onClick={handleContextMenuClose} itemID="requestposition">Request position</MenuItem>
+        <MenuItem onClick={handleContextMenuClose}>Report</MenuItem>
+      </Menu>
     </ProfileCard>
   );
 }

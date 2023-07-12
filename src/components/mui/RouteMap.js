@@ -198,7 +198,6 @@ const RouteMap = ({ rutt, belongsToUser, show }) => {
       );
     }
   };
-
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     const fileName = file.name;
