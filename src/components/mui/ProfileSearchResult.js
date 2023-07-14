@@ -61,18 +61,19 @@ function ProfileSearchResult({ profile }) {
 
   const handleContextMenuClose = (e) => {
     const actions = {
-      'requestposition': () => {
-        requestUserPosition()
+      'requestposition': (bucket) => {
+        requestUserPosition(bucket)
       }
     }
-    actions[e.target.getAttribute('itemID')]()
+    const accessKey = e.target.getAttribute('accessKey')
+    actions[e.target.getAttribute('itemID')](accessKey)
     setMenuAnchorEl(null);
   };
 
   //ACTIONS
-  const requestUserPosition = () => {
-    console.log('Requesting someone location')
-    socket.emit('requestLocation', { 'to': 'target@ruttradar.com' })
+  const requestUserPosition = (to) => {
+    console.log('Requesting someone location', to)
+    socket.emit('requestLocation', { 'to': to })
   }
   const playBeep = () => {
     var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
@@ -129,7 +130,7 @@ function ProfileSearchResult({ profile }) {
       >
         <MenuItem onClick={handleContextMenuClose}>Follow</MenuItem>
         <MenuItem onClick={handleContextMenuClose}>Message</MenuItem>
-        <MenuItem onClick={handleContextMenuClose} itemID="requestposition" accessKey="{profile.email}">Request position</MenuItem>
+        <MenuItem onClick={handleContextMenuClose} itemID="requestposition" accessKey={profile.email}>Request position</MenuItem>
         <MenuItem onClick={handleContextMenuClose}>Report</MenuItem>
       </Menu>
     </ProfileCard>
