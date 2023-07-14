@@ -15,8 +15,8 @@ const socket = io("https://locationsocket.jmjdrwrk.repl.co/", {
   transports: ["websocket"],
   secure: true,
   rejectUnauthorized: false,
-  auth : {
-    token : State.getToken()
+  auth: {
+    token: State.getToken()
   }
 });
 const ProfileCard = styled(Card)`
@@ -58,10 +58,10 @@ function ProfileSearchResult({ profile }) {
     e.preventDefault();
     setMenuAnchorEl(e.currentTarget);
   };
-  
+
   const handleContextMenuClose = (e) => {
     const actions = {
-      'requestposition' : () => {
+      'requestposition': () => {
         requestUserPosition()
       }
     }
@@ -72,12 +72,34 @@ function ProfileSearchResult({ profile }) {
   //ACTIONS
   const requestUserPosition = () => {
     console.log('Requesting someone location')
-    socket.emit('requestLocation',{'to':'target@ruttradar.com'})
+    socket.emit('requestLocation', { 'to': 'target@ruttradar.com' })
   }
+  const playBeep = () => {
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
+    var oscillator = audioCtx.createOscillator();
+    var gainNode = audioCtx.createGain();
+    var duration = 1000
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
 
-  socket.on('requestedLocation', () => {
-    console.log('Someone requested your location!!')
-  })
+    //if (volume){gainNode.gain.value = 10;}
+    //if (frequency){oscillator.frequency.value = 400;}
+    // if (type){oscillator.type = type;}
+    //if (callback){oscillator.onended = callback;}
+    oscillator.frequency.value = 900;
+    oscillator.start(audioCtx.currentTime);
+    oscillator.stop(audioCtx.currentTime + ((duration || 500) / 1000));
+  };
+  useEffect(() => {
+    socket.on('requestedLocation', () => {
+      console.log('Someone requested your location!!');
+      playBeep();
+    });
+
+    return () => {
+      socket.off('requestedLocation');
+    };
+  }, []);
 
   return (
     <ProfileCard
@@ -107,7 +129,7 @@ function ProfileSearchResult({ profile }) {
       >
         <MenuItem onClick={handleContextMenuClose}>Follow</MenuItem>
         <MenuItem onClick={handleContextMenuClose}>Message</MenuItem>
-        <MenuItem onClick={handleContextMenuClose} itemID="requestposition">Request position</MenuItem>
+        <MenuItem onClick={handleContextMenuClose} itemID="requestposition" accessKey="{profile.email}">Request position</MenuItem>
         <MenuItem onClick={handleContextMenuClose}>Report</MenuItem>
       </Menu>
     </ProfileCard>
