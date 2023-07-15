@@ -8,6 +8,8 @@ import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import { Menu, MenuItem } from "@mui/material";
 import { MoreVert as MoreVertIcon } from "@mui/icons-material";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 //Prototype
 import io from "socket.io-client"; // Import the socket.io-client library
@@ -73,8 +75,10 @@ function ProfileSearchResult({ profile }) {
   //ACTIONS
   const requestUserPosition = (to) => {
     console.log('Requesting someone location', to)
-    socket.emit('requestLocation', { 'to': to })
+    socket.emit('requestLocation', { 'requested': to })
   }
+
+
   const playBeep = () => {
     var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
     var oscillator = audioCtx.createOscillator();
@@ -92,13 +96,19 @@ function ProfileSearchResult({ profile }) {
     oscillator.stop(audioCtx.currentTime + ((duration || 500) / 1000));
   };
   useEffect(() => {
-    socket.on('requestedLocation', () => {
-      console.log('Someone requested your location!!');
-      playBeep();
-    });
-
+    const handleLocationResponse = (bucket) => {
+      console.log('bucket', bucket);
+      toast.dismiss(); // Dismiss any existing toasts
+      toast.success(`${bucket.requested} is in ${bucket.address}`, {
+        position: toast.POSITION.TOP_RIGHT,
+        // Other options
+      });
+    };
+  
+    socket.on('locationResponse', handleLocationResponse);
+  
     return () => {
-      socket.off('requestedLocation');
+      socket.off('locationResponse', handleLocationResponse);
     };
   }, []);
 
@@ -128,10 +138,10 @@ function ProfileSearchResult({ profile }) {
         open={Boolean(menuAnchorEl)}
         onClose={handleContextMenuClose}
       >
-        <MenuItem onClick={handleContextMenuClose}>Follow</MenuItem>
-        <MenuItem onClick={handleContextMenuClose}>Message</MenuItem>
+        {/* <MenuItem onClick={handleContextMenuClose}>Follow</MenuItem> */}
+        {/* <MenuItem onClick={handleContextMenuClose}>Message</MenuItem> */}
         <MenuItem onClick={handleContextMenuClose} itemID="requestposition" accessKey={profile.email}>Request position</MenuItem>
-        <MenuItem onClick={handleContextMenuClose}>Report</MenuItem>
+        {/* <MenuItem onClick={handleContextMenuClose}>Report</MenuItem> */}
       </Menu>
     </ProfileCard>
   );

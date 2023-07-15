@@ -28,6 +28,9 @@ import UsersAPI from "./api/UsersAPI";
 import Header from "./components/mui/Header";
 import Footer from "./components/mui/Footer";
 
+//TOastify
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Define your dark theme
 const lightBlack = createTheme({
@@ -79,6 +82,8 @@ export default function App() {
   }, []);
   return (
     <ThemeProvider theme={lightBlack}>
+      
+      <ToastContainer />
 
       {!isAuthenticated ?
 
