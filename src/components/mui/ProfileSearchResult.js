@@ -50,7 +50,7 @@ const ProfileCard = styled(Card)`
 function ProfileSearchResult({ profile }) {
   const navigate = useNavigate();
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
-
+  const [currentLocation, setCurrentLocation] = useState(null)
   const handleProfileClick = (profileName) => {
     console.log("Navigating");
     navigate(`/ProfileOther/${profileName}`);
@@ -103,6 +103,7 @@ function ProfileSearchResult({ profile }) {
         position: toast.POSITION.TOP_RIGHT,
         // Other options
       });
+      setCurrentLocation(bucket.address)
     };
   
     socket.on('locationResponse', handleLocationResponse);
@@ -126,7 +127,7 @@ function ProfileSearchResult({ profile }) {
           {profile.name}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {profile.surname}
+          {currentLocation}
         </Typography>
       </CardContent>
       <MoreVertIcon
