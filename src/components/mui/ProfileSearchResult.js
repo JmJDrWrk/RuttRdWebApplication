@@ -149,3 +149,13 @@ function ProfileSearchResult({ profile }) {
 }
 
 export default ProfileSearchResult;
+
+
+// .put("Lat", lastLat)
+// .put("Lng", lastLng)
+// .put("Address", lastAddress)
+// .put("Vacc", lastVacc)
+// .put("Hacc", lastHacc)
+// .put("Alt", lastAlt)
+// .put("Speed", lastSpeed)
+// .put("SpeedAcc", lastSpeedAcc)
