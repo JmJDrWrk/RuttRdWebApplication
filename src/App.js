@@ -93,7 +93,7 @@ export default function App() {
               <Route path="/" exact element=<Auth />></Route>
               <Route path="/Auth" exact element=<Auth />></Route>
               <Route path="/SignUp" exact element=<SignUp />></Route>
-              <Route path='*/:userIntention' exact={true} element=<CheckingAuth /> />
+              <Route path="/*" element=<CheckingAuth /> />
             </Routes>
           </BrowserRouter>
         </StrictMode>
