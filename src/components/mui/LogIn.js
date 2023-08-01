@@ -11,14 +11,9 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ServerApi from '../../api2/api';
-import { useNavigate, useLocation } from "react-router-dom";
-import State from '../../api2/state';
-// import UserApi from '../../api2/UserApi';
 import UsersAPI from '../../api/UsersAPI';
-
-import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useContext} from 'react';
 import { NotificationContext } from '../../NotificationContext';
 
 function Copyright(props) {
@@ -34,9 +29,6 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
 
 export default function SignIn() {
   const { show } = useContext(NotificationContext);
@@ -48,13 +40,14 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     };
+    //The api returns succeeded boolean
     if(await new UsersAPI().notificationContext(show).login(formdata)){
+      navigate('/InitialView')
       window.location.reload()
     }
   };
 
   return (
-    // <ThemeProvider theme={defaultTheme} data-cy="login-component">
     <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -124,7 +117,6 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    {/* </ThemeProvider> */}
     </>
   );
 }

@@ -9,10 +9,8 @@ import markerIcon from './src/marker1.png';
 import 'leaflet/dist/leaflet.css';
 import RuttApi from '../../api/RuttApi';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
 import FloatingAction from './utils/FloatingAction';
-import CustomModal from './utils/CustomModal';
+
 
 const RouteMap = ({ rutt, belongsToUser, show }) => {
   const [drawMode, setDrawMode] = useState('polyline')
@@ -140,9 +138,7 @@ const RouteMap = ({ rutt, belongsToUser, show }) => {
     console.debug('[Rutt][Event] MouseUp')
     setDrawingRoute(false);
   };
-  const handleMapMove = () => {
 
-  };
   const handleMouseMove = (event) => {
   };
 
@@ -157,31 +153,6 @@ const RouteMap = ({ rutt, belongsToUser, show }) => {
   const polylineRef = useRef(null);
   const [polylineKey, setPolylineKey] = useState(0);
 
-  const handleSaveRutt = () => {
-    let ruttFile = {
-      coordinates: coordinates,
-      markers: markers,
-      nonPolylineMarkers: nonPolylineMarkers,
-      center: center,
-      zoom: mapZoom,
-      ruttData: {
-        name: ruttName,
-        datetimefrom: ruttDateTimeFrom,
-        datetimeto: ruttDateTimeTo,
-        duration: duration,
-        eventType: eventType,
-        accessType: accessType,
-        price: price
-      }
-    };
-    const data = JSON.stringify(ruttFile);
-    const blob = new Blob([data], { type: 'application/json;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'rutt.json';
-    link.click();
-  };
 
   const centerToCurrentLocation = () => {
     // Get user's current location
@@ -197,30 +168,6 @@ const RouteMap = ({ rutt, belongsToUser, show }) => {
         }
       );
     }
-  };
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    const fileName = file.name;
-    const fileExtension = fileName.split('.').pop().toLowerCase();
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const contents = e.target.result;
-      try {
-        const data = JSON.parse(contents);
-        setCoordinates(data.coordinates || []);
-        setMarkers(data.markers || []);
-        setCenter(data.center);
-        setNonPolylineMarkers(data.nonPolylineMarkers || []);
-        setPolylineKey((prevKey) => prevKey + 1); // Trigger re-render of Polyline
-        setMapKey((prevKey) => prevKey + 1); // Update the map key to force re-render
-        // Extract the coordinates from the JSON data
-        // Set the coordinates and markers state accordingly
-      } catch (error) {
-        console.error('Failed to parse JSON:', error);
-      }
-    };
-    reader.readAsText(file);
   };
 
   const MapEvents = () => {
@@ -345,22 +292,6 @@ const RouteMap = ({ rutt, belongsToUser, show }) => {
   const [accessType, setAccessType] = useState(' '); // private, public, pay
   const [price, setPrice] = useState(' ');
   const [duration, setDuration] = useState(' ');
-
-  const handleDurationChange = (event) => {
-    setDuration(event.target.value);
-  };
-
-  const handleEventTypeChange = (event) => {
-    setEventType(event.target.value);
-  };
-
-  const handleAccessTypeChange = (event) => {
-    setAccessType(event.target.value);
-  };
-
-  const handlePriceChange = (event) => {
-    setPrice(event.target.value);
-  };
   const navigate = useNavigate()
   const ruttApi = new RuttApi()
   async function handleUploadRutt() {

@@ -8,10 +8,15 @@ export default class UsersAPI extends ApiRequest {
         this.relPath = '/users';
     }
 
+    //static users = new UsersAPI() ?
+
     async login(formData) {
-        return ResponseHandler.handle(await super.post('/login', formData), (data) => {
-            //OnSuccess
+        return ResponseHandler.handle(await super.post('/login', formData),
+        (data) => {
             State.setToken(data.token)
+        }
+        ,(error) => {
+            
         })
     }
 

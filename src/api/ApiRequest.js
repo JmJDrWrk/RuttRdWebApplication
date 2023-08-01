@@ -9,6 +9,7 @@ export default class ApiRequest{
             base : 'https://ruttradarvalkiria.jmjdrwrk.repl.co'
         }
     }
+    //To display a notification is necessary to pass from the component the context for the notification
     notificationContext(show) {
         if(show){
             this.hasNotificationContext = true;
@@ -18,6 +19,7 @@ export default class ApiRequest{
         console.error('[NotificationContext] show is undefined')
     }
 
+    //Depends on the notification context to display it following a specific message structure from server
     handleResponse({data, succeeded}) {
         if(!this.hasNotificationContext){
             console.debug('[NotificationContext] skipping notification')
@@ -31,7 +33,6 @@ export default class ApiRequest{
                 lifetime: 100,
                 spacing : 6
             });
-            // console.log('data', data)
         }
 
     }
