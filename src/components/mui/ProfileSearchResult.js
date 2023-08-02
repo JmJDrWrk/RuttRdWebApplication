@@ -62,14 +62,18 @@ function ProfileSearchResult({ profile }) {
   };
 
   const handleContextMenuClose = (e) => {
-    const actions = {
-      'requestposition': (bucket) => {
-        requestUserPosition(bucket)
+    try {
+      const actions = {
+        'requestposition': (bucket) => {
+          requestUserPosition(bucket)
+        }
       }
+      const accessKey = e.target.getAttribute('accessKey')
+      actions[e.target.getAttribute('itemID')](accessKey)
+      setMenuAnchorEl(null);
+    } catch (err) {
+      console.error('[Search][Menu] MissClick')
     }
-    const accessKey = e.target.getAttribute('accessKey')
-    actions[e.target.getAttribute('itemID')](accessKey)
-    setMenuAnchorEl(null);
   };
 
   //ACTIONS
@@ -105,9 +109,9 @@ function ProfileSearchResult({ profile }) {
       });
       setCurrentLocation(bucket.address)
     };
-  
+
     socket.on('locationResponse', handleLocationResponse);
-  
+
     return () => {
       socket.off('locationResponse', handleLocationResponse);
     };
