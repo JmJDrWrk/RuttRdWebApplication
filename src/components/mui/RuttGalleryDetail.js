@@ -29,7 +29,15 @@ const formatAltitude = (altitude) => {
 const RuttGalleryDetail = ({ route }) => {
 
   const handleShareWithGoogleMaps = () => {
-
+    let base = `https://www.google.es/maps/dir`
+    let coords = route.coordinatesWithNames
+    let lastItem = [coords.length -1]
+    coords.pop(lastItem)
+    coords .forEach(route => {
+      base += `/${route.latitude},${route.longitude}`
+    });
+    base += `/@${lastItem.latitude},${lastItem.longitude}`
+    window.open(base,'_blank')
   }
 
   const [expanded, setExpanded] = useState(false);
@@ -61,12 +69,14 @@ const RuttGalleryDetail = ({ route }) => {
       <CardContent>
         <Typography variant="h6" component="div">
           {route.title}
+          <Button
+            onClick={handleShareWithGoogleMaps}
+          >
+            
+            <img src='https://logodownload.org/wp-content/uploads/2018/01/google-maps-logo-1-1.png' className='gmapslogo'></img>
+          </Button>
         </Typography>
-        <Button
-          onClick={handleShareWithGoogleMaps}
-        >
-          <img src='https://logodownload.org/wp-content/uploads/2018/01/google-maps-logo-1-1.png' style={width="20px"}></img>
-        </Button>
+
         {route.coordinatesWithNames && (
           <MapContainer
             center={[route.coordinatesWithNames[0].latitude, route.coordinatesWithNames[0].longitude]}
