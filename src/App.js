@@ -20,6 +20,8 @@ import CreateRutt from "./screens/CreateRutt";
 import EditRutt from "./screens/EditRutt"
 import CreateEvent from "./screens/CreateEvent";
 import RuttView from "./screens/RuttView";
+import Explore from "./screens/Explore.js"
+import ExploreDetail from "./screens/ExploreDetail.js"
 import CheckingAuth from "./screens/CheckingAuth"
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -122,6 +124,9 @@ export default function App() {
               <Route path="/CreateEvent/" exact element=<CreateEvent />></Route>
               <Route path="/Rutt/:ruttId" exact element=<EditRutt />></Route>
               <Route path="/RuttView/:ruttId" exact element=<RuttView />></Route>
+              // Prototype
+              <Route path="/Explore/" exact element=<Explore />></Route>
+              <Route path="/ExploreView/:ruttId" exact element=<ExploreDetail />></Route>
             </Routes>
             <Footer></Footer>
           </BrowserRouter>
