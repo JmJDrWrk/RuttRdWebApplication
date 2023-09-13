@@ -35,7 +35,8 @@ export default class RuttApi extends ApiRequest {
         return (await this.get('/myrutts'))
     }
     async findOthersRuttsByEmail(email) {
-        return (await this.get(`/by-email?email=${email}`)).data
+        // return (await this.get(`/by-email?email=${email}`)).data
+        return (await this.get(`/migration/by-email/${email}`)).data.response
     }
     async deleteById(ruttId) {
         return (await this.get(`/delete/${ruttId}`))

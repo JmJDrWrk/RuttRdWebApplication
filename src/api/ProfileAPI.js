@@ -7,20 +7,22 @@ export default class ProfileAPI extends ApiRequest{
     this.relPath = '/users'
   }
   async getProfileByEmail(email) {
-    const res = await ServerApi.doGet('/users/public/profile/' + email)
+    // const res = await ServerApi.doGet('/users/public/profile/' + email)
+    const res = await this.get('/migration/user/detail/' + email)
     if (!res.error) {
-      State.setOther(res)
+      State.setOther(res.response)
       new Error('Cant obtain profiles data!')
     }
-    return res
+    return res.data.response
   }
   async getProfilesIncluding(key) {
-    const {data, succeeded} = await this.get('/public/profiles')
+    // const {data, succeeded} = await this.get('/public/profiles')
+    const {data, succeeded} = await this.get('/migration/users')
     if (!data.error) {
       State.setOther(data)
       new Error('Cant obtain profile data!')
     }
-    return data
+    return data.response
   }
 
   // async uploadPhoto(data){

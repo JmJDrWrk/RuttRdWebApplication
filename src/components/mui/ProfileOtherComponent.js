@@ -96,6 +96,7 @@ const ProfileComponent = ({ profile, rutts, show }) => {
 
 
   const RuttGallery = ({ rutts, profile, show }) => {
+    console.log('incomming rutts', rutts)
     if (!rutts || rutts.length < 1) {
       return <Typography variant="body1">User has not uploaded any rutt yet.</Typography>;
     }
@@ -150,7 +151,8 @@ const ProfileComponent = ({ profile, rutts, show }) => {
           <Grid item key={rutt._id} xs={12} sm={6} md={4}>
             <CardHeader>
               <Typography variant="subtitle1" align="center">
-                {rutt.ruttData.name} ehh
+                {/* {rutt.ruttData.name} ehh MIGRATION*/}
+                {rutt.title}
               </Typography>
             </CardHeader>
 
@@ -166,7 +168,8 @@ const ProfileComponent = ({ profile, rutts, show }) => {
               />
               <CardContent>
                 <Typography variant="subtitle1" align="center">
-                  {rutt.ruttData.name}
+                  {/* {rutt.ruttData.name} MIGRATION*/}
+                  {rutt.title}
                 </Typography>
               </CardContent>
             </Card>

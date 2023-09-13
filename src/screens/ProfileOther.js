@@ -21,9 +21,10 @@ function ProfileOther() {
     const fetchProfile = async () => {
       try {
         const fetchedProfile = await new ProfileAPI().getProfileByEmail(email);
-        const fetchedRutts = await new RuttApi().findOthersRuttsByEmail(email)
-        setProfile(fetchedProfile.profile);
-        setRutts(fetchedRutts.rutts)
+        const fetchedRutts = await new RuttApi().findOthersRuttsByEmail(email);
+        console.log('??',fetchedRutts)
+        setProfile(fetchedProfile);
+        setRutts(fetchedRutts)
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching profile:", error);

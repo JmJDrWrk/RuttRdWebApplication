@@ -39,7 +39,7 @@ function Search(props) {
     const fetchProfile = async () => {
       try {
         const fetchedProfiles = await new ProfileAPI().getProfilesIncluding('email')
-        setProfiles(fetchedProfiles.profiles);
+        setProfiles(fetchedProfiles);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching profile:", error);
