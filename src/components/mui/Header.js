@@ -23,6 +23,7 @@ import { ImageBackground } from "react-native-web";
 import { minHeight } from "@mui/system";
 import State from "../../api/state";
 function ResponsiveAppBar(props) {
+  const [version, setVersion] = React.useState('develop 1.0')
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [current, setCurrent] = React.useState({
@@ -64,6 +65,9 @@ function ResponsiveAppBar(props) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleShowVersion = () => {
+    alert('Version: ' + version)
+  }
 
   const handleProfileClick = (event) => {
     navigate('/Profile');
@@ -107,7 +111,7 @@ function ResponsiveAppBar(props) {
     <AppBar position="static" id="appheader">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <TwoWheelerIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <TwoWheelerIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} onClick={handleShowVersion}/>
           <Typography
             variant="h6"
             noWrap
@@ -140,7 +144,7 @@ function ResponsiveAppBar(props) {
             </IconButton>
 
           </Box>
-          <TwoWheelerIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <TwoWheelerIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} onClick={handleShowVersion}/>
           <Typography
             variant="h5"
             noWrap
