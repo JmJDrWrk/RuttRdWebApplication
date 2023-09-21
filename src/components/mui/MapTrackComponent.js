@@ -68,16 +68,16 @@ const MapTrackComponent = () => {
   }, []);
 
   // Function to request location every 5 seconds
-  const requestLocationEvery5Seconds = () => {
+  const requestLocationOneTime = () => {
     console.log('Emitting event...')
     socket.emit('requestLocation', { requested: 'localizable@ruttradar.com' });
   }
 
   // Start requesting location every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(requestLocationEvery5Seconds, 5000);
-    return () => clearInterval(interval); // Clear the interval on component unmount
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(requestLocationEvery5Seconds, 5000);
+  //   return () => clearInterval(interval); // Clear the interval on component unmount
+  // }, []);
 
   return (
     <>
