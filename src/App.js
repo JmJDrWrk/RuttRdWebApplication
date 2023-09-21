@@ -23,6 +23,9 @@ import RuttView from "./screens/RuttView";
 import Explore from "./screens/Explore.js"
 import ExploreDetail from "./screens/ExploreDetail.js"
 import CheckingAuth from "./screens/CheckingAuth"
+import CreateRuttv2 from "./screens/CreateRuttv2";
+import MapTrack from "./screens/MapTrack";
+
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, teal } from '@mui/material/colors';
@@ -60,11 +63,16 @@ const darkTheme = createTheme({
 });
 
 const checkAuth = async () => {
+  
   if(!(!localStorage.getItem('auth-token'))){
     const { succeeded } = await new UsersAPI().getMe();
+    console.log('Checking auth?', succeeded)
     if (!succeeded) {
+      console.log('Removing auth')
       localStorage.removeItem('auth-token')
       return false;
+    }else{
+      console.log('Authenticated')
     }
   }
   return !(!localStorage.getItem('auth-token'));
@@ -121,6 +129,10 @@ export default function App() {
               <Route path="/SignIn/" exact element=<SignIn />></Route>
               <Route path="/UploadRutt/" exact element=<UploadRutt />></Route>
               <Route path="/CreateRutt/" exact element=<CreateRutt />></Route>
+
+              <Route path="/CreateRuttv2/" exact element=<CreateRuttv2 />></Route>
+              <Route path="/MapTrack/" exact element=<MapTrack />></Route>
+
               <Route path="/CreateEvent/" exact element=<CreateEvent />></Route>
               <Route path="/Rutt/:ruttId" exact element=<EditRutt />></Route>
               <Route path="/RuttView/:ruttId" exact element=<RuttView />></Route>

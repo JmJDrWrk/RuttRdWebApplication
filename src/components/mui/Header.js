@@ -22,6 +22,7 @@ import ServerApi from "../../api/api";
 import { ImageBackground } from "react-native-web";
 import { minHeight } from "@mui/system";
 import State from "../../api/state";
+import UsersAPI from "../../api/UsersAPI";
 function ResponsiveAppBar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -36,11 +37,19 @@ function ResponsiveAppBar(props) {
   useEffect(() => {
     // Fetch the user data from the /me endpoint and update the user name
     const fetchData = async() => {
-      const res = await ServerApi.doGet('/users/me')
-      if(!res.error){
-        
-        State.setMe(res)
-        setCurrent(res)
+      // const res = await ServerApi.doGet('/users/me')
+      const res = await new UsersAPI().getMe()
+      console.log('res?', res)
+      if(!res.succeeded){
+        console.log('NO AUTH')
+      }
+      else if(!res.error || res.succeeded){
+        console.log('SETTING UP', res.data.response)
+
+        State.setMe({user:res.data.response})
+        setCurrent({user:res.data.response})
+      }else{
+        console.error('THERE WAS A ERROR OR THE USER IS NOT LOGGED')
       }
     }
     fetchData()

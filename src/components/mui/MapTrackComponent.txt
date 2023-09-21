@@ -1,0 +1,118 @@
+import React, { useEffect, useState, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+
+
+import State from '../../api/state';
+import 'leaflet/dist/leaflet.css';
+import { Button } from 'react-native-web';
+
+import io from "socket.io-client"; // Import the socket.io-client library
+const socket = io("https://locationsocket.jmjdrwrk.repl.co/", {
+  transports: ["websocket"],
+  secure: true,
+  rejectUnauthorized: false,
+  auth: {
+    token: State.getToken()
+  }
+});
+
+const MapTrackComponent = () => {
+
+  const [position, setPosition] = useState(null);
+  let mapRef = useRef(null)
+  const [center, setCenter] = useState([0, 0]);
+  const [mapKey, setMapKey] = useState(0);
+  const [mapZoom, setMapZoom] = useState(13);
+  const [optHeightPx, setOptHeightPx] = useState(() => {
+    const documentHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    );
+
+    const headerHeight = document.getElementById('appheader').offsetHeight
+    const footerHeight = document.getElementById('appfooter').offsetHeight
+
+    const finalSizeInPx = documentHeight - headerHeight - footerHeight
+
+    return finalSizeInPx
+    // return '200px'
+  })
+
+
+  const requestUserPosition = (to) => {
+    console.log('Requesting someone location', to)
+    socket.emit('requestLocation', { 'requested': to })
+  }
+
+  // useEffect(() => {
+  //   // const socket = socketIOClient('<YOUR_SOCKET_SERVER_URL>'); // Replace with your actual socket server URL
+
+  //   const requestLocation = () => {
+  //     console.log('Requesting position')
+  //     // socket.emit('requestLocation', { requested: 'localizable@ruttradar.com' });
+  //   };
+
+  //   requestLocation(); // Initial request
+
+  //   const interval = setInterval(requestLocation, 4000); // Send request every 10 seconds
+
+  //   const handleLocationResponse = (bucket) => {
+  //     console.log('bucket', bucket);
+  //     toast.dismiss(); // Dismiss any existing toasts
+  //     toast.success(`${bucket.requested} is in ${bucket.address}`, {
+  //       position: toast.POSITION.TOP_RIGHT,
+  //       // Other options
+  //     });
+  //     setCurrentLocation(bucket.address)
+  //   };
+
+  //   socket.on('locationResponse', handleLocationResponse);
+
+
+  //   return () => {
+  //     clearInterval(interval);
+  //     socket.disconnect();
+  //   };
+  // }, []);
+  useEffect(() => {
+    const handleLocationResponse = (bucket) => {
+      console.log('bucket', bucket);
+      toast.dismiss(); // Dismiss any existing toasts
+      toast.success(`${bucket.requested} is in ${bucket.address}`, {
+        position: toast.POSITION.TOP_RIGHT,
+        // Other options
+      });
+      setCurrentLocation(bucket.address)
+    };
+
+    socket.on('locationResponse', handleLocationResponse);
+
+    return () => {
+      socket.off('locationResponse', handleLocationResponse);
+    };
+  }, []);
+  const handleLocateButton = (req, res) => {
+    socket.emit('requestLocation', { requested: 'localizable@ruttradar.com' });
+  }
+
+  return (
+    <div >
+      <Button onClick={handleLocateButton}></Button>
+      <MapContainer
+        key={mapKey} // Use a unique key to force re-render when center changes
+        center={center} // Set the initial center of the map
+        zoom={mapZoom} // Set the initial zoom level
+        style={{ height: optHeightPx, width: '100%' }}
+        ref={(map) => (mapRef = map)}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      </MapContainer>
+    </div>
+  );
+};
+
+export default MapTrackComponent;

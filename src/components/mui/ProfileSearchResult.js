@@ -66,6 +66,9 @@ function ProfileSearchResult({ profile }) {
       const actions = {
         'requestposition': (bucket) => {
           requestUserPosition(bucket)
+        },
+        'trackinmap': (accessKey) => {
+          
         }
       }
       const accessKey = e.target.getAttribute('accessKey')
@@ -146,6 +149,7 @@ function ProfileSearchResult({ profile }) {
         {/* <MenuItem onClick={handleContextMenuClose}>Follow</MenuItem> */}
         {/* <MenuItem onClick={handleContextMenuClose}>Message</MenuItem> */}
         <MenuItem onClick={handleContextMenuClose} itemID="requestposition" accessKey={profile.email}>Request position</MenuItem>
+        <MenuItem onClick={handleContextMenuClose} itemID="trackinmap" accessKey={profile.email}>Track in map</MenuItem>
         {/* <MenuItem onClick={handleContextMenuClose}>Report</MenuItem> */}
       </Menu>
     </ProfileCard>

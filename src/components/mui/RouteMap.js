@@ -74,19 +74,20 @@ const RouteMap = ({ rutt, belongsToUser, show }) => {
       setFirstTimeMapView(false)
 
       console.debug('[Rutt] Rendering rutt data', rutt)
-      setCoordinates(rutt.coordinates || [])
-      setMarkers(rutt.markers || [])
-      setCenter(rutt.center || [43.370731, -8.395850])
-      setNonPolylineMarkers(rutt.nonPolylineMarkers || [])
-      setMapZoom(rutt.zoom || 13)
+      setCoordinates(rutt.raw.coordinates || [])
+      setMarkers(rutt.raw.markers || [])
+      setCenter(rutt.raw.center || [43.370731, -8.395850])
+      setNonPolylineMarkers(rutt.raw.nonPolylineMarkers || [])
+      setMapZoom(rutt.raw.zoom || 13)
       //ruttData
-      setRuttName(rutt.ruttData.name)
-      setAccessType(rutt.ruttData.accessType)
-      setEventType(rutt.ruttData.eventType)
-      setDuration(rutt.ruttData.duration)
-      setPrice(rutt.ruttData.price)
-      setRuttDateTimeFrom(rutt.ruttData.datetimefrom || '2023-05-19:22:14')
-      setRuttDateTimeTo(rutt.ruttData.datetimeto || '2023-05-19:22:14')
+      setRuttName(rutt.title)
+      setAccessType(rutt.data.accessType)
+      setEventType(rutt.data.eventType)
+      setDuration(rutt.data.duration)
+      setPrice(rutt.data.price)
+      //WARNING DEPRECATED USAGE OF ATTRIBUTES
+      setRuttDateTimeFrom(rutt.data.datetimefrom || '2023-05-19:22:14')
+      setRuttDateTimeTo(rutt.data.datetimeto || '2023-05-19:22:14')
       setPolylineKey((prevKey) => prevKey + 1); // Trigger re-render of Polyline
       setMapKey((prevKey) => prevKey + 1);
     }
@@ -323,20 +324,22 @@ const RouteMap = ({ rutt, belongsToUser, show }) => {
 
   function handleUpdateRutt() {
     let ruttFile = {
-      coordinates: coordinates,
-      markers: markers,
-      nonPolylineMarkers: nonPolylineMarkers,
-      center: center,
-      zoom: mapZoom,
-      ruttData: {
-        name: ruttName,
-        datetimefrom: ruttDateTimeFrom,
-        datetimeto: ruttDateTimeTo,
-        duration: duration,
-        eventType: eventType,
-        accessType: accessType,
-        price: price
+      raw: {
+        coordinates: coordinates,
+        markers: markers,
+        nonPolylineMarkers: nonPolylineMarkers,
+        center: center,
+        zoom: mapZoom,
       }
+      // data: {
+      //   name: ruttName,
+      //   datetimefrom: ruttDateTimeFrom,
+      //   datetimeto: ruttDateTimeTo,
+      //   duration: duration,
+      //   eventType: eventType,
+      //   accessType: accessType,
+      //   price: price
+      // }
     };
     new RuttApi().notificationContext(show).updateRutt(ruttFile, rutt._id)
   }

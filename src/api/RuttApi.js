@@ -10,9 +10,7 @@ export default class RuttApi extends ApiRequest {
         this.relPath = '/rutts'
     }
     async uploadRutt(obj) {
-        const response = await this.post('/upload', {
-            rutt : obj
-        })
+        const response = await this.post('/migration/upload', obj)
         ResponseHandler.handle(response)
         return response
     }
@@ -20,13 +18,10 @@ export default class RuttApi extends ApiRequest {
         return await this.get('/publish/'+ruttId)
     }
     async updateRutt(rutt, ruttId) {
-        return ResponseHandler.handle(await this.post('/update', {
-            rutt : rutt,
-            ruttId : ruttId
-        }))
+        return ResponseHandler.handle(await this.post('/migration/update/rutt/by-id/'+ruttId, rutt))
     }
     async findById(ruttId) {
-        return (await this.get('/rutt/'+ruttId)).data.rutt
+        return (await this.get('/migration/rutt/by-id/'+ruttId)).data.response
     }
     async findByOthersId(ruttId) {
         return (await this.get('/rutt/other/'+ruttId)).data.rutt

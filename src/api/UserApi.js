@@ -1,7 +1,7 @@
 import customAPI from "./customAPI";
 export default class UserApi extends customAPI {
     constructor(config) {
-        console.error('DEPRECATED')
+        alert('DEPRECATED')
         super();
         if (config) {
             Object.assign(this, { ...config });
@@ -9,15 +9,15 @@ export default class UserApi extends customAPI {
         this.relPath = '/users'
     }
     async signUp(obj) {
-        console.error('DEPRECATED')
+        alert('DEPRECATED')
         await this.doPost('/users/upload/rutt', obj)
     }
     async logIn(obj) {
-        console.error('DEPRECATED')
+        alert('DEPRECATED')
         await super.doPost('/users/login', obj)
     }
     async getMe(obj) {
-        console.error('DEPRECATED')
+        alert('DEPRECATED')
         await this.doGet('/users/me', obj)
     }
 }

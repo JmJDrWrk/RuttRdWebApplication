@@ -11,9 +11,10 @@ export default class UsersAPI extends ApiRequest {
     //static users = new UsersAPI() ?
 
     async login(formData) {
-        return ResponseHandler.handle(await super.post('/login', formData),
+        // return ResponseHandler.handle(await super.post('/login', formData),
+        return ResponseHandler.handle(await super.post('/migration/login', formData),
         (data) => {
-            State.setToken(data.token)
+            State.setToken(data.response.token)
         }
         ,(error) => {
             
@@ -21,10 +22,11 @@ export default class UsersAPI extends ApiRequest {
     }
 
     async signup(formData) {
-        return ResponseHandler.handle(await super.post('/signup', formData))
+        return ResponseHandler.handle(await super.post('/migration/signup', formData))
     }
 
     async getMe() {
-        return await super.get('/me')
+        return await super.get('/migration/me')
+
     }
 }
