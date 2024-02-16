@@ -69,6 +69,9 @@ function ProfileSearchResult({ profile }) {
         },
         'trackinmap': (accessKey) => {
           
+        },
+        'follow': (whatever) => {
+          console.log('Follow action not coded, incoming', whatever)
         }
       }
       const accessKey = e.target.getAttribute('accessKey')
@@ -76,6 +79,7 @@ function ProfileSearchResult({ profile }) {
       setMenuAnchorEl(null);
     } catch (err) {
       console.error('[Search][Menu] MissClick')
+      setMenuAnchorEl(null);
     }
   };
 
@@ -146,7 +150,7 @@ function ProfileSearchResult({ profile }) {
         open={Boolean(menuAnchorEl)}
         onClose={handleContextMenuClose}
       >
-        {/* <MenuItem onClick={handleContextMenuClose}>Follow</MenuItem> */}
+        <MenuItem onClick={handleContextMenuClose} itemID="follow" accessKey="followto?">Follow</MenuItem>
         {/* <MenuItem onClick={handleContextMenuClose}>Message</MenuItem> */}
         <MenuItem onClick={handleContextMenuClose} itemID="requestposition" accessKey={profile.email}>Request position</MenuItem>
         <MenuItem onClick={handleContextMenuClose} itemID="trackinmap" accessKey={profile.email}>Track in map</MenuItem>
