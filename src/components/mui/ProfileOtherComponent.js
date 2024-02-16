@@ -17,6 +17,7 @@ import { MoreVert } from "@mui/icons-material";
 import State from "../../api/state";
 import RuttApi from "../../api/RuttApi";
 
+import CONFIG from "../../config.json"
 
 const ProfileContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -89,7 +90,7 @@ const PhotoGallery = ({ attachments }) => {
 const ProfileComponent = ({ profile, rutts, show }) => {
   const me = profile
   const [username, setUsername] = useState(profile.name)
-  const [profilePhoto, setProfilePhoto] = useState(`https://ruttradarvalkiria.jmjdrwrk.repl.co/file/${profile.profilePhoto}`);
+  const [profilePhoto, setProfilePhoto] = useState(`${CONFIG.BASEURL}/file/${profile.profilePhoto}`);
   const [bio, setBio] = useState(profile.bio)
   const [attachments, setAttachments] = useState(profile.attachments)
   const [othersrutts, setOthersrutts] = useState(rutts)

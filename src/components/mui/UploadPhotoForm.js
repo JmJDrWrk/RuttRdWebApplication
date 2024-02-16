@@ -3,6 +3,7 @@ import { TextField, Button, Box, Typography } from '@mui/material';
 import Webcam from 'react-webcam';
 import ServerApi from '../../api/api';
 import PublishAPI from '../../api/PublishAPI';
+import CONFIG from "../../config.json"
 const UploadPhotoForm = () => {
   const [title, setTitle] = useState('');
   const [photo, setPhoto] = useState(null);
@@ -71,7 +72,7 @@ const UploadPhotoForm = () => {
 
     // ServerApi.doPost('/users/photo/upload', formData)
     // PublishAPI.publishPhoto(formData); NOt working no idea
-    fetch("https://ruttradarvalkiria.jmjdrwrk.repl.co/users/photo/upload", {
+    fetch(`${CONFIG.BASEURL}/users/photo/upload`, {
       method: "POST",
       body: formData,
       headers : {

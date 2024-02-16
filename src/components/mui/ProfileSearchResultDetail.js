@@ -6,7 +6,7 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-
+import CONFIG from "../../config.json"
 const ProfileContainer = styled(Container)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -37,7 +37,7 @@ const ProfileComponent = () => {
   const me = JSON.parse(localStorage.getItem('me'))
   const [username, setUsername] = useState(me.user.name);
   const [password, setPassword] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState(`https://ruttradarvalkiria.jmjdrwrk.repl.co/file/${me.user.profilePhoto}`);
+  const [profilePhoto, setProfilePhoto] = useState(`${CONFIG.BASEURL}/file/${me.user.profilePhoto}`);
   const [bio, setBio] = useState(me.user.bio || "Type here your bio");
   const [fileInput, setFileInput] = useState(null)
   const handleUsernameChange = (event) => {
@@ -72,7 +72,7 @@ const ProfileComponent = () => {
     formData.append("me",localStorage.getItem('me'))
     console.log(event.target)
     
-    fetch("https://ruttradarvalkiria.jmjdrwrk.repl.co/users/profile", {
+    fetch(`${CONFIG.BASEURL}/users/profile`, {
       method: "POST",
       body: formData,
       headers : {

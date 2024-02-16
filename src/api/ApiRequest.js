@@ -1,12 +1,12 @@
 import ResponseHandler from "./ResponseHandler";
 import State from "./state";
-
+import CONFIG from '../config.json'
 export default class ApiRequest{
     constructor() {
         this.relPath = '/default';
         this.hasNotificationContext = false;
         this.URL = {
-            base : 'https://ruttradarvalkiria.jmjdrwrk.repl.co'
+            base : `${CONFIG.BASEURL}`
         }
     }
     //To display a notification is necessary to pass from the component the context for the notification

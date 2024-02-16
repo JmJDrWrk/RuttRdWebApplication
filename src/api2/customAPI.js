@@ -1,7 +1,8 @@
 import State from "./state";
+import CONFIG from "../config.json"
 export default class customAPI {
     constructor() {
-        this.host = 'https://ruttradarvalkiria.jmjdrwrk.repl.co';
+        this.host = `${CONFIG.BASEURL}`;
     }
     test() 
     {

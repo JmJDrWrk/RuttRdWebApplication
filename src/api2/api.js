@@ -1,9 +1,9 @@
 import state from './state'
-
+import CONFIG from "../config.json"
 const URL = {
   // base: "http://10.0.2.2:3000",
   // base: "http://localhost:3000",
-  base: "https://ruttradarvalkiria.jmjdrwrk.repl.co",
+  base: `${CONFIG.BASEURL}`,
   sessionid: ""
   // sessionid: "anJvbWFuQGdtYWlsLmNvbQ=="
 }

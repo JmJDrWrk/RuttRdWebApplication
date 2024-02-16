@@ -1,5 +1,6 @@
 import ServerApi from "./api"
 import State from "./state"
+import config from "../config.json"
 export default class PublishAPI {
 
   static async getPublishById(id) {
@@ -15,7 +16,7 @@ export default class PublishAPI {
 
   static async publishPhoto(formData) {
     console.error('DEPRECATED')
-    fetch("https://ruttradarvalkiria.jmjdrwrk.repl.co/users/photo/upload", {
+    fetch(`${CONFIG.BASEURL}/users/photo/upload`, {
       method: "POST",
       body: formData,
       headers : {

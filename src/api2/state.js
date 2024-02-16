@@ -1,7 +1,6 @@
+import CONFIG from "../config.json"
 export default class State {
-
-
-    static fileshost = 'https://ruttradarvalkiria.jmjdrwrk.repl.co/file/'
+    static fileshost = `${CONFIG.BASEURL}/file/`
 
     static state_push(his) {
         let history = JSON.parse(window.localStorage.getItem('state-history')) || []
