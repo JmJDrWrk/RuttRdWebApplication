@@ -72,6 +72,7 @@ const MapTrackComponent = () => {
     console.log('Emitting event...')
     socket.emit('requestLocation', { requested: 'localizable@ruttradar.com' });
   }
+  requestLocationOneTime()
 
   // Start requesting location every 5 seconds
   // useEffect(() => {
