@@ -48,6 +48,30 @@ export default class ApiRequest{
         return `${this.URL.base}${this.relPath}${rUrl}`;
     }
 
+    call(method='GET',path, obj) {
+        let promise = new Promise((resolve, reject) => {
+            try {
+                fetch(this.getFormedUrl(path), {
+                    method: method,
+                    headers: this.getHeaders(), // Fixed: Added "this" keyword
+                    body: JSON.stringify(obj) // Fixed: Changed "jbody" to "obj"
+                })
+                .then(response => {
+                    const succeeded = ResponseHandler.handleResponse(response)
+                    return Promise.all([response.json(), succeeded])
+                })
+                .then(([data, succeeded]) => {
+                    this.handleResponse({data, succeeded})
+                    resolve({ data, succeeded })
+                });
+            } catch (err) {
+                console.log('[SERVERAPI][DOPOST]  ', err);
+                reject(`POST ERROR ${err}`);
+            }
+        });
+        return promise;
+    }
+
     post(path, obj) {
         let promise = new Promise((resolve, reject) => {
             try {

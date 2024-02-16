@@ -3,4 +3,6 @@ export default class EventTypesEnum {
     static ruttwithfriends = 'ruttwithfriends'
     static importfrommaps = 'importfrommaps'
     static newapplicationrutt = 'newapplicationrutt'
+    static publishcontent = 'publishcontent'
+    static community = 'community'
 }

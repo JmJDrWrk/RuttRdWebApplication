@@ -78,3 +78,4 @@ start = "typescript-language-server --stdio"
 
 [deployment]
 run = ["sh", "-c", "yarn start"]
+deploymentTarget = "cloudrun"

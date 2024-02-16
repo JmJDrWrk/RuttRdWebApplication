@@ -2,5 +2,7 @@
   "uploadRutt" : "/CreateRutt",
   "uploadNewApplicationRutt" : "/NotFoundError",
   "uploadImportedFromMaps" : "/NotFoundError",
-  "uploadConcentration" : "/NotFoundError"
+  "uploadConcentration" : "/NotFoundError",
+  "content" : "/publish/content",
+  "createCommunity" : "/create/community"
 }

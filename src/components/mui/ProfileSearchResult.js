@@ -12,15 +12,15 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 //Prototype
-import io from "socket.io-client"; // Import the socket.io-client library
-const socket = io("https://locationsocket.jmjdrwrk.repl.co/", {
-  transports: ["websocket"],
-  secure: true,
-  rejectUnauthorized: false,
-  auth: {
-    token: State.getToken()
-  }
-});
+// import io from "socket.io-client"; // Import the socket.io-client library
+// const socket = io("https://locationsocket.jmjdrwrk.repl.co/", {
+//   transports: ["websocket"],
+//   secure: true,
+//   rejectUnauthorized: false,
+//   auth: {
+//     token: State.getToken()
+//   }
+// });
 const ProfileCard = styled(Card)`
   display: flex;
   align-items: center;
@@ -81,8 +81,8 @@ function ProfileSearchResult({ profile }) {
 
   //ACTIONS
   const requestUserPosition = (to) => {
-    console.log('Requesting someone location', to)
-    socket.emit('requestLocation', { 'requested': to })
+    console.log('NOT Requesting someone location', to)
+    // socket.emit('requestLocation', { 'requested': to })
   }
 
 
@@ -102,7 +102,7 @@ function ProfileSearchResult({ profile }) {
     oscillator.start(audioCtx.currentTime);
     oscillator.stop(audioCtx.currentTime + ((duration || 500) / 1000));
   };
-  useEffect(() => {
+  /*useEffect(() => {
     const handleLocationResponse = (bucket) => {
       console.log('bucket', bucket);
       toast.dismiss(); // Dismiss any existing toasts
@@ -118,7 +118,7 @@ function ProfileSearchResult({ profile }) {
     return () => {
       socket.off('locationResponse', handleLocationResponse);
     };
-  }, []);
+  }, []);*/
 
   return (
     <ProfileCard

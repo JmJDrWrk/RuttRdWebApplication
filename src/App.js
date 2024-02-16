@@ -25,7 +25,10 @@ import ExploreDetail from "./screens/ExploreDetail.js"
 import CheckingAuth from "./screens/CheckingAuth"
 import CreateRuttv2 from "./screens/CreateRuttv2";
 import MapTrack from "./screens/MapTrack";
-
+import PublishContent from "./screens/Publish.js"
+import CreateCommunity from "./screens/CreateCommunity.js"
+import CommunityDetail from "./screens/CommunityDetail.js"
+import CreateCommunityContent from "./screens/CreateCommunityContent";
 import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, teal } from '@mui/material/colors';
@@ -36,6 +39,7 @@ import Footer from "./components/mui/Footer";
 //TOastify
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ContentDetail from "./screens/ContentDetail";
 
 // Define your dark theme
 const lightBlack = createTheme({
@@ -134,12 +138,34 @@ export default function App() {
               <Route path="/MapTrack/" exact element=<MapTrack />></Route>
 
               <Route path="/CreateEvent/" exact element=<CreateEvent />></Route>
+              <Route path="/weare/:communityName/CreateEvent/" exact element=<CreateEvent />></Route>
+              <Route path="/weare/:communityName/content/create/"  exact element=<CreateCommunityContent/>></Route>
+              <Route path="/weare/:communityName/content/create/:contentType"  exact element=<CreateCommunityContent/>></Route>
+
               <Route path="/Rutt/:ruttId" exact element=<EditRutt />></Route>
               <Route path="/RuttView/:ruttId" exact element=<RuttView />></Route>
               // Prototype
               <Route path="/Explore/" exact element=<Explore />></Route>
               <Route path="/ExploreView/:ruttId" exact element=<ExploreDetail />></Route>
+
+              //SOCIAL NEW PARTç
+              <Route path="/publish/content" exact element=<PublishContent />></Route>
+              <Route path="/publish/content" exact element=<PublishContent />></Route>
+
+              //Create a community
+              <Route path="/create/community"  exact element=<CreateCommunity/>></Route>
+              <Route path="/weare/:communityName"  exact element=<CommunityDetail/>></Route>
+              <Route path="/weare/:communityName/content/:contentId"  exact element=<ContentDetail/>></Route>
+              <Route path="/content/:contentId"  exact element=<ContentDetail/>></Route>
+
+
+
+
+
             </Routes>
+            <br></br>
+            <br></br>
+            <br></br>
             <Footer></Footer>
           </BrowserRouter>
         </StrictMode>

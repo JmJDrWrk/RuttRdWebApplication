@@ -44,7 +44,7 @@ const MapTrackComponent = () => {
     iconSize: [32, 32], // Adjust the size as needed
     iconAnchor: [16, 32], // Adjust the anchor point if necessary
   });
-  useEffect(() => {
+  useEffect(() => {x
     const handleLocationResponse = (bucket) => {
       console.log('bucket', bucket);
       // Assuming bucket is in the format you provided
@@ -66,13 +66,13 @@ const MapTrackComponent = () => {
       socket.off('locationResponse', handleLocationResponse);
     };
   }, []);
-
   // Function to request location every 5 seconds
-  const requestLocationOneTime = () => {
-    console.log('Emitting event...')
-    socket.emit('requestLocation', { requested: 'localizable@ruttradar.com' });
-  }
-  requestLocationOneTime()
+  // const requestLocationOneTime = () => {
+  //   console.log('Emitting event...')
+  //   // socket.emit('requestLocation', { requested: 'localizable@ruttradar.com' });
+  //   socket.emit('requestLocationSchedule', { requested: 'localizable@ruttradar.com' });
+  // }
+  // requestLocationOneTime()
 
   // Start requesting location every 5 seconds
   // useEffect(() => {
@@ -82,6 +82,7 @@ const MapTrackComponent = () => {
 
   return (
     <>
+    
       <MapContainer
         key={mapKey}
         center={L.latLng(position.latitude, position.longitude) || [0,0]}
