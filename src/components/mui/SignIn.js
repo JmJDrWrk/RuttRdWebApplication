@@ -39,6 +39,29 @@ export default function SignUp() {
   const { show } = useContext(NotificationContext);
   const navigate = useNavigate();
   const location = useLocation();
+  //MANDATORY FIELDS: email, username, profilePhoto, name, surname, countryCode, age
+  /*
+      });
+    const userSchema = new Schema({
+        email: {
+            type: String,
+            unique: true, // Make sure email is unique
+        },
+        username: {
+            type: String,
+            unique: true, // Make sure username is unique
+        },
+        profilePhoto: String,
+        password: String,
+        name: String,
+        surname: String,
+        countryCode: String,
+        age: Number,
+        social: socialSchema,
+        rutts: [{ type: Schema.Types.ObjectId, ref: 'Rutt_' }],
+        communities: [{ type: Schema.Types.ObjectId, ref: 'Community_' }]
+    });
+  */
   async function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -46,7 +69,8 @@ export default function SignUp() {
       email: data.get('email'),
       password: data.get('password'),
       name: data.get('firstName'),
-      surname: data.get('lastName')
+      surname: data.get('lastName'),
+      username: data.get('username')
     };
     const succeeded = await new UsersAPI().notificationContext(show).signup(formdata)
     // const res = await ServerApi.doPost('/users/signup', formdata)
@@ -94,6 +118,16 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="username"
+                  label="Public username"
+                  name="username"
+                  autoComplete="username"
                 />
               </Grid>
               <Grid item xs={12}>
