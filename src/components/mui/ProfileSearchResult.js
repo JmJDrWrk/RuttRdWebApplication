@@ -131,7 +131,7 @@ function ProfileSearchResult({ profile }) {
           handleProfileClick(profile.email);
         }}>
         <Typography variant="h6" component="h3">
-          {profile.name}
+          {profile.username}
         </Typography>
         <Typography variant="body2" color="textSecondary">
           {currentLocation}
