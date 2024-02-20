@@ -6,14 +6,14 @@ import 'leaflet/dist/leaflet.css';
 import { Typography } from '@mui/material';
 import markerIcon from './src/marker1.png';
 import L from 'leaflet';
-const socket = io("https://locationsocket.jmjdrwrk.repl.co/", {
-  transports: ["websocket"],
-  secure: true,
-  rejectUnauthorized: false,
-  auth: {
-    token: State.getToken()
-  }
-});
+// const socket = io("https://locationsocket.jmjdrwrk.repl.co/", {
+//   transports: ["websocket"],
+//   secure: true,
+//   rejectUnauthorized: false,
+//   auth: {
+//     token: State.getToken()
+//   }
+// });
 
 const MapTrackComponent = () => {
   const [position, setPosition] = useState({latitude: 43.354232, longitude: -8.3949293});

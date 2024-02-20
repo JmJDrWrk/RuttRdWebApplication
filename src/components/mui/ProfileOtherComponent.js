@@ -86,7 +86,50 @@ const PhotoGallery = ({ attachments }) => {
   );
 };
 
+const CommunityGallery = ({ me }) => {
+  // Replace with actual photo data for the profile
+  console.log('me', me)
 
+
+  // if (!attachments || attachments.length < 1) {
+  //   return <Typography variant="body1">User has not uploaded anything yet.</Typography>;
+  // }
+  // const navigate = useNavigate();
+  // const handlePhotoClick = (event) => {
+  //   console.log(event.target.getAttribute('itemid'))
+  //   navigate(location.pathname + '/published/' + event.target.getAttribute('itemid'))
+  // }
+
+  // return (
+  //   <Grid container spacing={2}>
+  //     {attachments.map((photo) => (
+  //       <Grid item key={photo.id} xs={12} sm={6} md={4} onClick={handlePhotoClick}>
+  //         {/* <CardHeader>
+  //           <Typography variant="subtitle1" align="center">
+  //               {photo.title}
+  //             </Typography>
+  //         </CardHeader> */}
+  //         <Card style={{ border: "1px solid #fff" }}>
+  //           <img
+  //             // src={photo.src}
+  //             itemID={photo.src}
+  //             src={State.fileshost + photo.src}
+  //             alt="Profile Photo"
+  //             style={{ width: "100%", height: "250px", objectFit: "cover" }}
+  //           />
+  //           {/* <CardContent>
+  //             <Typography variant="subtitle1" align="center">
+  //               {photo.title}
+  //             </Typography>
+  //           </CardContent> */}
+  //         </Card>
+  //       </Grid>
+  //     ))}
+  //   </Grid>
+
+  // );
+  return (<Typography variant="subtitle1" align="center"> The communities list for this user is not already coded!</Typography>)
+};
 const ProfileComponent = ({ profile, rutts, show }) => {
   const me = profile
   const [username, setUsername] = useState(profile.name)
@@ -243,6 +286,7 @@ const ProfileComponent = ({ profile, rutts, show }) => {
       <Paper elevation={0}>
         <RuttGallery rutts={othersrutts} profile={profile} show={show} />
         <PhotoGallery attachments={attachments} />
+        <CommunityGallery me={me} />
       </Paper>
     </ProfileContainer>
   );

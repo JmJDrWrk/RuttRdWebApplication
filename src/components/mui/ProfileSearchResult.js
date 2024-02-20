@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Menu, MenuItem } from "@mui/material";
 import { MoreVert as MoreVertIcon } from "@mui/icons-material";
 import { ToastContainer, toast } from 'react-toastify';
+import UsersAPI from "../../api/UsersAPI";
 
 
 //Prototype
@@ -48,6 +49,7 @@ const ProfileCard = styled(Card)`
 `;
 
 function ProfileSearchResult({ profile }) {
+  const me = State.getMe().user
   const navigate = useNavigate();
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null)
@@ -68,10 +70,13 @@ function ProfileSearchResult({ profile }) {
           requestUserPosition(bucket)
         },
         'trackinmap': (accessKey) => {
-          
+
         },
-        'follow': (whatever) => {
-          console.log('Follow action not coded, incoming', whatever)
+        'follow': async (username) => {
+          new UsersAPI().follow(username)
+        },
+        'unfollow': async (username) => {
+          new UsersAPI().unfollow(username)
         }
       }
       const accessKey = e.target.getAttribute('accessKey')
@@ -124,6 +129,38 @@ function ProfileSearchResult({ profile }) {
     };
   }, []);*/
 
+
+  //TODO request to the server that returns my followed in the me
+  /*const renderMenuItem = (profile) => {
+    console.log('profile', profile)
+    const isFollowing = profile.social.followers.includes(me.username);
+    const isPending = profile.social.followRequested.includes(me.username);
+
+    if (isFollowing) {
+      console.log(me, 'is following', profile.username)
+      return (
+        <MenuItem onClick={handleContextMenuClose} itemID="unfollow" accessKey={profile.username}>
+          Unfollow
+        </MenuItem>
+      );
+    } else if (isPending) {
+      console.log(me.username, 'is pending', profile.username)
+      return (
+        <MenuItem disabled>
+          Pending
+        </MenuItem>
+      );
+    } else {
+      console.log(me.username, 'is not following', profile.username)
+      return (
+        <MenuItem onClick={handleContextMenuClose} itemID="follow" accessKey={profile.username}>
+          Follow
+        </MenuItem>
+      );
+    }
+  };*/
+
+
   return (
     <ProfileCard
 
@@ -138,7 +175,7 @@ function ProfileSearchResult({ profile }) {
           {profile.username}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {currentLocation}
+          {currentLocation} {profile.social.followers.length} followers
         </Typography>
       </CardContent>
       <MoreVertIcon
@@ -150,7 +187,10 @@ function ProfileSearchResult({ profile }) {
         open={Boolean(menuAnchorEl)}
         onClose={handleContextMenuClose}
       >
-        <MenuItem onClick={handleContextMenuClose} itemID="follow" accessKey="followto?">Follow</MenuItem>
+        {/* {renderMenuItem(profile)} */}
+        <MenuItem onClick={handleContextMenuClose} itemID="follow" accessKey={profile.username}>Follow</MenuItem>
+        <MenuItem onClick={handleContextMenuClose} itemID="unfollow" accessKey={profile.username}>UnFollow</MenuItem>
+        {/* <MenuItem disabled>Pending</MenuItem> */}
         {/* <MenuItem onClick={handleContextMenuClose}>Message</MenuItem> */}
         <MenuItem onClick={handleContextMenuClose} itemID="requestposition" accessKey={profile.email}>Request position</MenuItem>
         <MenuItem onClick={handleContextMenuClose} itemID="trackinmap" accessKey={profile.email}>Track in map</MenuItem>

@@ -29,4 +29,12 @@ export default class UsersAPI extends ApiRequest {
         return await super.get('/migration/me')
 
     }
+
+    async follow(username) {
+        return ResponseHandler.handle(await super.get(`/migration/follow/${username}`))
+    }
+    
+    async unfollow(username) {
+        return ResponseHandler.handle(await super.get(`/migration/unfollow/${username}`))
+    }
 }
